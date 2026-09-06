@@ -1,0 +1,484 @@
+:root{
+  --bg:#0b0b0c;--panel:#141416;--panel2:#1b1b1e;--line:#2d2d31;--text:#f4f1e9;--muted:#aaa7a0;
+  --gold:#c7a95d;--gold2:#8f7335;--accent:#efe1b0;--danger:#a96262;--sidebar:260px;
+}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif}body{min-height:100vh}
+button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#222226;border:1px solid #3a3a3f;border-radius:8px;padding:8px 12px}button:hover{border-color:var(--gold2);background:#29291f}.ghost{background:transparent}.primary{background:var(--gold2);border-color:var(--gold);color:#fff}.small{padding:6px 9px;font-size:12px}
+.topbar{height:88px;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#111113,#0c0c0e);position:sticky;top:0;z-index:30}.brand{display:flex;align-items:center;gap:14px}.crest{width:48px;height:48px;border:1px solid var(--gold2);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-size:24px}.temple{font-size:18px;letter-spacing:.25em}.archive-title{font-size:16px;letter-spacing:.08em}.archive-sub{font-size:11px;color:var(--muted);margin-top:4px}.badge{display:inline-block;color:#1b1609;background:var(--gold);font-size:10px;border-radius:999px;padding:3px 7px;margin-left:8px;vertical-align:2px}.top-actions{display:flex;gap:8px}
+.layout{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);min-height:calc(100vh - 88px)}.sidebar{border-right:1px solid var(--line);background:#101012;padding:18px 14px;position:sticky;top:88px;height:calc(100vh - 88px);overflow:auto}.side-head{display:flex;justify-content:space-between;align-items:end;padding:4px 6px 12px;border-bottom:1px solid var(--line);color:var(--accent)}.side-head small{font-size:10px;color:var(--muted)}.people-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}.person-btn{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;width:100%;text-align:left;background:transparent;border:1px solid transparent;padding:9px}.person-btn:hover{background:#18181b}.person-btn.active{background:#232118;border-color:var(--gold2)}.person-no{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:1px solid #4a463a;color:var(--gold)}.person-btn strong{display:block;font-size:13px}.person-btn small{font-size:10px;color:var(--muted)}.side-note{font-size:10px;line-height:1.7;color:#8b8881;padding:16px 6px}
+.content{padding:24px 28px 60px;max-width:1500px;width:100%;margin:auto}.person-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:14px}.eyebrow{font-size:11px;color:var(--gold);letter-spacing:.15em}.person-head h1{margin:5px 0 0;font-size:28px;font-weight:500}.person-head h1 small{font-size:12px;color:var(--muted);font-weight:400;margin-left:12px}.status{font-size:11px;border:1px solid var(--gold2);color:var(--accent);border-radius:999px;padding:6px 10px}.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.tabs button{border-radius:999px;padding:8px 15px;background:#171719}.tabs button.active{background:var(--gold2);border-color:var(--gold)}
+.viewer-card{border:1px solid var(--line);background:var(--panel);border-radius:14px;overflow:hidden;box-shadow:0 16px 50px #0007}.viewer-toolbar{height:48px;display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-bottom:1px solid var(--line);background:#111113}.toolbar-left{display:flex;gap:6px;align-items:center}.toolbar-left button{min-width:38px;padding:6px 9px}.toolbar-left span{font-family:ui-monospace,monospace;font-size:11px;color:var(--muted);width:44px;text-align:center}.toolbar-right{font-size:11px;color:var(--gold)}
+.viewer{height:min(68vh,760px);min-height:520px;background:radial-gradient(circle at 50% 45%,#242424 0,#121214 58%,#09090a 100%);position:relative;overflow:hidden;touch-action:none;user-select:none}.stage{position:absolute;inset:0;display:grid;place-items:center}.hidden{display:none!important}.media-layer{position:absolute;inset:0;transform-origin:center;display:grid;place-items:center}.single-image{height:92%;width:auto;max-width:none;max-height:none;object-fit:contain;filter:drop-shadow(0 14px 24px #000a);pointer-events:none}.hotspot-layer{position:absolute;inset:0;pointer-events:none}.hotspot{position:absolute;width:28px;height:28px;margin:-14px;border-radius:50%;background:#c7a95ddd;border:2px solid white;box-shadow:0 0 0 7px #c7a95d33,0 3px 12px #000;display:grid;place-items:center;color:#17130a;font-weight:bold;pointer-events:auto}.hotspot:hover{transform:scale(1.12)}
+.compare-layer{overflow:hidden}.compare-img{position:absolute;left:50%;top:50%;height:92%;width:auto;max-width:none;max-height:none;object-fit:contain;transform-origin:center;filter:drop-shadow(0 14px 24px #000a);pointer-events:none}.reveal-wrap{position:absolute;inset:0;overflow:hidden;clip-path:inset(0 0 0 50%)}.compare-divider{position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--gold);box-shadow:0 0 10px #000}.compare-divider span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;background:var(--gold);border:2px solid white}.compare-corner-labels{position:absolute;left:18px;right:18px;bottom:14px;display:flex;justify-content:space-between;font-size:11px;color:#fff;text-shadow:0 2px 6px #000}
+.missing-overlay{position:absolute;inset:0;display:grid;place-items:center;background:#0a0a0bcc;z-index:8}.missing-box{max-width:560px;text-align:center;border:1px dashed #5b584f;padding:28px;border-radius:12px;background:#141416}.missing-box strong{color:var(--accent)}.missing-box p{font-family:ui-monospace,monospace;color:var(--gold);word-break:break-all}.missing-box small{color:var(--muted)}
+.compare-controls{border-top:1px solid var(--line);background:#111113;padding:12px}.compare-modes{display:flex;gap:6px;flex-wrap:wrap}.compare-modes button.active{background:var(--gold2);border-color:var(--gold)}.effect-control{margin-top:10px;padding:10px;background:#18181b;border-radius:8px}.effect-control label{display:grid;grid-template-columns:120px 1fr;align-items:center;gap:10px;font-size:12px;color:var(--muted)}input[type=range]{width:100%;accent-color:var(--gold)}.alignment-panel{margin-top:10px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:#151517}.alignment-panel summary{cursor:pointer;color:var(--accent);font-size:12px}.alignment-grid{display:grid;grid-template-columns:repeat(3,minmax(180px,1fr)) auto;gap:10px;align-items:end;margin-top:12px}.alignment-grid label{font-size:11px;color:var(--muted);display:grid;grid-template-columns:1fr 52px;gap:6px}.alignment-grid label input{grid-column:1/-1}.alignment-grid output{text-align:right;color:var(--accent)}.alignment-panel p{font-size:10px;color:var(--muted);margin-bottom:0}
+.explanation-panel{margin-top:18px;border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:20px}.intro-grid{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}.intro-grid h2{font-size:20px;margin:0 0 8px}.intro-grid p{color:#d0cdc6;line-height:1.9;margin:0}.draft-note{border-left:3px solid var(--gold2);background:#1b1a15;padding:12px;font-size:11px;color:var(--muted)}.draft-note strong{display:block;color:var(--accent);margin-bottom:4px}.explanation-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:16px}.ex-card{border:1px solid var(--line);background:#111113;border-radius:10px;padding:14px}.ex-card h3{font-size:14px;margin:0 0 7px;color:var(--accent)}.ex-card p{font-size:11px;color:var(--muted);line-height:1.7;margin:0}.ex-card button{margin-top:10px;font-size:10px;padding:5px 8px}
+.three-d-stage{overflow:auto;padding:26px}.three-d-grid{width:min(1100px,100%);display:grid;grid-template-columns:1fr 1fr;gap:18px}.three-d-panel,.video-panel{background:#121214;border:1px solid var(--line);border-radius:12px;padding:16px}.section-kicker{color:var(--gold);font-size:11px;margin-bottom:10px}.three-d-panel img,.video-panel video{width:100%;max-height:520px;object-fit:contain;background:#09090a;border-radius:8px}.disclaimer{font-size:10px;color:var(--muted);line-height:1.7}.missing-card{display:grid;place-items:center;text-align:center;min-height:260px;border:1px dashed #4c4940;border-radius:8px;color:var(--muted);font-size:12px}.missing-card code{color:var(--gold)}
+.modal{position:fixed;inset:0;background:#000a;z-index:100;display:grid;place-items:center;padding:20px}.modal-box{width:min(620px,100%);background:#18181b;border:1px solid #4b473c;border-radius:14px;padding:24px;position:relative}.modal-close{position:absolute;right:12px;top:12px}.modal-box li{margin:10px 0;color:#ccc}
+@media(max-width:980px){:root{--sidebar:210px}.content{padding:18px}.alignment-grid{grid-template-columns:1fr}.explanation-cards{grid-template-columns:repeat(2,1fr)}.intro-grid{grid-template-columns:1fr}.three-d-grid{grid-template-columns:1fr}}
+@media(max-width:720px){.topbar{height:auto;padding:11px 12px}.archive-title{font-size:12px}.archive-sub{display:none}.top-actions #helpBtn{display:none}.layout{display:block}.sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:8px 10px;overflow-x:auto}.side-head,.side-note{display:none}.people-list{display:flex;flex-direction:row;min-width:max-content;margin:0}.person-btn{width:158px}.content{padding:14px 10px 40px}.person-head h1{font-size:22px}.status{display:none}.viewer{min-height:480px;height:62vh}.explanation-cards{grid-template-columns:1fr}.effect-control label{grid-template-columns:1fr}.three-d-stage{padding:12px}}
+
+.alignment-grid-v3{grid-template-columns:repeat(2,minmax(220px,1fr)) auto}
+@media(max-width:980px){.alignment-grid-v3{grid-template-columns:1fr}}
+
+/* Ver.5: 比較方式は「比較」タブ直下。解説は専用画像のみ。 */
+.compare-controls{
+  margin:0 0 10px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#111113;
+  padding:10px 12px;
+}
+.compare-controls .effect-control{margin-top:8px}
+
+/* =========================
+   Ver.6 UI refinements
+   ========================= */
+.mode-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
+}
+.mode-row .tabs{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  margin:0;
+}
+.inline-compare{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-wrap:wrap;
+  padding-left:10px;
+  margin-left:2px;
+  border-left:1px solid var(--line);
+}
+.inline-compare button{
+  border-radius:999px;
+  padding:8px 12px;
+  background:#171719;
+  font-size:12px;
+}
+.inline-compare button.active{
+  border-color:var(--gold);
+  box-shadow:inset 0 0 0 1px #c7a95d66;
+}
+.before-after-button{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.ba-state{
+  min-width:52px;
+  text-align:center;
+  padding:2px 7px;
+  border-radius:999px;
+  font-size:10px;
+  font-family:ui-sans-serif,system-ui,sans-serif;
+  font-weight:700;
+  letter-spacing:.03em;
+  border:1px solid transparent;
+}
+.ba-state.before{
+  background:#29455f;
+  border-color:#4d7598;
+  color:#e9f4ff;
+}
+.ba-state.after{
+  background:#8f7335;
+  border-color:#c7a95d;
+  color:#fff8df;
+}
+.before-after-button.active.state-before{background:#172432;border-color:#4d7598}
+.before-after-button.active.state-after{background:#3a311d;border-color:#c7a95d}
+.compare-effect-row{
+  margin:-2px 0 10px;
+}
+.compare-effect-row.no-effect{
+  display:none;
+}
+.compact-effect{
+  margin:0;
+  padding:8px 10px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#111113;
+}
+.compact-effect label{
+  display:grid;
+  grid-template-columns:110px minmax(180px,520px);
+  align-items:center;
+  gap:10px;
+  font-size:11px;
+  color:var(--muted);
+}
+/* =========================
+   Ver.7 slideshow
+   ========================= */
+.slideshow-controls{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  flex-wrap:wrap;
+  margin:0 0 10px;
+  padding:9px 10px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#111113;
+}
+.slideshow-controls button{padding:7px 11px}
+.slideshow-controls .playing{background:#6e592a}
+.slide-counter{
+  min-width:56px;
+  text-align:center;
+  font-family:ui-monospace,monospace;
+  font-size:11px;
+  color:var(--accent);
+}
+.slide-sequence-note{
+  margin-left:auto;
+  color:var(--muted);
+  font-size:10px;
+}
+.slide-effect-label{font-size:10px;color:var(--muted);margin-left:4px}
+.slide-effect-modes{display:flex;gap:5px;flex-wrap:wrap}
+.slide-effect-modes button{
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:10px;
+  background:#171719;
+}
+.slide-effect-modes button.active{background:var(--gold2);border-color:var(--gold)}
+.slideshow-stage{overflow:hidden}
+.slideshow-layer{overflow:hidden}
+/* 比較画像 .compare-img と同じ基準倍率 */
+.slideshow-frame{
+  position:absolute;
+  left:50%;
+  top:50%;
+  height:92%;
+  width:auto;
+  max-width:none;
+  max-height:none;
+  object-fit:contain;
+  transform:translate(-50%,-50%);
+  transform-origin:center;
+  filter:drop-shadow(0 14px 24px #000a);
+  pointer-events:none;
+  opacity:0;
+  will-change:opacity,transform;
+}
+.slideshow-frame.current{opacity:1}
+.slideshow-overlay{
+  position:absolute;
+  left:16px;
+  right:16px;
+  bottom:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  pointer-events:none;
+  z-index:5;
+}
+.slide-person-label,
+.slide-state-badge{
+  background:#0a0a0bce;
+  backdrop-filter:blur(5px);
+  border:1px solid #4b4942;
+  border-radius:999px;
+  padding:7px 11px;
+  font-size:11px;
+  color:#fff;
+  text-shadow:0 1px 4px #000;
+}
+.slide-state-badge.before{border-color:#4d7598;background:#1a2b3dcc;color:#e9f4ff}
+.slide-state-badge.after{border-color:#c7a95d;background:#3d321dcc;color:#fff3c8}
+
+/* ディゾルブ */
+.slideshow-stage.effect-dissolve .slideshow-frame{
+  transition:opacity .9s ease;
+}
+.slideshow-stage.effect-dissolve .slideshow-frame.entering{opacity:1}
+.slideshow-stage.effect-dissolve .slideshow-frame.leaving{opacity:0}
+
+/* 横スライド＋フェード */
+.slideshow-stage.effect-slide .slideshow-frame{
+  transition:opacity .72s ease,transform .72s cubic-bezier(.22,.61,.36,1);
+}
+.slideshow-stage.effect-slide.dir-next .slideshow-frame.pre-enter{opacity:0;transform:translate(calc(-50% + 56px),-50%)}
+.slideshow-stage.effect-slide.dir-prev .slideshow-frame.pre-enter{opacity:0;transform:translate(calc(-50% - 56px),-50%)}
+.slideshow-stage.effect-slide .slideshow-frame.entering{opacity:1;transform:translate(-50%,-50%)}
+.slideshow-stage.effect-slide.dir-next .slideshow-frame.leaving{opacity:0;transform:translate(calc(-50% - 42px),-50%)}
+.slideshow-stage.effect-slide.dir-prev .slideshow-frame.leaving{opacity:0;transform:translate(calc(-50% + 42px),-50%)}
+
+@media(max-width:720px){
+  .mode-row{align-items:flex-start}
+  .inline-compare{width:100%;margin-left:0;padding-left:0;padding-top:7px;border-left:0;border-top:1px solid var(--line)}
+  .inline-compare button{font-size:11px;padding:7px 9px}
+  .compact-effect label{grid-template-columns:1fr}
+  .slide-sequence-note{width:100%;margin-left:0}.slide-effect-label{margin-left:0}.slide-effect-modes{width:100%}
+  .slideshow-overlay{align-items:flex-end;flex-direction:column-reverse;left:10px;right:10px}
+  .slide-person-label,.slide-state-badge{font-size:10px}
+}
+
+
+/* Ver.9: 解説画像も比較・スライドショーと同じ基準倍率（ビューア高の92%）で表示 */
+
+/* Ver.10 ------------------------------------------------------------
+   ・解説は専用の小さめ初期表示
+   ・左右スライダー時は画像パンを禁止
+   ・オープニング背景を低速回転
+------------------------------------------------------------------- */
+
+/* 解説専用画像：比較画面より余白を広く取り、必ず全体を見やすくする */
+.single-stage .single-image{
+  height:76%;
+  width:auto;
+  max-width:86%;
+  max-height:76%;
+  object-fit:contain;
+}
+
+.viewer.slider-locked{cursor:default}
+.viewer.slider-locked .compare-layer{cursor:default}
+
+.opening-screen{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  background:#080809;
+  color:#f5f0e5;
+  transition:opacity .9s ease,visibility .9s ease;
+}
+.opening-screen.is-closing{opacity:0;visibility:hidden;pointer-events:none}
+.opening-rotor{
+  position:absolute;
+  left:50%;top:50%;
+  width:145vmax;height:145vmax;
+  transform:translate(-50%,-50%);
+  background-image:url("../images/opening/opening_bg.webp"),url("../assets/opening_rotor.svg");
+  background-position:center,center;
+  background-size:cover,cover;
+  background-repeat:no-repeat,no-repeat;
+  opacity:.72;
+  filter:contrast(1.04) saturate(.82);
+  animation:openingRotate 70s linear infinite;
+  will-change:transform;
+}
+@keyframes openingRotate{
+  from{transform:translate(-50%,-50%) rotate(0deg) scale(1.02)}
+  to{transform:translate(-50%,-50%) rotate(360deg) scale(1.02)}
+}
+.opening-shade{
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 48%,rgba(0,0,0,.08) 0,rgba(0,0,0,.36) 42%,rgba(0,0,0,.78) 100%);
+}
+.opening-content{
+  position:relative;
+  z-index:2;
+  width:min(760px,88vw);
+  text-align:center;
+  padding:38px 28px;
+  text-shadow:0 3px 20px #000;
+}
+.opening-temple{font-size:13px;letter-spacing:.35em;color:#e8d7a0;margin-bottom:19px}
+.opening-content h1{font-size:clamp(30px,5vw,64px);font-weight:400;letter-spacing:.13em;margin:0}
+.opening-en{font-family:Georgia,"Times New Roman",serif;letter-spacing:.32em;font-size:clamp(11px,1.6vw,17px);color:#d8bf7d;margin-top:12px}
+.opening-rule{width:84px;height:1px;background:#c7a95d;margin:24px auto 18px}
+.opening-content p{font-size:13px;letter-spacing:.16em;color:#ddd5c2;margin:0 0 28px}
+.opening-enter{background:rgba(10,10,11,.45);border:1px solid #c7a95d;color:#f5e8bd;border-radius:999px;padding:11px 28px;letter-spacing:.12em;backdrop-filter:blur(6px)}
+.opening-enter:hover{background:rgba(143,115,53,.45)}
+@media (prefers-reduced-motion:reduce){.opening-rotor{animation:none}}
+@media(max-width:720px){
+  .single-stage .single-image{height:72%;max-height:72%;max-width:90%}
+  .opening-content{padding:26px 18px}.opening-content h1{letter-spacing:.08em}
+}
+
+
+/* Ver.11 ------------------------------------------------------------
+   解説画像の初期表示を明確に縮小し、キャッシュの影響を受けにくく固定。
+   左右スライダー時はビューア内の直接操作を完全に無効化。
+------------------------------------------------------------------- */
+.single-stage #singleImage.single-image{
+  width:auto !important;
+  height:auto !important;
+  max-width:70% !important;
+  max-height:60% !important;
+  object-fit:contain !important;
+}
+.viewer.slider-locked #compareStage{
+  pointer-events:none;
+}
+
+
+/* Ver.12 ------------------------------------------------------------
+   解説画像は専用の基準サイズを明示的に指定。
+   比較画面は画像のドラッグ移動を禁止し、位置合わせを保持。
+------------------------------------------------------------------- */
+.viewer.explain-mode #singleStage .single-image{
+  height:48% !important;
+  width:auto !important;
+  max-height:48% !important;
+  max-width:58% !important;
+  object-fit:contain !important;
+}
+.viewer.compare-fixed,
+.viewer.compare-fixed *{
+  -webkit-user-drag:none;
+  user-select:none;
+}
+.viewer.compare-fixed .compare-layer,
+.viewer.compare-fixed .compare-img{
+  cursor:default !important;
+}
+@media(max-width:720px){
+  .viewer.explain-mode #singleStage .single-image{
+    height:44% !important;
+    max-height:44% !important;
+    max-width:72% !important;
+  }
+}
+
+
+/* Ver.13 ------------------------------------------------------------
+   解説画像はサイズをVer.12のまま維持し、上端だけ比較画像と揃える。
+   比較画像は高さ92%・中央配置なので上端はビューア高の4%。
+------------------------------------------------------------------- */
+.viewer.explain-mode #singleLayer{
+  display:block !important;
+}
+.viewer.explain-mode #singleStage #singleImage.single-image{
+  position:absolute !important;
+  left:50% !important;
+  top:4% !important;
+  transform:translateX(-50%) !important;
+  height:48% !important;
+  width:auto !important;
+  max-height:48% !important;
+  max-width:58% !important;
+  object-fit:contain !important;
+}
+@media(max-width:720px){
+  .viewer.explain-mode #singleStage #singleImage.single-image{
+    top:4% !important;
+    height:44% !important;
+    max-height:44% !important;
+    max-width:72% !important;
+  }
+}
+
+/* Ver.14 ------------------------------------------------------------
+   解説画像のデフォルト位置・サイズを比較画像と完全に統一。
+   比較画像と同じ：中央配置 / 高さ92% / 幅自動。
+------------------------------------------------------------------- */
+.viewer.explain-mode #singleLayer{
+  display:grid !important;
+  place-items:center !important;
+}
+.viewer.explain-mode #singleStage #singleImage.single-image{
+  position:static !important;
+  left:auto !important;
+  top:auto !important;
+  transform:none !important;
+  height:92% !important;
+  width:auto !important;
+  max-height:none !important;
+  max-width:none !important;
+  object-fit:contain !important;
+}
+@media(max-width:720px){
+  .viewer.explain-mode #singleStage #singleImage.single-image{
+    position:static !important;
+    left:auto !important;
+    top:auto !important;
+    transform:none !important;
+    height:92% !important;
+    width:auto !important;
+    max-height:none !important;
+    max-width:none !important;
+  }
+}
+
+
+/* Ver.15 ------------------------------------------------------------
+   解説は「画像そのものを高さ92%」ではなく、比較画像と同じ
+   1600:2262 の表示枠を高さ92%で中央配置し、その枠内に収める。
+   横長の解説画像でも比較肖像より巨大表示されない。
+------------------------------------------------------------------- */
+.viewer.explain-mode #singleLayer{
+  display:grid !important;
+  place-items:center !important;
+}
+.viewer.explain-mode .explanation-frame{
+  height:92% !important;
+  aspect-ratio:1600 / 2262;
+  width:auto !important;
+  display:grid;
+  place-items:center;
+  overflow:visible;
+}
+.viewer.explain-mode #singleStage #singleImage.single-image{
+  position:static !important;
+  width:auto !important;
+  height:auto !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  transform:none !important;
+  object-fit:contain !important;
+  filter:drop-shadow(0 14px 24px #000a);
+}
+@media(max-width:720px){
+  .viewer.explain-mode .explanation-frame{
+    height:92% !important;
+  }
+  .viewer.explain-mode #singleStage #singleImage.single-image{
+    width:auto !important;
+    height:auto !important;
+    max-width:100% !important;
+    max-height:100% !important;
+  }
+}
+
+/* Ver.16 ------------------------------------------------------------
+   解説のデフォルト表示枠を比較画像と「同じ実寸・同じ位置」に固定。
+   サイズはJSで viewer の実寸から算出するため、画像自体の解像度や
+   CSS継承の影響を受けない。
+------------------------------------------------------------------- */
+.viewer.explain-mode #singleStage,
+.viewer.explain-mode #singleLayer{
+  position:absolute !important;
+  inset:0 !important;
+}
+.viewer.explain-mode #singleLayer{
+  display:block !important;
+}
+.viewer.explain-mode .explanation-frame{
+  position:absolute !important;
+  left:50% !important;
+  top:50% !important;
+  transform:translate(-50%,-50%) !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+.viewer.explain-mode #singleStage #singleImage.single-image{
+  position:static !important;
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  object-fit:contain !important;
+  transform:none !important;
+  margin:0 !important;
+}
