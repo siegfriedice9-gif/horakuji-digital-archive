@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <title>法楽寺 真言宗密教の八祖 DIGITAL ARCHIVE - Ver.13</title>
+  <link rel="stylesheet" href="css/style.css?v=16">
+</head>
+<body>
+<div id="openingScreen" class="opening-screen" aria-label="オープニング">
+  <div class="opening-rotor" aria-hidden="true"></div>
+  <div class="opening-shade" aria-hidden="true"></div>
+  <div class="opening-content">
+    <div class="opening-temple">真言宗 法楽寺</div>
+    <h1>真言宗密教の八祖</h1>
+    <div class="opening-en">DIGITAL ARCHIVE</div>
+    <div class="opening-rule"></div>
+    <p>肖像からたどる真言密教の系譜</p>
+    <button id="openingEnterBtn" class="opening-enter">閲覧を開始</button>
+  </div>
+</div>
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="crest" aria-hidden="true">✦</div>
+      <div>
+        <div class="temple">法楽寺</div>
+        <div class="archive-title">真言宗密教の八祖 DIGITAL ARCHIVE <span class="badge">住職確認用 Ver.13</span></div>
+        <div class="archive-sub">― 肖像からたどる真言密教の系譜 ―</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button id="helpBtn" class="ghost">操作案内</button>
+      <button id="fullscreenBtn" class="ghost">全画面</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar" aria-label="真言宗密教の八祖一覧">
+      <div class="side-head">
+        <span>真言宗密教の八祖</span>
+        <small>人物を選択</small>
+      </div>
+      <div id="peopleList" class="people-list"></div>
+      <div class="side-note">比較用画像は、修復PSDの同一キャンバスから書き出した修正前／修復後を使用します。</div>
+    </aside>
+
+    <section class="content">
+      <div class="person-head">
+        <div>
+          <div id="lineageLabel" class="eyebrow"></div>
+          <h1><span id="personName"></span><small id="personReading"></small></h1>
+        </div>
+        <div id="statusBadge" class="status"></div>
+      </div>
+
+      <!-- Ver.13: 比較タブと3つの比較方式を同じ行に配置 -->
+      <div class="mode-row">
+        <nav id="modeTabs" class="tabs" aria-label="表示モード"></nav>
+        <div id="compareModeInline" class="compare-modes inline-compare" role="group" aria-label="比較方法">
+          <button data-compare="slider" class="active">左右スライダー</button>
+          <button data-compare="fade">クロスフェード</button>
+          <button id="beforeAfterBtn" data-compare="toggle" class="before-after-button">
+            <span>Before / After</span><span id="beforeAfterState" class="ba-state before">Before</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="compareEffectRow" class="compare-effect-row">
+        <div id="sliderControl" class="effect-control compact-effect">
+          <label>比較位置 <input id="compareSlider" type="range" min="0" max="100" value="50"></label>
+        </div>
+        <div id="fadeControl" class="effect-control compact-effect hidden">
+          <label>修復画像の表示率 <input id="fadeSlider" type="range" min="0" max="100" value="50"></label>
+        </div>
+      </div>
+
+      <!-- Ver.13: 比較画面と同倍率。スライドショーには切替演出を追加 -->
+      <div id="slideshowControls" class="slideshow-controls hidden" aria-label="スライドショー操作">
+        <button id="slidePrevBtn">◀ 前へ</button>
+        <button id="slidePlayBtn" class="primary">▶ 再生</button>
+        <button id="slideNextBtn">次へ ▶</button>
+        <span id="slideCounter" class="slide-counter">1 / 16</span>
+        <span class="slide-effect-label">演出</span>
+        <div id="slideEffectModes" class="slide-effect-modes" role="group" aria-label="スライド切替演出">
+          <button data-slide-effect="dissolve" class="active">ディゾルブ</button>
+          <button data-slide-effect="slide">横スライド</button>
+        </div>
+        <span class="slide-sequence-note">1 Before → 1 After → … → 8 Before → 8 After で終了</span>
+      </div>
+
+      <div class="viewer-card">
+        <div class="viewer-toolbar">
+          <div class="toolbar-left">
+            <button id="zoomOutBtn" title="縮小">−</button>
+            <span id="zoomLabel">100%</span>
+            <button id="zoomInBtn" title="拡大">＋</button>
+            <button id="resetBtn">全体表示</button>
+          </div>
+          <div class="toolbar-right">
+            <span id="imageTypeLabel">Before / After 比較</span>
+          </div>
+        </div>
+
+        <div id="viewer" class="viewer" tabindex="0" aria-label="肖像画像ビューア">
+          <div id="singleStage" class="stage single-stage hidden">
+            <div id="singleLayer" class="media-layer">
+              <div class="explanation-frame">
+                <img id="singleImage" class="single-image" draggable="false" alt="">
+              </div>
+            </div>
+          </div>
+
+          <div id="compareStage" class="stage compare-stage">
+            <div id="compareLayer" class="media-layer compare-layer">
+              <img id="compareOriginal" class="compare-img original" draggable="false" alt="現存肖像">
+              <div id="compareReveal" class="reveal-wrap">
+                <img id="compareRestored" class="compare-img restored" draggable="false" alt="修復済み">
+              </div>
+              <div id="compareDivider" class="compare-divider"><span></span></div>
+            </div>
+            <div class="compare-corner-labels"><span>Before（現存肖像）</span><span>After（修復済み）</span></div>
+          </div>
+
+          <div id="slideshowStage" class="stage slideshow-stage hidden effect-dissolve">
+            <div id="slideshowLayer" class="media-layer slideshow-layer">
+              <img id="slideshowImageA" class="slideshow-image slideshow-frame current" draggable="false" alt="">
+              <img id="slideshowImageB" class="slideshow-image slideshow-frame" draggable="false" alt="">
+            </div>
+            <div class="slideshow-overlay">
+              <div id="slidePersonLabel" class="slide-person-label"></div>
+              <div id="slideStateBadge" class="slide-state-badge before">Before（現存肖像）</div>
+            </div>
+          </div>
+
+          <div id="threeDStage" class="stage three-d-stage hidden">
+            <div class="three-d-grid">
+              <div class="three-d-panel">
+                <div class="section-kicker">肖像画を基にした3D再現イメージ</div>
+                <img id="threeDImage" alt="弘法大師 3D再現イメージ">
+                <p class="disclaimer">※現存する肖像画を基にAI等を用いて立体的に再構成した参考イメージです。実際の容貌・衣装等を完全に再現したものではありません。</p>
+              </div>
+              <div class="video-panel">
+                <div class="section-kicker">動画で見る</div>
+                <video id="videoPlayer" controls playsinline></video>
+                <div id="videoMissing" class="missing-card">動画ファイルは未配置です。<br><code>video/8_弘法大師.mp4</code> を配置するとここで再生できます。</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="missingOverlay" class="missing-overlay hidden">
+            <div class="missing-box">
+              <strong id="missingTitle">画像未配置</strong>
+              <p id="missingPath"></p>
+              <small>指定されたファイル名の画像をフォルダへコピーすると自動表示されます。</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="helpModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="操作案内">
+  <div class="modal-box">
+    <button id="closeHelp" class="modal-close">×</button>
+    <h2>操作案内</h2>
+    <ul>
+      <li>左側から八祖を選択します。</li>
+      <li>「比較」の右側に「左右スライダー」「クロスフェード」「Before / After」が並びます。</li>
+      <li>「Before / After」では、ボタン内の色付き表示で現在がBeforeかAfterか分かります。</li>
+      <li>「スライドショー」は、1～8を「Before→After」の順で全16コマを一巡し、8 Afterで自動終了します。表示倍率は比較画面と同じです。</li>
+      <li>切替演出は「ディゾルブ」「横スライド」から選べます。</li>
+      <li>スライドショー中に左側の人物を選ぶと、スライドショーを終了して、その人物の「比較」画面へ移動します。</li>
+      <li>「左右スライダー」表示中は比較画像を固定しています。画像上を左ドラッグしても移動しません。</li>
+      <li>それ以外の画像はドラッグで移動、ホイールまたは＋／−で拡大縮小できます。</li>
+      <li>「解説」では専用の解説画像を表示します。</li>
+    </ul>
+  </div>
+</div>
+
+<script src="js/data.js?v=13"></script>
+<script src="js/viewer.js?v=16"></script>
+</body>
+</html>
