@@ -103,7 +103,7 @@
     el.slideshowStage.classList.toggle('hidden',which!=='slideshow');
     el.threeDStage.classList.toggle('hidden',which!=='3d');
     const compareVisible=which==='compare';
-    const zoomVisible=which==='compare' || which==='slideshow';
+    const zoomVisible=which==='compare';
     el.toolbarLeft.classList.toggle('hidden',!zoomVisible);
     el.compareModeInline.classList.toggle('hidden',!compareVisible);
     el.compareEffectRow.classList.toggle('hidden',!compareVisible);
