@@ -4,6 +4,7 @@
   const el = {
     peopleList:$('#peopleList'), personName:$('#personName'), personReading:$('#personReading'), lineageLabel:$('#lineageLabel'), statusBadge:$('#statusBadge'),
     modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
+    exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'),
     overviewStage:$('#overviewStage'), overviewGrid:$('#overviewGrid'),
     groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupExitBtn:$('#groupExitBtn'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
@@ -14,7 +15,7 @@
     zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal')
   };
 
-  const MODES=[['overview','八祖一覧'],['group','グループ比較'],['compare','比較'],['explain','解説'],['3d','3D・動画'],['slideshow','スライドショー']];
+  const MODES=[['overview','八祖一覧'],['exhibition','展示室'],['group','グループ比較'],['compare','比較'],['explain','解説'],['3d','3D・動画'],['slideshow','スライドショー']];
   const SLIDES=HACHISO.flatMap(p=>[
     {person:p,state:'before',label:'Before（現存肖像）',path:p.original},
     {person:p,state:'after',label:'After（修復済み）',path:p.restored}
@@ -32,7 +33,7 @@
       b.className='person-btn'+(p.id===person.id?' active':'');
       b.innerHTML=`<span class="person-no">${p.id}</span><span><strong>${p.name}</strong><small>${p.reading}</small></span>`;
       b.onclick=()=>{
-        if(mode==='slideshow' || mode==='overview' || mode==='group'){
+        if(mode==='slideshow' || mode==='overview' || mode==='exhibition' || mode==='group'){
           if(mode==='slideshow') stopSlideshow();
           mode='compare';
           person=p;
@@ -66,6 +67,13 @@
   }
 
   function syncHeader(){
+    if(mode==='exhibition'){
+      el.personName.textContent='八祖展示室';
+      el.personReading.textContent='';
+      el.lineageLabel.textContent='法楽寺デジタルアーカイブ';
+      el.statusBadge.textContent='8人展示';
+      return;
+    }
     if(mode==='overview'){
       el.personName.textContent='真言宗密教の八祖';
       el.personReading.textContent='';
@@ -93,8 +101,10 @@
 
   function setStage(which){
     document.body.classList.toggle('group-view-active',which==='group');
+    el.viewer.classList.toggle('exhibition-mode',which==='exhibition');
     el.viewer.classList.toggle('overview-mode',which==='overview');
     el.viewer.classList.toggle('group-mode',which==='group');
+    el.exhibitionStage.classList.toggle('hidden',which!=='exhibition');
     el.overviewStage.classList.toggle('hidden',which!=='overview');
     el.groupStage.classList.toggle('hidden',which!=='group');
     el.singleStage.classList.toggle('hidden',which!=='single');
@@ -105,6 +115,28 @@
     el.compareModeInline.classList.toggle('hidden',!compareVisible);
     el.compareEffectRow.classList.toggle('hidden',!compareVisible);
     el.slideshowControls.classList.toggle('hidden',which!=='slideshow');
+  }
+
+  function showExhibition(){
+    setStage('exhibition');
+    el.viewer.classList.remove('explain-mode','compare-fixed');
+    el.imageTypeLabel.textContent='真言宗密教の八祖 展示室';
+    setMissing(false);
+    el.exhibitionGrid.innerHTML='';
+
+    HACHISO.forEach(p=>{
+      const card=document.createElement('button');
+      card.className='exhibition-card';
+      card.setAttribute('aria-label',`${p.role} ${p.name}の修復前後を比較する`);
+      card.innerHTML=`<span class="exhibition-frame"><img src="${p.restoredThumb}?v=23" alt="${p.name} 修復済み肖像" draggable="false"></span><span class="exhibition-plaque"><small>${p.role}</small><strong>${p.name}</strong><span>${p.reading}</span></span>`;
+      card.onclick=()=>{
+        person=p;
+        mode='compare';
+        resetView();
+        sync();
+      };
+      el.exhibitionGrid.appendChild(card);
+    });
   }
 
   function showOverview(){
@@ -419,6 +451,7 @@
     buildPeople();
     buildTabs();
     syncHeader();
+    if(mode==='exhibition')showExhibition();
     if(mode==='overview')showOverview();
     if(mode==='group')showGroupCompare();
     if(mode==='compare')showCompare();
@@ -505,7 +538,7 @@
 
     el.viewer.addEventListener('wheel',e=>{
       if(mode==='3d')return;
-      if(mode==='overview' || mode==='group')return;
+      if(mode==='overview' || mode==='exhibition' || mode==='group')return;
       if(mode==='compare' && compareMode==='slider'){
         e.preventDefault();
         return;
@@ -524,7 +557,7 @@
         e.stopPropagation();
         return;
       }
-      if(mode==='overview' || mode==='group'){
+      if(mode==='overview' || mode==='exhibition' || mode==='group'){
         drag=null;
         return;
       }

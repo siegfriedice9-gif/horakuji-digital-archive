@@ -719,6 +719,66 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 .group-caption strong{font-size:13px}
 .group-caption small{margin-top:3px;color:var(--muted);font-size:10px}
 
+/* Phase 1: lightweight portrait exhibition using the existing archive images. */
+.exhibition-stage{
+  display:block;
+  overflow:auto;
+  padding:24px;
+  background:linear-gradient(180deg,#211e19 0,#151412 58%,#0c0c0d 100%);
+}
+.exhibition-room{
+  width:min(1120px,100%);
+  margin:auto;
+}
+.exhibition-intro{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  margin-bottom:20px;
+  padding:0 2px 14px;
+  border-bottom:1px solid #8d764a66;
+}
+.exhibition-intro span{color:var(--gold);font-size:11px;letter-spacing:.12em}
+.exhibition-intro strong{font-family:serif;font-size:20px;font-weight:500;letter-spacing:.08em}
+.exhibition-intro small{margin-left:auto;color:var(--muted);font-size:12px}
+.exhibition-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:22px 18px;
+}
+.exhibition-card{
+  min-width:0;
+  padding:10px 10px 0;
+  border:1px solid transparent;
+  border-radius:4px;
+  background:transparent;
+  text-align:center;
+}
+.exhibition-card:hover,
+.exhibition-card:focus-visible{border-color:#a98a50;background:#ffffff08;transform:translateY(-2px)}
+.exhibition-frame{
+  display:block;
+  padding:7px;
+  border:4px double #9e824b;
+  background:#09090a;
+  box-shadow:0 12px 22px #0009,0 0 0 1px #241b0d;
+}
+.exhibition-frame img{
+  display:block;
+  width:100%;
+  aspect-ratio:1600 / 2262;
+  object-fit:contain;
+  pointer-events:none;
+}
+.exhibition-plaque{display:block;padding:10px 2px 13px}
+.exhibition-plaque small,
+.exhibition-plaque strong,
+.exhibition-plaque span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.exhibition-plaque small{color:var(--gold);font-size:11px}
+.exhibition-plaque strong{margin-top:4px;font-family:serif;font-size:15px;font-weight:500}
+.exhibition-plaque span{margin-top:3px;color:var(--muted);font-size:11px}
+.viewer.exhibition-mode{touch-action:pan-y}
+
 @media(max-width:720px){
   .topbar{display:none}
   .layout{min-height:100vh}
@@ -787,4 +847,16 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
   .group-role{width:22px;height:22px;font-size:11px}
   .group-caption strong{font-size:12px}
   .group-caption small{font-size:10px}
+  .exhibition-stage{padding:14px 10px}
+  .exhibition-intro{display:block;margin-bottom:13px;padding-bottom:10px;text-align:center}
+  .exhibition-intro span,
+  .exhibition-intro strong,
+  .exhibition-intro small{display:block;margin:0}
+  .exhibition-intro strong{margin-top:4px;font-size:18px}
+  .exhibition-intro small{margin-top:5px;font-size:11px}
+  .exhibition-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 8px}
+  .exhibition-card{padding:7px 7px 0}
+  .exhibition-frame{padding:5px;border-width:3px}
+  .exhibition-plaque{padding:8px 1px 10px}
+  .exhibition-plaque strong{font-size:13px}
 }

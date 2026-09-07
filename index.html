@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <title>法楽寺 真言宗密教の八祖 DIGITAL ARCHIVE - Ver.13</title>
-  <link rel="stylesheet" href="css/style.css?v=23">
+  <link rel="stylesheet" href="css/style.css?v=24">
 </head>
 <body>
 <div id="openingScreen" class="opening-screen" aria-label="オープニング">
@@ -104,6 +104,17 @@
         </div>
 
         <div id="viewer" class="viewer" tabindex="0" aria-label="肖像画像ビューア">
+          <div id="exhibitionStage" class="stage exhibition-stage hidden">
+            <div class="exhibition-room">
+              <div class="exhibition-intro">
+                <span>法楽寺デジタルアーカイブ</span>
+                <strong>真言宗密教の八祖 展示室</strong>
+                <small>肖像を選ぶと修復前後の比較をご覧いただけます</small>
+              </div>
+              <div id="exhibitionGrid" class="exhibition-grid" aria-label="真言宗密教の八祖 展示室"></div>
+            </div>
+          </div>
+
           <div id="overviewStage" class="stage overview-stage hidden">
             <div id="overviewGrid" class="overview-grid" aria-label="真言宗密教の八祖 全体一覧"></div>
           </div>
@@ -133,7 +144,7 @@
                   </div>
                   <div id="groupSliderControl" class="group-slider-control hidden">
                     <label for="groupCompareSlider">比較位置 <output id="groupSliderOutput">50%</output></label>
-                    <input id="groupCompareSlider" type="range" min="0" max="100" value="50" aria-label="4人共通の比較位置">
+                    <input id="groupCompareSlider" type="range" min="0" max="100" value="50" aria-label="表示中の肖像に共通の比較位置">
                   </div>
                 </div>
               </div>
@@ -206,6 +217,7 @@
     <ul>
       <li>左側から八祖を選択します。</li>
       <li>「八祖一覧」では8人の修復済み肖像を一覧し、人物を選ぶとその比較画面へ移動します。</li>
+      <li>「展示室」では額装された八祖の肖像を一覧し、人物を選ぶとその比較画面へ移動します。</li>
       <li>「グループ比較」では第一〜第四祖／第五〜第八祖を選び、4人のBefore／Afterを一括切替または共通スライダーで比較します。</li>
       <li>「比較」の右側に「左右スライダー」「クロスフェード」「Before / After」が並びます。</li>
       <li>「Before / After」では、ボタン内の色付き表示で現在がBeforeかAfterか分かります。</li>
@@ -220,6 +232,6 @@
 </div>
 
 <script src="js/data.js?v=13"></script>
-<script src="js/viewer.js?v=22"></script>
+<script src="js/viewer.js?v=23"></script>
 </body>
 </html>
