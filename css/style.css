@@ -708,6 +708,10 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 .exhibition-plaque span{margin-top:3px;color:var(--muted);font-size:11px}
 .viewer.exhibition-mode{touch-action:pan-y}
 
+/* Zoom controls belong to the individual comparison view only. */
+.toolbar-left{display:none}
+body.compare-view-active .toolbar-left{display:flex}
+
 @media(min-width:721px){
   body.exhibition-view-active .content{
     display:grid;

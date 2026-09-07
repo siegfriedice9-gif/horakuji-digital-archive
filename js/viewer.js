@@ -94,6 +94,7 @@
   function setStage(which){
     document.body.classList.toggle('group-view-active',which==='group');
     document.body.classList.toggle('exhibition-view-active',which==='exhibition');
+    document.body.classList.toggle('compare-view-active',which==='compare');
     el.viewer.classList.toggle('exhibition-mode',which==='exhibition');
     el.viewer.classList.toggle('group-mode',which==='group');
     el.exhibitionStage.classList.toggle('hidden',which!=='exhibition');
