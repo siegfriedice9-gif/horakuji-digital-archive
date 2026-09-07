@@ -493,3 +493,72 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
     object-fit:contain;
   }
 }
+
+/* Ver.17: all eight patriarchs in one selectable overview. */
+.overview-stage{
+  overflow:auto;
+  padding:18px;
+}
+.overview-grid{
+  width:min(980px,100%);
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin:auto;
+}
+.overview-card{
+  min-width:0;
+  overflow:hidden;
+  padding:0;
+  text-align:left;
+  background:#111113;
+  border-color:var(--line);
+}
+.overview-card:hover,
+.overview-card:focus-visible{
+  border-color:var(--gold);
+  background:#1b1913;
+}
+.overview-card img{
+  display:block;
+  width:100%;
+  aspect-ratio:1600 / 2262;
+  object-fit:contain;
+  background:#09090a;
+  pointer-events:none;
+}
+.overview-caption{
+  display:grid;
+  grid-template-columns:28px minmax(0,1fr);
+  gap:8px;
+  align-items:center;
+  padding:9px;
+}
+.overview-role{
+  width:26px;
+  height:26px;
+  display:grid;
+  place-items:center;
+  border:1px solid #4a463a;
+  border-radius:50%;
+  color:var(--gold);
+  font-size:12px;
+}
+.overview-caption strong,
+.overview-caption small{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.overview-caption strong{font-size:13px}
+.overview-caption small{margin-top:3px;color:var(--muted);font-size:10px}
+
+@media(max-width:720px){
+  .overview-stage{padding:10px}
+  .overview-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .overview-caption{grid-template-columns:24px minmax(0,1fr);gap:6px;padding:7px}
+  .overview-role{width:22px;height:22px;font-size:11px}
+  .overview-caption strong{font-size:12px}
+  .overview-caption small{font-size:10px}
+}

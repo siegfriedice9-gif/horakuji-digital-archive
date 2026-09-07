@@ -4,6 +4,7 @@
   const el = {
     peopleList:$('#peopleList'), personName:$('#personName'), personReading:$('#personReading'), lineageLabel:$('#lineageLabel'), statusBadge:$('#statusBadge'),
     modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
+    overviewStage:$('#overviewStage'), overviewGrid:$('#overviewGrid'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
     compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
     compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), beforeAfterBtn:$('#beforeAfterBtn'), beforeAfterState:$('#beforeAfterState'),
@@ -12,7 +13,7 @@
     zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal')
   };
 
-  const MODES=[['compare','比較'],['explain','解説'],['3d','3D・動画'],['slideshow','スライドショー']];
+  const MODES=[['overview','八祖一覧'],['compare','比較'],['explain','解説'],['3d','3D・動画'],['slideshow','スライドショー']];
   const SLIDES=HACHISO.flatMap(p=>[
     {person:p,state:'before',label:'Before（現存肖像）',path:p.original},
     {person:p,state:'after',label:'After（修復済み）',path:p.restored}
@@ -74,6 +75,7 @@
   }
 
   function setStage(which){
+    el.overviewStage.classList.toggle('hidden',which!=='overview');
     el.singleStage.classList.toggle('hidden',which!=='single');
     el.compareStage.classList.toggle('hidden',which!=='compare');
     el.slideshowStage.classList.toggle('hidden',which!=='slideshow');
@@ -82,6 +84,38 @@
     el.compareModeInline.classList.toggle('hidden',!compareVisible);
     el.compareEffectRow.classList.toggle('hidden',!compareVisible);
     el.slideshowControls.classList.toggle('hidden',which!=='slideshow');
+  }
+
+  function showOverview(){
+    setStage('overview');
+    el.viewer.classList.remove('explain-mode','compare-fixed');
+    el.imageTypeLabel.textContent='真言宗密教の八祖 全体一覧';
+    setMissing(false);
+    el.overviewGrid.innerHTML='';
+
+    HACHISO.forEach(p=>{
+      const card=document.createElement('button');
+      card.className='overview-card';
+      card.setAttribute('aria-label',`${p.role} ${p.name}の比較を見る`);
+
+      const image=document.createElement('img');
+      image.src=p.restoredThumb+'?v=17';
+      image.alt=`${p.name} 修復済み肖像`;
+      image.draggable=false;
+
+      const caption=document.createElement('span');
+      caption.className='overview-caption';
+      caption.innerHTML=`<span class="overview-role">${p.id}</span><span><strong>${p.name}</strong><small>${p.reading}</small></span>`;
+
+      card.append(image,caption);
+      card.onclick=()=>{
+        person=p;
+        mode='compare';
+        resetView();
+        sync();
+      };
+      el.overviewGrid.appendChild(card);
+    });
   }
 
   function setMissing(show,path='',title='画像未配置'){
@@ -298,6 +332,7 @@
     buildPeople();
     buildTabs();
     syncHeader();
+    if(mode==='overview')showOverview();
     if(mode==='compare')showCompare();
     if(mode==='explain')showExplanation();
     if(mode==='3d')show3d();
