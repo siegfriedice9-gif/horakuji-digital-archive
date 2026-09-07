@@ -5,7 +5,6 @@
     peopleList:$('#peopleList'), personName:$('#personName'), personReading:$('#personReading'), lineageLabel:$('#lineageLabel'), statusBadge:$('#statusBadge'),
     modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
     exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'),
-    overviewStage:$('#overviewStage'), overviewGrid:$('#overviewGrid'),
     groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupExitBtn:$('#groupExitBtn'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
     compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
@@ -15,7 +14,7 @@
     zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal')
   };
 
-  const MODES=[['overview','八祖一覧'],['exhibition','展示室'],['group','グループ比較'],['compare','比較'],['explain','解説'],['3d','3D・動画'],['slideshow','スライドショー']];
+  const MODES=[['exhibition','展示室'],['group','グループ比較'],['compare','比較'],['explain','解説'],['3d','3D・動画'],['slideshow','スライドショー']];
   const SLIDES=HACHISO.flatMap(p=>[
     {person:p,state:'before',label:'Before（現存肖像）',path:p.original},
     {person:p,state:'after',label:'After（修復済み）',path:p.restored}
@@ -33,7 +32,7 @@
       b.className='person-btn'+(p.id===person.id?' active':'');
       b.innerHTML=`<span class="person-no">${p.id}</span><span><strong>${p.name}</strong><small>${p.reading}</small></span>`;
       b.onclick=()=>{
-        if(mode==='slideshow' || mode==='overview' || mode==='exhibition' || mode==='group'){
+        if(mode==='slideshow' || mode==='exhibition' || mode==='group'){
           if(mode==='slideshow') stopSlideshow();
           mode='compare';
           person=p;
@@ -74,13 +73,6 @@
       el.statusBadge.textContent='8人展示';
       return;
     }
-    if(mode==='overview'){
-      el.personName.textContent='真言宗密教の八祖';
-      el.personReading.textContent='';
-      el.lineageLabel.textContent='法楽寺デジタルアーカイブ';
-      el.statusBadge.textContent='8人表示';
-      return;
-    }
     if(mode==='group'){
       const groupEnd=groupStart+(window.matchMedia('(max-width:720px)').matches?1:3);
       el.personName.textContent=`第${groupStart}祖〜第${groupEnd}祖`;
@@ -101,11 +93,10 @@
 
   function setStage(which){
     document.body.classList.toggle('group-view-active',which==='group');
+    document.body.classList.toggle('exhibition-view-active',which==='exhibition');
     el.viewer.classList.toggle('exhibition-mode',which==='exhibition');
-    el.viewer.classList.toggle('overview-mode',which==='overview');
     el.viewer.classList.toggle('group-mode',which==='group');
     el.exhibitionStage.classList.toggle('hidden',which!=='exhibition');
-    el.overviewStage.classList.toggle('hidden',which!=='overview');
     el.groupStage.classList.toggle('hidden',which!=='group');
     el.singleStage.classList.toggle('hidden',which!=='single');
     el.compareStage.classList.toggle('hidden',which!=='compare');
@@ -136,38 +127,6 @@
         sync();
       };
       el.exhibitionGrid.appendChild(card);
-    });
-  }
-
-  function showOverview(){
-    setStage('overview');
-    el.viewer.classList.remove('explain-mode','compare-fixed');
-    el.imageTypeLabel.textContent='真言宗密教の八祖 全体一覧';
-    setMissing(false);
-    el.overviewGrid.innerHTML='';
-
-    HACHISO.forEach(p=>{
-      const card=document.createElement('button');
-      card.className='overview-card';
-      card.setAttribute('aria-label',`${p.role} ${p.name}の比較を見る`);
-
-      const image=document.createElement('img');
-      image.src=p.restoredThumb+'?v=17';
-      image.alt=`${p.name} 修復済み肖像`;
-      image.draggable=false;
-
-      const caption=document.createElement('span');
-      caption.className='overview-caption';
-      caption.innerHTML=`<span class="overview-role">${p.id}</span><span><strong>${p.name}</strong><small>${p.reading}</small></span>`;
-
-      card.append(image,caption);
-      card.onclick=()=>{
-        person=p;
-        mode='compare';
-        resetView();
-        sync();
-      };
-      el.overviewGrid.appendChild(card);
     });
   }
 
@@ -452,7 +411,6 @@
     buildTabs();
     syncHeader();
     if(mode==='exhibition')showExhibition();
-    if(mode==='overview')showOverview();
     if(mode==='group')showGroupCompare();
     if(mode==='compare')showCompare();
     if(mode==='explain')showExplanation();
@@ -538,7 +496,7 @@
 
     el.viewer.addEventListener('wheel',e=>{
       if(mode==='3d')return;
-      if(mode==='overview' || mode==='exhibition' || mode==='group')return;
+      if(mode==='exhibition' || mode==='group')return;
       if(mode==='compare' && compareMode==='slider'){
         e.preventDefault();
         return;
@@ -557,7 +515,7 @@
         e.stopPropagation();
         return;
       }
-      if(mode==='overview' || mode==='exhibition' || mode==='group'){
+      if(mode==='exhibition' || mode==='group'){
         drag=null;
         return;
       }

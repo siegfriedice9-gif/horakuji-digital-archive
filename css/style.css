@@ -494,76 +494,6 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
   }
 }
 
-/* Ver.17: all eight patriarchs in one selectable overview. */
-.overview-stage{
-  display:block;
-  overflow:auto;
-  padding:18px;
-}
-.overview-grid{
-  width:min(980px,100%);
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:12px;
-  margin:auto;
-}
-.overview-card{
-  min-width:0;
-  overflow:hidden;
-  padding:0;
-  text-align:left;
-  background:#111113;
-  border-color:var(--line);
-}
-.overview-card:hover,
-.overview-card:focus-visible{
-  border-color:var(--gold);
-  background:#1b1913;
-}
-.overview-card img{
-  display:block;
-  width:100%;
-  aspect-ratio:1600 / 2262;
-  object-fit:contain;
-  background:#09090a;
-  pointer-events:none;
-}
-.overview-caption{
-  display:grid;
-  grid-template-columns:28px minmax(0,1fr);
-  gap:8px;
-  align-items:center;
-  padding:9px;
-}
-.overview-role{
-  width:26px;
-  height:26px;
-  display:grid;
-  place-items:center;
-  border:1px solid #4a463a;
-  border-radius:50%;
-  color:var(--gold);
-  font-size:12px;
-}
-.overview-caption strong,
-.overview-caption small{
-  display:block;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-.overview-caption strong{font-size:13px}
-.overview-caption small{margin-top:3px;color:var(--muted);font-size:10px}
-
-@media(max-width:720px){
-  .overview-stage{padding:10px}
-  .overview-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-  .overview-caption{grid-template-columns:24px minmax(0,1fr);gap:6px;padding:7px}
-  .overview-role{width:22px;height:22px;font-size:11px}
-  .overview-caption strong{font-size:12px}
-  .overview-caption small{font-size:10px}
-}
-
 /* Ver.18: four-person comparison for the first and second groups. */
 .group-stage{
   display:block;
@@ -690,7 +620,6 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
   pointer-events:none;
 }
 .group-stage.slider-mode .group-divider{display:block}
-.viewer.overview-mode,
 .viewer.group-mode{touch-action:pan-y}
 .group-caption{
   display:grid;
@@ -778,6 +707,48 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 .exhibition-plaque strong{margin-top:4px;font-family:serif;font-size:15px;font-weight:500}
 .exhibition-plaque span{margin-top:3px;color:var(--muted);font-size:11px}
 .viewer.exhibition-mode{touch-action:pan-y}
+
+@media(min-width:721px){
+  body.exhibition-view-active .content{
+    display:grid;
+    grid-template-columns:max-content minmax(0,1fr);
+    align-items:end;
+    column-gap:18px;
+  }
+  body.exhibition-view-active .person-head{
+    grid-column:1;
+    margin-bottom:10px;
+  }
+  body.exhibition-view-active .person-head .eyebrow,
+  body.exhibition-view-active .person-head .status{display:none}
+  body.exhibition-view-active .person-head h1{
+    margin:0;
+    font-size:24px;
+    line-height:34px;
+    white-space:nowrap;
+  }
+  body.exhibition-view-active .mode-row{
+    grid-column:2;
+    min-width:0;
+    margin-bottom:10px;
+    flex-wrap:nowrap;
+  }
+  body.exhibition-view-active .mode-row .tabs{
+    width:100%;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    scrollbar-width:thin;
+  }
+  body.exhibition-view-active .mode-row .tabs button{
+    flex:0 0 auto;
+    padding-right:12px;
+    padding-left:12px;
+    white-space:nowrap;
+  }
+  body.exhibition-view-active .compare-effect-row,
+  body.exhibition-view-active .slideshow-controls,
+  body.exhibition-view-active .viewer-card{grid-column:1 / -1}
+}
 
 @media(max-width:720px){
   .topbar{display:none}
