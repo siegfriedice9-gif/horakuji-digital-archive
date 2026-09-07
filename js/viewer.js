@@ -5,6 +5,7 @@
     peopleList:$('#peopleList'), personName:$('#personName'), personReading:$('#personReading'), lineageLabel:$('#lineageLabel'), statusBadge:$('#statusBadge'),
     modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
     overviewStage:$('#overviewStage'), overviewGrid:$('#overviewGrid'),
+    groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupStateButtons:$('#groupStateButtons'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
     compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
     compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), beforeAfterBtn:$('#beforeAfterBtn'), beforeAfterState:$('#beforeAfterState'),
@@ -13,7 +14,7 @@
     zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal')
   };
 
-  const MODES=[['overview','八祖一覧'],['compare','比較'],['explain','解説'],['3d','3D・動画'],['slideshow','スライドショー']];
+  const MODES=[['overview','八祖一覧'],['group','グループ比較'],['compare','比較'],['explain','解説'],['3d','3D・動画'],['slideshow','スライドショー']];
   const SLIDES=HACHISO.flatMap(p=>[
     {person:p,state:'before',label:'Before（現存肖像）',path:p.original},
     {person:p,state:'after',label:'After（修復済み）',path:p.restored}
@@ -21,6 +22,7 @@
 
   let person=HACHISO[7], mode='compare', compareMode='slider';
   let view={scale:1,x:0,y:0}, drag=null, toggleRestored=false;
+  let groupStart=1, groupRestored=false;
   let slideIndex=0, slideTimer=null, slideshowPlaying=false, slideEffect='dissolve', activeSlideImg=0, slideTransitioning=false;
 
   function buildPeople(){
@@ -30,8 +32,8 @@
       b.className='person-btn'+(p.id===person.id?' active':'');
       b.innerHTML=`<span class="person-no">${p.id}</span><span><strong>${p.name}</strong><small>${p.reading}</small></span>`;
       b.onclick=()=>{
-        if(mode==='slideshow'){
-          stopSlideshow();
+        if(mode==='slideshow' || mode==='overview' || mode==='group'){
+          if(mode==='slideshow') stopSlideshow();
           mode='compare';
           person=p;
           resetView();
@@ -64,6 +66,20 @@
   }
 
   function syncHeader(){
+    if(mode==='overview'){
+      el.personName.textContent='真言宗密教の八祖';
+      el.personReading.textContent='';
+      el.lineageLabel.textContent='法楽寺デジタルアーカイブ';
+      el.statusBadge.textContent='8人表示';
+      return;
+    }
+    if(mode==='group'){
+      el.personName.textContent=`第${groupStart}祖〜第${groupStart+3}祖`;
+      el.personReading.textContent='';
+      el.lineageLabel.textContent='真言宗密教の八祖・グループ比較';
+      el.statusBadge.textContent='4人表示';
+      return;
+    }
     el.personName.textContent=person.name;
     el.personReading.textContent=person.reading;
     el.lineageLabel.textContent=`真言宗密教の八祖・${person.role}`;
@@ -76,6 +92,7 @@
 
   function setStage(which){
     el.overviewStage.classList.toggle('hidden',which!=='overview');
+    el.groupStage.classList.toggle('hidden',which!=='group');
     el.singleStage.classList.toggle('hidden',which!=='single');
     el.compareStage.classList.toggle('hidden',which!=='compare');
     el.slideshowStage.classList.toggle('hidden',which!=='slideshow');
@@ -116,6 +133,57 @@
       };
       el.overviewGrid.appendChild(card);
     });
+  }
+
+  function updateGroupState(){
+    el.groupStage.classList.toggle('show-after',groupRestored);
+    $$('#groupRangeButtons button').forEach(b=>b.classList.toggle('active',+b.dataset.groupStart===groupStart));
+    $$('#groupStateButtons button').forEach(b=>b.classList.toggle('active',(b.dataset.groupState==='after')===groupRestored));
+    el.imageTypeLabel.textContent=groupRestored?'グループ比較　After（修復済み）':'グループ比較　Before（現存肖像）';
+  }
+
+  function showGroupCompare(){
+    setStage('group');
+    el.viewer.classList.remove('explain-mode','compare-fixed');
+    syncHeader();
+    setMissing(false);
+    el.groupGrid.innerHTML='';
+
+    HACHISO.filter(p=>p.id>=groupStart && p.id<groupStart+4).forEach(p=>{
+      const card=document.createElement('button');
+      card.className='group-card';
+      card.setAttribute('aria-label',`${p.role} ${p.name}の個別比較を見る`);
+
+      const media=document.createElement('span');
+      media.className='group-media';
+
+      const original=document.createElement('img');
+      original.className='group-image group-original';
+      original.src=p.originalThumb+'?v=18';
+      original.alt=`${p.name} 現存肖像`;
+      original.draggable=false;
+
+      const restored=document.createElement('img');
+      restored.className='group-image group-restored';
+      restored.src=p.restoredThumb+'?v=18';
+      restored.alt=`${p.name} 修復済み肖像`;
+      restored.draggable=false;
+
+      const caption=document.createElement('span');
+      caption.className='group-caption';
+      caption.innerHTML=`<span class="group-role">${p.id}</span><span><strong>${p.name}</strong><small>${p.reading}</small></span>`;
+
+      media.append(original,restored);
+      card.append(media,caption);
+      card.onclick=()=>{
+        person=p;
+        mode='compare';
+        resetView();
+        sync();
+      };
+      el.groupGrid.appendChild(card);
+    });
+    updateGroupState();
   }
 
   function setMissing(show,path='',title='画像未配置'){
@@ -333,6 +401,7 @@
     buildTabs();
     syncHeader();
     if(mode==='overview')showOverview();
+    if(mode==='group')showGroupCompare();
     if(mode==='compare')showCompare();
     if(mode==='explain')showExplanation();
     if(mode==='3d')show3d();
@@ -435,6 +504,11 @@
         e.stopPropagation();
         return;
       }
+      // 一覧・グループ比較内の操作ボタンは、ビューアのパンより優先する
+      if(e.target.closest('button,input')){
+        drag=null;
+        return;
+      }
       drag={x:e.clientX,y:e.clientY,ox:view.x,oy:view.y};
       el.viewer.setPointerCapture(e.pointerId);
     });
@@ -461,6 +535,15 @@
 
     el.compareSlider.oninput=updateCompareEffect;
     el.fadeSlider.oninput=updateCompareEffect;
+
+    $$('#groupRangeButtons button').forEach(b=>b.onclick=()=>{
+      groupStart=+b.dataset.groupStart;
+      showGroupCompare();
+    });
+    $$('#groupStateButtons button').forEach(b=>b.onclick=()=>{
+      groupRestored=b.dataset.groupState==='after';
+      updateGroupState();
+    });
 
     $('#slidePrevBtn').onclick=()=>{stopSlideshow();stepSlide(-1)};
     $('#slideNextBtn').onclick=()=>{stopSlideshow();stepSlide(1)};

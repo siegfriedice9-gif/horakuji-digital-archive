@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <title>法楽寺 真言宗密教の八祖 DIGITAL ARCHIVE - Ver.13</title>
-  <link rel="stylesheet" href="css/style.css?v=18">
+  <link rel="stylesheet" href="css/style.css?v=19">
 </head>
 <body>
 <div id="openingScreen" class="opening-screen" aria-label="オープニング">
@@ -108,6 +108,22 @@
             <div id="overviewGrid" class="overview-grid" aria-label="真言宗密教の八祖 全体一覧"></div>
           </div>
 
+          <div id="groupStage" class="stage group-stage hidden">
+            <div class="group-shell">
+              <div class="group-toolbar">
+                <div id="groupRangeButtons" class="group-button-set" role="group" aria-label="比較する祖師のグループ">
+                  <button data-group-start="1" class="active">第一〜第四祖</button>
+                  <button data-group-start="5">第五〜第八祖</button>
+                </div>
+                <div id="groupStateButtons" class="group-button-set" role="group" aria-label="修復前後の表示">
+                  <button data-group-state="before" class="active">Before（現存肖像）</button>
+                  <button data-group-state="after">After（修復済み）</button>
+                </div>
+              </div>
+              <div id="groupGrid" class="group-grid" aria-live="polite"></div>
+            </div>
+          </div>
+
           <div id="singleStage" class="stage single-stage hidden">
             <div id="singleLayer" class="media-layer">
               <div class="explanation-frame">
@@ -173,6 +189,7 @@
     <ul>
       <li>左側から八祖を選択します。</li>
       <li>「八祖一覧」では8人の修復済み肖像を一覧し、人物を選ぶとその比較画面へ移動します。</li>
+      <li>「グループ比較」では第一〜第四祖／第五〜第八祖を選び、4人のBefore／Afterを一括で切り替えます。</li>
       <li>「比較」の右側に「左右スライダー」「クロスフェード」「Before / After」が並びます。</li>
       <li>「Before / After」では、ボタン内の色付き表示で現在がBeforeかAfterか分かります。</li>
       <li>「スライドショー」は、1～8を「Before→After」の順で全16コマを一巡し、8 Afterで自動終了します。表示倍率は比較画面と同じです。</li>
@@ -186,6 +203,6 @@
 </div>
 
 <script src="js/data.js?v=13"></script>
-<script src="js/viewer.js?v=17"></script>
+<script src="js/viewer.js?v=18"></script>
 </body>
 </html>

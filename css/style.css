@@ -496,6 +496,7 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 
 /* Ver.17: all eight patriarchs in one selectable overview. */
 .overview-stage{
+  display:block;
   overflow:auto;
   padding:18px;
 }
@@ -561,4 +562,114 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
   .overview-role{width:22px;height:22px;font-size:11px}
   .overview-caption strong{font-size:12px}
   .overview-caption small{font-size:10px}
+}
+
+/* Ver.18: four-person comparison for the first and second groups. */
+.group-stage{
+  display:block;
+  overflow:auto;
+  padding:18px;
+}
+.group-shell{
+  width:min(1040px,100%);
+  margin:auto;
+}
+.group-toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+}
+.group-button-set{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+.group-button-set button{
+  padding:7px 11px;
+  border-radius:999px;
+  font-size:12px;
+}
+.group-button-set button.active{
+  background:var(--gold2);
+  border-color:var(--gold);
+}
+.group-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+.group-card{
+  min-width:0;
+  overflow:hidden;
+  padding:0;
+  text-align:left;
+  background:#111113;
+  border-color:var(--line);
+}
+.group-card:hover,
+.group-card:focus-visible{
+  border-color:var(--gold);
+  background:#1b1913;
+}
+.group-media{
+  position:relative;
+  display:block;
+  width:100%;
+  aspect-ratio:1600 / 2262;
+  overflow:hidden;
+  background:#09090a;
+}
+.group-image{
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  pointer-events:none;
+}
+.group-restored{
+  opacity:0;
+  transition:opacity .35s ease;
+}
+.group-stage.show-after .group-restored{opacity:1}
+.group-caption{
+  display:grid;
+  grid-template-columns:28px minmax(0,1fr);
+  gap:8px;
+  align-items:center;
+  padding:9px;
+}
+.group-role{
+  width:26px;
+  height:26px;
+  display:grid;
+  place-items:center;
+  border:1px solid #4a463a;
+  border-radius:50%;
+  color:var(--gold);
+  font-size:12px;
+}
+.group-caption strong,
+.group-caption small{
+  display:block;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.group-caption strong{font-size:13px}
+.group-caption small{margin-top:3px;color:var(--muted);font-size:10px}
+
+@media(max-width:720px){
+  .group-stage{padding:10px}
+  .group-toolbar{align-items:flex-start;flex-direction:column;margin-bottom:9px}
+  .group-button-set{width:100%}
+  .group-button-set button{flex:1;padding:7px 8px;font-size:11px}
+  .group-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .group-caption{grid-template-columns:24px minmax(0,1fr);gap:6px;padding:7px}
+  .group-role{width:22px;height:22px;font-size:11px}
+  .group-caption strong{font-size:12px}
+  .group-caption small{font-size:10px}
 }
