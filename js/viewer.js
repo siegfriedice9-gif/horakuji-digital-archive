@@ -4,7 +4,7 @@
   const el = {
     peopleList:$('#peopleList'), personName:$('#personName'), personReading:$('#personReading'), lineageLabel:$('#lineageLabel'), statusBadge:$('#statusBadge'),
     modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), toolbarLeft:$('.toolbar-left'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
-    exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'),
+    exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'), exhibitionViewModes:$('#exhibitionViewModes'), exhibitionSpace:$('#exhibitionSpace'), exhibitionSpaceTrack:$('#exhibitionSpaceTrack'), exhibitionSpaceLabel:$('#exhibitionSpaceLabel'), exhibitionPrevBtn:$('#exhibitionPrevBtn'), exhibitionNextBtn:$('#exhibitionNextBtn'),
     groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupExitBtn:$('#groupExitBtn'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
     compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
@@ -22,6 +22,7 @@
 
   let person=HACHISO[7], mode='compare', compareMode='slider';
   let view={scale:1,x:0,y:0}, drag=null, toggleRestored=false;
+  let exhibitionView='grid', exhibitionIndex=0;
   let groupStart=1, groupRestored=false, groupCompareMode='toggle', groupSliderValue=50;
   let slideIndex=0, slideTimer=null, slideshowPlaying=false, slideEffect='dissolve', activeSlideImg=0, slideTransitioning=false;
 
@@ -117,8 +118,9 @@
     el.imageTypeLabel.textContent='真言宗密教の八祖 展示室';
     setMissing(false);
     el.exhibitionGrid.innerHTML='';
+    el.exhibitionSpaceTrack.innerHTML='';
 
-    HACHISO.forEach(p=>{
+    HACHISO.forEach((p,index)=>{
       const card=document.createElement('button');
       card.className='exhibition-card';
       card.setAttribute('aria-label',`${p.role} ${p.name}の修復前後を比較する`);
@@ -130,7 +132,50 @@
         sync();
       };
       el.exhibitionGrid.appendChild(card);
+
+      const spaceCard=document.createElement('button');
+      spaceCard.className='exhibition-space-card';
+      spaceCard.dataset.exhibitionIndex=index;
+      spaceCard.setAttribute('aria-label',`${p.role} ${p.name}`);
+      spaceCard.innerHTML=`<span class="exhibition-space-frame"><img src="${p.restoredThumb}?v=28" alt="${p.name} 修復済み肖像" draggable="false"></span><span class="exhibition-space-plaque"><small>${p.role}</small><strong>${p.name}</strong></span>`;
+      spaceCard.onclick=()=>{
+        if(index!==exhibitionIndex){
+          exhibitionIndex=index;
+          updateExhibitionView();
+          return;
+        }
+        person=p;
+        mode='compare';
+        resetView();
+        sync();
+      };
+      el.exhibitionSpaceTrack.appendChild(spaceCard);
     });
+    updateExhibitionView();
+  }
+
+  function updateExhibitionView(){
+    const spaceVisible=exhibitionView==='space';
+    el.exhibitionGrid.classList.toggle('hidden',spaceVisible);
+    el.exhibitionSpace.classList.toggle('hidden',!spaceVisible);
+    $$('#exhibitionViewModes button').forEach(b=>b.classList.toggle('active',b.dataset.exhibitionView===exhibitionView));
+    if(!spaceVisible)return;
+
+    const spacing=window.matchMedia('(max-width:720px)').matches?118:205;
+    $$('.exhibition-space-card').forEach((card,index)=>{
+      const delta=index-exhibitionIndex;
+      const distance=Math.abs(delta);
+      card.classList.toggle('is-active',delta===0);
+      card.setAttribute('aria-current',delta===0?'true':'false');
+      card.style.transform=`translate(-50%,-50%) translateX(${delta*spacing}px) translateZ(${-distance*135}px) rotateY(${delta*-17}deg)`;
+      card.style.opacity=distance>3?'0':String(Math.max(.22,1-distance*.23));
+      card.style.zIndex=String(10-distance);
+      card.style.pointerEvents=distance>3?'none':'auto';
+    });
+    const active=HACHISO[exhibitionIndex];
+    el.exhibitionSpaceLabel.innerHTML=`<small>${active.role}</small><strong>${active.name}</strong>`;
+    el.exhibitionPrevBtn.disabled=exhibitionIndex===0;
+    el.exhibitionNextBtn.disabled=exhibitionIndex===HACHISO.length-1;
   }
 
   function updateGroupState(){
@@ -491,7 +536,10 @@
     if(openingEnter) openingEnter.onclick=closeOpening;
     document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ') && opening && document.body.contains(opening))closeOpening()});
 
-    window.addEventListener('resize',()=>{if(mode==='explain'){fitExplanationToCompareFrame();applyView();}});
+    window.addEventListener('resize',()=>{
+      if(mode==='explain'){fitExplanationToCompareFrame();applyView();}
+      if(mode==='exhibition' && exhibitionView==='space')updateExhibitionView();
+    });
 
     $('#zoomInBtn').onclick=()=>{view.scale=Math.min(5,view.scale*1.15);applyView()};
     $('#zoomOutBtn').onclick=()=>{view.scale=Math.max(.5,view.scale/1.15);applyView()};
@@ -574,6 +622,19 @@
     el.groupCompareSlider.oninput=()=>{
       groupSliderValue=+el.groupCompareSlider.value;
       updateGroupState();
+    };
+
+    $$('#exhibitionViewModes button').forEach(b=>b.onclick=()=>{
+      exhibitionView=b.dataset.exhibitionView;
+      updateExhibitionView();
+    });
+    el.exhibitionPrevBtn.onclick=()=>{
+      exhibitionIndex=Math.max(0,exhibitionIndex-1);
+      updateExhibitionView();
+    };
+    el.exhibitionNextBtn.onclick=()=>{
+      exhibitionIndex=Math.min(HACHISO.length-1,exhibitionIndex+1);
+      updateExhibitionView();
     };
 
     $('#slidePrevBtn').onclick=()=>{stopSlideshow();stepSlide(-1)};
