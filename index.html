@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <title>法楽寺 真言宗密教の八祖 DIGITAL ARCHIVE - Ver.13</title>
-  <link rel="stylesheet" href="css/style.css?v=20">
+  <link rel="stylesheet" href="css/style.css?v=21">
 </head>
 <body>
 <div id="openingScreen" class="opening-screen" aria-label="オープニング">
@@ -110,24 +110,26 @@
 
           <div id="groupStage" class="stage group-stage hidden">
             <div class="group-shell">
-              <div class="group-toolbar">
-                <div id="groupRangeButtons" class="group-button-set" role="group" aria-label="比較する祖師のグループ">
-                  <button data-group-start="1" class="active">第一〜第四祖</button>
-                  <button data-group-start="5">第五〜第八祖</button>
+              <div class="group-controls-sticky">
+                <div class="group-toolbar">
+                  <div id="groupRangeButtons" class="group-button-set" role="group" aria-label="比較する祖師のグループ">
+                    <button data-group-start="1" class="active">第一〜第四祖</button>
+                    <button data-group-start="5">第五〜第八祖</button>
+                  </div>
+                  <div id="groupCompareModes" class="group-button-set" role="group" aria-label="グループ比較方法">
+                    <button data-group-mode="toggle" class="active">一括切替</button>
+                    <button data-group-mode="slider">一括スライダー</button>
+                  </div>
                 </div>
-                <div id="groupCompareModes" class="group-button-set" role="group" aria-label="グループ比較方法">
-                  <button data-group-mode="toggle" class="active">一括切替</button>
-                  <button data-group-mode="slider">一括スライダー</button>
-                </div>
-              </div>
-              <div class="group-effect-row">
-                <div id="groupStateButtons" class="group-button-set" role="group" aria-label="修復前後の表示">
-                  <button data-group-state="before" class="active">Before（現存肖像）</button>
-                  <button data-group-state="after">After（修復済み）</button>
-                </div>
-                <div id="groupSliderControl" class="group-slider-control hidden">
-                  <label for="groupCompareSlider">比較位置 <output id="groupSliderOutput">50%</output></label>
-                  <input id="groupCompareSlider" type="range" min="0" max="100" value="50" aria-label="4人共通の比較位置">
+                <div class="group-effect-row">
+                  <div id="groupStateButtons" class="group-button-set" role="group" aria-label="修復前後の表示">
+                    <button data-group-state="before" class="active">Before（現存肖像）</button>
+                    <button data-group-state="after">After（修復済み）</button>
+                  </div>
+                  <div id="groupSliderControl" class="group-slider-control hidden">
+                    <label for="groupCompareSlider">比較位置 <output id="groupSliderOutput">50%</output></label>
+                    <input id="groupCompareSlider" type="range" min="0" max="100" value="50" aria-label="4人共通の比較位置">
+                  </div>
                 </div>
               </div>
               <div id="groupGrid" class="group-grid" aria-live="polite"></div>
@@ -213,6 +215,6 @@
 </div>
 
 <script src="js/data.js?v=13"></script>
-<script src="js/viewer.js?v=19"></script>
+<script src="js/viewer.js?v=20"></script>
 </body>
 </html>

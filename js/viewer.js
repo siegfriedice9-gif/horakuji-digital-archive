@@ -502,6 +502,7 @@
 
     el.viewer.addEventListener('wheel',e=>{
       if(mode==='3d')return;
+      if(mode==='overview' || mode==='group')return;
       if(mode==='compare' && compareMode==='slider'){
         e.preventDefault();
         return;

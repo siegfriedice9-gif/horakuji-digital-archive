@@ -712,7 +712,19 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 .group-caption small{margin-top:3px;color:var(--muted);font-size:10px}
 
 @media(max-width:720px){
+  .topbar{display:none}
+  .layout{min-height:100vh}
   .group-stage{padding:10px}
+  .group-controls-sticky{
+    position:sticky;
+    top:-10px;
+    z-index:6;
+    margin:-10px -10px 9px;
+    padding:10px 10px 1px;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,#141416 0,#111113 100%);
+    box-shadow:0 8px 18px #0008;
+  }
   .group-toolbar{align-items:flex-start;flex-direction:column;margin-bottom:9px}
   .group-effect-row{margin-bottom:9px}
   .group-button-set{width:100%}
