@@ -3,7 +3,7 @@
   const $$ = s => [...document.querySelectorAll(s)];
   const el = {
     peopleList:$('#peopleList'), personName:$('#personName'), personReading:$('#personReading'), lineageLabel:$('#lineageLabel'), statusBadge:$('#statusBadge'),
-    modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
+    modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), toolbarLeft:$('.toolbar-left'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
     exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'),
     groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupExitBtn:$('#groupExitBtn'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
@@ -103,6 +103,8 @@
     el.slideshowStage.classList.toggle('hidden',which!=='slideshow');
     el.threeDStage.classList.toggle('hidden',which!=='3d');
     const compareVisible=which==='compare';
+    const zoomVisible=which==='compare' || which==='slideshow';
+    el.toolbarLeft.classList.toggle('hidden',!zoomVisible);
     el.compareModeInline.classList.toggle('hidden',!compareVisible);
     el.compareEffectRow.classList.toggle('hidden',!compareVisible);
     el.slideshowControls.classList.toggle('hidden',which!=='slideshow');
