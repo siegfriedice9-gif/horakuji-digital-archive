@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <title>法楽寺 真言宗密教の八祖 DIGITAL ARCHIVE - Ver.13</title>
-  <link rel="stylesheet" href="css/style.css?v=19">
+  <link rel="stylesheet" href="css/style.css?v=20">
 </head>
 <body>
 <div id="openingScreen" class="opening-screen" aria-label="オープニング">
@@ -115,9 +115,19 @@
                   <button data-group-start="1" class="active">第一〜第四祖</button>
                   <button data-group-start="5">第五〜第八祖</button>
                 </div>
+                <div id="groupCompareModes" class="group-button-set" role="group" aria-label="グループ比較方法">
+                  <button data-group-mode="toggle" class="active">一括切替</button>
+                  <button data-group-mode="slider">一括スライダー</button>
+                </div>
+              </div>
+              <div class="group-effect-row">
                 <div id="groupStateButtons" class="group-button-set" role="group" aria-label="修復前後の表示">
                   <button data-group-state="before" class="active">Before（現存肖像）</button>
                   <button data-group-state="after">After（修復済み）</button>
+                </div>
+                <div id="groupSliderControl" class="group-slider-control hidden">
+                  <label for="groupCompareSlider">比較位置 <output id="groupSliderOutput">50%</output></label>
+                  <input id="groupCompareSlider" type="range" min="0" max="100" value="50" aria-label="4人共通の比較位置">
                 </div>
               </div>
               <div id="groupGrid" class="group-grid" aria-live="polite"></div>
@@ -189,7 +199,7 @@
     <ul>
       <li>左側から八祖を選択します。</li>
       <li>「八祖一覧」では8人の修復済み肖像を一覧し、人物を選ぶとその比較画面へ移動します。</li>
-      <li>「グループ比較」では第一〜第四祖／第五〜第八祖を選び、4人のBefore／Afterを一括で切り替えます。</li>
+      <li>「グループ比較」では第一〜第四祖／第五〜第八祖を選び、4人のBefore／Afterを一括切替または共通スライダーで比較します。</li>
       <li>「比較」の右側に「左右スライダー」「クロスフェード」「Before / After」が並びます。</li>
       <li>「Before / After」では、ボタン内の色付き表示で現在がBeforeかAfterか分かります。</li>
       <li>「スライドショー」は、1～8を「Before→After」の順で全16コマを一巡し、8 Afterで自動終了します。表示倍率は比較画面と同じです。</li>
@@ -203,6 +213,6 @@
 </div>
 
 <script src="js/data.js?v=13"></script>
-<script src="js/viewer.js?v=18"></script>
+<script src="js/viewer.js?v=19"></script>
 </body>
 </html>

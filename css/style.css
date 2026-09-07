@@ -581,6 +581,9 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
   gap:10px;
   margin-bottom:12px;
 }
+.group-effect-row{
+  margin-bottom:12px;
+}
 .group-button-set{
   display:flex;
   gap:6px;
@@ -594,6 +597,31 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 .group-button-set button.active{
   background:var(--gold2);
   border-color:var(--gold);
+}
+.group-slider-control{
+  width:100%;
+  padding:9px 12px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#111113;
+}
+.group-slider-control label{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:7px;
+  color:var(--muted);
+  font-size:12px;
+}
+.group-slider-control output{
+  color:var(--accent);
+  font-family:ui-monospace,monospace;
+}
+.group-slider-control input{
+  display:block;
+  width:100%;
+  min-height:28px;
+  margin:0;
 }
 .group-grid{
   display:grid;
@@ -632,9 +660,30 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 }
 .group-restored{
   opacity:0;
+  clip-path:inset(0);
   transition:opacity .35s ease;
 }
 .group-stage.show-after .group-restored{opacity:1}
+.group-stage.slider-mode .group-restored{
+  opacity:1;
+  clip-path:inset(0 0 0 var(--group-compare-position));
+  transition:none;
+}
+.group-divider{
+  display:none;
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:var(--group-compare-position);
+  width:2px;
+  transform:translateX(-1px);
+  background:var(--gold);
+  box-shadow:0 0 8px #000;
+  pointer-events:none;
+}
+.group-stage.slider-mode .group-divider{display:block}
+.viewer.overview-mode,
+.viewer.group-mode{touch-action:pan-y}
 .group-caption{
   display:grid;
   grid-template-columns:28px minmax(0,1fr);
@@ -665,8 +714,11 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 @media(max-width:720px){
   .group-stage{padding:10px}
   .group-toolbar{align-items:flex-start;flex-direction:column;margin-bottom:9px}
+  .group-effect-row{margin-bottom:9px}
   .group-button-set{width:100%}
   .group-button-set button{flex:1;padding:7px 8px;font-size:11px}
+  .group-slider-control{padding:8px 10px}
+  .group-slider-control input{min-height:34px}
   .group-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .group-caption{grid-template-columns:24px minmax(0,1fr);gap:6px;padding:7px}
   .group-role{width:22px;height:22px;font-size:11px}

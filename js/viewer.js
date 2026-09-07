@@ -5,7 +5,7 @@
     peopleList:$('#peopleList'), personName:$('#personName'), personReading:$('#personReading'), lineageLabel:$('#lineageLabel'), statusBadge:$('#statusBadge'),
     modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
     overviewStage:$('#overviewStage'), overviewGrid:$('#overviewGrid'),
-    groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupStateButtons:$('#groupStateButtons'),
+    groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
     compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
     compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), beforeAfterBtn:$('#beforeAfterBtn'), beforeAfterState:$('#beforeAfterState'),
@@ -22,7 +22,7 @@
 
   let person=HACHISO[7], mode='compare', compareMode='slider';
   let view={scale:1,x:0,y:0}, drag=null, toggleRestored=false;
-  let groupStart=1, groupRestored=false;
+  let groupStart=1, groupRestored=false, groupCompareMode='toggle', groupSliderValue=50;
   let slideIndex=0, slideTimer=null, slideshowPlaying=false, slideEffect='dissolve', activeSlideImg=0, slideTransitioning=false;
 
   function buildPeople(){
@@ -91,6 +91,8 @@
   }
 
   function setStage(which){
+    el.viewer.classList.toggle('overview-mode',which==='overview');
+    el.viewer.classList.toggle('group-mode',which==='group');
     el.overviewStage.classList.toggle('hidden',which!=='overview');
     el.groupStage.classList.toggle('hidden',which!=='group');
     el.singleStage.classList.toggle('hidden',which!=='single');
@@ -136,10 +138,20 @@
   }
 
   function updateGroupState(){
+    const sliderMode=groupCompareMode==='slider';
     el.groupStage.classList.toggle('show-after',groupRestored);
+    el.groupStage.classList.toggle('slider-mode',sliderMode);
+    el.groupStage.style.setProperty('--group-compare-position',`${groupSliderValue}%`);
     $$('#groupRangeButtons button').forEach(b=>b.classList.toggle('active',+b.dataset.groupStart===groupStart));
+    $$('#groupCompareModes button').forEach(b=>b.classList.toggle('active',b.dataset.groupMode===groupCompareMode));
     $$('#groupStateButtons button').forEach(b=>b.classList.toggle('active',(b.dataset.groupState==='after')===groupRestored));
-    el.imageTypeLabel.textContent=groupRestored?'グループ比較　After（修復済み）':'グループ比較　Before（現存肖像）';
+    el.groupStateButtons.classList.toggle('hidden',sliderMode);
+    el.groupSliderControl.classList.toggle('hidden',!sliderMode);
+    el.groupCompareSlider.value=groupSliderValue;
+    el.groupSliderOutput.textContent=`${groupSliderValue}%`;
+    el.imageTypeLabel.textContent=sliderMode
+      ?`グループ比較　一括スライダー ${groupSliderValue}%`
+      :(groupRestored?'グループ比較　After（修復済み）':'グループ比較　Before（現存肖像）');
   }
 
   function showGroupCompare(){
@@ -169,11 +181,15 @@
       restored.alt=`${p.name} 修復済み肖像`;
       restored.draggable=false;
 
+      const divider=document.createElement('span');
+      divider.className='group-divider';
+      divider.setAttribute('aria-hidden','true');
+
       const caption=document.createElement('span');
       caption.className='group-caption';
       caption.innerHTML=`<span class="group-role">${p.id}</span><span><strong>${p.name}</strong><small>${p.reading}</small></span>`;
 
-      media.append(original,restored);
+      media.append(original,restored,divider);
       card.append(media,caption);
       card.onclick=()=>{
         person=p;
@@ -504,6 +520,10 @@
         e.stopPropagation();
         return;
       }
+      if(mode==='overview' || mode==='group'){
+        drag=null;
+        return;
+      }
       // 一覧・グループ比較内の操作ボタンは、ビューアのパンより優先する
       if(e.target.closest('button,input')){
         drag=null;
@@ -540,10 +560,18 @@
       groupStart=+b.dataset.groupStart;
       showGroupCompare();
     });
+    $$('#groupCompareModes button').forEach(b=>b.onclick=()=>{
+      groupCompareMode=b.dataset.groupMode;
+      updateGroupState();
+    });
     $$('#groupStateButtons button').forEach(b=>b.onclick=()=>{
       groupRestored=b.dataset.groupState==='after';
       updateGroupState();
     });
+    el.groupCompareSlider.oninput=()=>{
+      groupSliderValue=+el.groupCompareSlider.value;
+      updateGroupState();
+    };
 
     $('#slidePrevBtn').onclick=()=>{stopSlideshow();stepSlide(-1)};
     $('#slideNextBtn').onclick=()=>{stopSlideshow();stepSlide(1)};
