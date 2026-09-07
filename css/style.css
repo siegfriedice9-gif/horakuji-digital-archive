@@ -482,3 +482,14 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
   transform:none !important;
   margin:0 !important;
 }
+
+/* Mobile portrait: fit the complete aligned comparison canvas in the viewer. */
+@media (max-width:720px) and (orientation:portrait){
+  .viewer.compare-fixed .compare-img{
+    width:calc(100% - 20px);
+    height:calc(100% - 20px);
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+  }
+}
