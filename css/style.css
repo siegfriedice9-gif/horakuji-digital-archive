@@ -581,6 +581,12 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
   gap:10px;
   margin-bottom:12px;
 }
+.group-range-row{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.group-exit-btn{display:none}
 .group-effect-row{
   margin-bottom:12px;
 }
@@ -714,6 +720,36 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 @media(max-width:720px){
   .topbar{display:none}
   .layout{min-height:100vh}
+  body.group-view-active{overflow:hidden}
+  body.group-view-active #app,
+  body.group-view-active .layout{height:100vh;height:100dvh;min-height:100vh;min-height:100dvh}
+  body.group-view-active .sidebar,
+  body.group-view-active .person-head,
+  body.group-view-active .mode-row,
+  body.group-view-active .compare-effect-row,
+  body.group-view-active .slideshow-controls,
+  body.group-view-active .viewer-toolbar{display:none}
+  body.group-view-active .content{
+    width:100%;
+    max-width:none;
+    height:100vh;
+    height:100dvh;
+    margin:0;
+    padding:0;
+  }
+  body.group-view-active .viewer-card{
+    height:100vh;
+    height:100dvh;
+    border:0;
+    border-radius:0;
+    box-shadow:none;
+  }
+  body.group-view-active .viewer{
+    height:100vh;
+    height:100dvh;
+    min-height:100vh;
+    min-height:100dvh;
+  }
   .group-stage{padding:10px}
   .group-controls-sticky{
     position:sticky;
@@ -726,6 +762,15 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
     box-shadow:0 8px 18px #0008;
   }
   .group-toolbar{align-items:flex-start;flex-direction:column;margin-bottom:9px}
+  .group-range-row{width:100%}
+  .group-range-row .group-button-set{flex:1;min-width:0}
+  .group-exit-btn{
+    display:block;
+    flex:0 0 auto;
+    padding:7px 10px;
+    border-radius:999px;
+    font-size:11px;
+  }
   .group-effect-row{margin-bottom:9px}
   .group-button-set{width:100%}
   .group-button-set button{flex:1;padding:7px 8px;font-size:11px}

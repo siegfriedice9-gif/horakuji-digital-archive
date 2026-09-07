@@ -5,7 +5,7 @@
     peopleList:$('#peopleList'), personName:$('#personName'), personReading:$('#personReading'), lineageLabel:$('#lineageLabel'), statusBadge:$('#statusBadge'),
     modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
     overviewStage:$('#overviewStage'), overviewGrid:$('#overviewGrid'),
-    groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
+    groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupExitBtn:$('#groupExitBtn'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
     compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
     compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), beforeAfterBtn:$('#beforeAfterBtn'), beforeAfterState:$('#beforeAfterState'),
@@ -91,6 +91,7 @@
   }
 
   function setStage(which){
+    document.body.classList.toggle('group-view-active',which==='group');
     el.viewer.classList.toggle('overview-mode',which==='overview');
     el.viewer.classList.toggle('group-mode',which==='group');
     el.overviewStage.classList.toggle('hidden',which!=='overview');
@@ -561,6 +562,11 @@
       groupStart=+b.dataset.groupStart;
       showGroupCompare();
     });
+    el.groupExitBtn.onclick=()=>{
+      mode='compare';
+      resetView();
+      sync();
+    };
     $$('#groupCompareModes button').forEach(b=>b.onclick=()=>{
       groupCompareMode=b.dataset.groupMode;
       updateGroupState();
