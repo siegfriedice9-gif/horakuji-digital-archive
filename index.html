@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <title>法楽寺 真言宗密教の八祖 DIGITAL ARCHIVE - Ver.13</title>
-  <link rel="stylesheet" href="css/style.css?v=22">
+  <link rel="stylesheet" href="css/style.css?v=23">
 </head>
 <body>
 <div id="openingScreen" class="opening-screen" aria-label="オープニング">
@@ -114,8 +114,10 @@
                 <div class="group-toolbar">
                   <div class="group-range-row">
                     <div id="groupRangeButtons" class="group-button-set" role="group" aria-label="比較する祖師のグループ">
-                      <button data-group-start="1" class="active">第一〜第四祖</button>
-                      <button data-group-start="5">第五〜第八祖</button>
+                      <button data-group-start="1" class="active"><span class="group-label-desktop">第一〜第四祖</span><span class="group-label-mobile">第一〜第二祖</span></button>
+                      <button data-group-start="3" class="group-range-mobile">第三〜第四祖</button>
+                      <button data-group-start="5"><span class="group-label-desktop">第五〜第八祖</span><span class="group-label-mobile">第五〜第六祖</span></button>
+                      <button data-group-start="7" class="group-range-mobile">第七〜第八祖</button>
                     </div>
                     <button id="groupExitBtn" class="group-exit-btn" type="button" aria-label="通常の比較画面へ戻る">戻る</button>
                   </div>
@@ -218,6 +220,6 @@
 </div>
 
 <script src="js/data.js?v=13"></script>
-<script src="js/viewer.js?v=21"></script>
+<script src="js/viewer.js?v=22"></script>
 </body>
 </html>

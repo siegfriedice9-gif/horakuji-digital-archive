@@ -587,6 +587,8 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
   gap:6px;
 }
 .group-exit-btn{display:none}
+.group-range-mobile,
+.group-label-mobile{display:none}
 .group-effect-row{
   margin-bottom:12px;
 }
@@ -764,6 +766,10 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
   .group-toolbar{align-items:flex-start;flex-direction:column;margin-bottom:9px}
   .group-range-row{width:100%}
   .group-range-row .group-button-set{flex:1;min-width:0}
+  .group-range-row .group-button-set{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .group-range-mobile,
+  .group-label-mobile{display:inline}
+  .group-label-desktop{display:none}
   .group-exit-btn{
     display:block;
     flex:0 0 auto;

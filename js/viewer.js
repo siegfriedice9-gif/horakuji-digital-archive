@@ -74,7 +74,8 @@
       return;
     }
     if(mode==='group'){
-      el.personName.textContent=`第${groupStart}祖〜第${groupStart+3}祖`;
+      const groupEnd=groupStart+(window.matchMedia('(max-width:720px)').matches?1:3);
+      el.personName.textContent=`第${groupStart}祖〜第${groupEnd}祖`;
       el.personReading.textContent='';
       el.lineageLabel.textContent='真言宗密教の八祖・グループ比較';
       el.statusBadge.textContent='4人表示';
@@ -162,7 +163,8 @@
     setMissing(false);
     el.groupGrid.innerHTML='';
 
-    HACHISO.filter(p=>p.id>=groupStart && p.id<groupStart+4).forEach(p=>{
+    const groupSize=window.matchMedia('(max-width:720px)').matches?2:4;
+    HACHISO.filter(p=>p.id>=groupStart && p.id<groupStart+groupSize).forEach(p=>{
       const card=document.createElement('button');
       card.className='group-card';
       card.setAttribute('aria-label',`${p.role} ${p.name}の個別比較を見る`);
