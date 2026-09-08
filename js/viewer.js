@@ -1,6 +1,7 @@
 (() => {
   const $ = s => document.querySelector(s);
   const $$ = s => [...document.querySelectorAll(s)];
+  $$('.compare-corner-labels').forEach(node=>node.remove());
   const el = {
     peopleList:$('#peopleList'), personName:$('#personName'), personReading:$('#personReading'), lineageLabel:$('#lineageLabel'), statusBadge:$('#statusBadge'),
     modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), toolbarLeft:$('.toolbar-left'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
