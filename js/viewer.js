@@ -5,7 +5,7 @@
   const el = {
     peopleList:$('#peopleList'), personName:$('#personName'), personReading:$('#personReading'), lineageLabel:$('#lineageLabel'), statusBadge:$('#statusBadge'),
     modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), toolbarLeft:$('.toolbar-left'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
-    exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'), exhibitionViewModes:$('#exhibitionViewModes'), exhibitionSpace:$('#exhibitionSpace'), exhibitionSpaceTrack:$('#exhibitionSpaceTrack'), exhibitionSpaceLabel:$('#exhibitionSpaceLabel'), exhibitionPrevBtn:$('#exhibitionPrevBtn'), exhibitionNextBtn:$('#exhibitionNextBtn'), exhibitionCompareBtn:$('#exhibitionCompareBtn'), exhibitionExplainBtn:$('#exhibitionExplainBtn'), exhibitionMediaBtn:$('#exhibitionMediaBtn'),
+    exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'), exhibitionViewModes:$('#exhibitionViewModes'), exhibitionSpace:$('#exhibitionSpace'), exhibitionSpaceScene:$('.exhibition-space-scene'), exhibitionSpaceTrack:$('#exhibitionSpaceTrack'), exhibitionSpaceLabel:$('#exhibitionSpaceLabel'), exhibitionPrevBtn:$('#exhibitionPrevBtn'), exhibitionNextBtn:$('#exhibitionNextBtn'), exhibitionCompareBtn:$('#exhibitionCompareBtn'), exhibitionExplainBtn:$('#exhibitionExplainBtn'), exhibitionMediaBtn:$('#exhibitionMediaBtn'),
     groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupExitBtn:$('#groupExitBtn'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
     compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
@@ -24,6 +24,7 @@
   let person=HACHISO[7], mode='compare', compareMode='slider';
   let view={scale:1,x:0,y:0}, drag=null, toggleRestored=false;
   let exhibitionView='grid', exhibitionIndex=0;
+  let exhibitionSwipeStartX=null, exhibitionSwipeMoved=false;
   let groupStart=1, groupRestored=false, groupCompareMode='toggle', groupSliderValue=50;
   let slideIndex=0, slideTimer=null, slideshowPlaying=false, slideEffect='dissolve', activeSlideImg=0, slideTransitioning=false;
 
@@ -138,6 +139,7 @@
       spaceCard.setAttribute('aria-label',`${p.role} ${p.name}`);
       spaceCard.innerHTML=`<span class="exhibition-space-frame"><img src="${p.restoredThumb}?v=28" alt="${p.name} 修復済み肖像" draggable="false"></span><span class="exhibition-space-plaque"><small>${p.role}</small><strong>${p.name}</strong></span>`;
       spaceCard.onclick=()=>{
+        if(exhibitionSwipeMoved)return;
         if(index!==exhibitionIndex){
           exhibitionIndex=index;
           updateExhibitionView();
@@ -642,6 +644,29 @@
     el.exhibitionCompareBtn.onclick=()=>openExhibitionDetail('compare');
     el.exhibitionExplainBtn.onclick=()=>openExhibitionDetail('explain');
     el.exhibitionMediaBtn.onclick=()=>openExhibitionDetail('3d');
+    el.exhibitionSpaceScene.addEventListener('pointerdown',e=>{
+      if(e.pointerType==='mouse')return;
+      exhibitionSwipeStartX=e.clientX;
+      exhibitionSwipeMoved=false;
+    });
+    el.exhibitionSpaceScene.addEventListener('pointermove',e=>{
+      if(exhibitionSwipeStartX===null)return;
+      if(Math.abs(e.clientX-exhibitionSwipeStartX)>10)exhibitionSwipeMoved=true;
+    });
+    el.exhibitionSpaceScene.addEventListener('pointerup',e=>{
+      if(exhibitionSwipeStartX===null)return;
+      const distance=e.clientX-exhibitionSwipeStartX;
+      if(Math.abs(distance)>45){
+        exhibitionIndex=Math.max(0,Math.min(HACHISO.length-1,exhibitionIndex+(distance<0?1:-1)));
+        updateExhibitionView();
+      }
+      exhibitionSwipeStartX=null;
+      setTimeout(()=>{exhibitionSwipeMoved=false},0);
+    });
+    el.exhibitionSpaceScene.addEventListener('pointercancel',()=>{
+      exhibitionSwipeStartX=null;
+      exhibitionSwipeMoved=false;
+    });
     document.addEventListener('keydown',e=>{
       if(mode!=='exhibition' || exhibitionView!=='space')return;
       if(e.key==='ArrowLeft'){
