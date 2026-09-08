@@ -12,7 +12,7 @@
     compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), beforeAfterBtn:$('#beforeAfterBtn'), beforeAfterState:$('#beforeAfterState'),
     slideshowControls:$('#slideshowControls'), slideshowStage:$('#slideshowStage'), slideshowLayer:$('#slideshowLayer'), slideshowImageA:$('#slideshowImageA'), slideshowImageB:$('#slideshowImageB'), slideEffectModes:$('#slideEffectModes'), slidePersonLabel:$('#slidePersonLabel'), slideStateBadge:$('#slideStateBadge'), slideCounter:$('#slideCounter'), slidePlayBtn:$('#slidePlayBtn'),
     threeDStage:$('#threeDStage'), threeDImage:$('#threeDImage'), videoPlayer:$('#videoPlayer'), videoMissing:$('#videoMissing'), missingOverlay:$('#missingOverlay'), missingTitle:$('#missingTitle'), missingPath:$('#missingPath'),
-    zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal'), exhibitionCompareModal:$('#exhibitionCompareModal'), exhibitionCompareTitle:$('#exhibitionCompareTitle'), exhibitionQuickCompareView:$('#exhibitionQuickCompareView'), exhibitionQuickExplainView:$('#exhibitionQuickExplainView'), exhibitionQuickCompare:$('.exhibition-quick-compare'), exhibitionQuickOriginal:$('#exhibitionQuickOriginal'), exhibitionQuickRestored:$('#exhibitionQuickRestored'), exhibitionQuickExplanation:$('#exhibitionQuickExplanation'), exhibitionQuickSlider:$('#exhibitionQuickSlider'), exhibitionQuickDetailBtn:$('#exhibitionQuickDetailBtn')
+    zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal'), exhibitionCompareModal:$('#exhibitionCompareModal'), exhibitionCompareTitle:$('#exhibitionCompareTitle'), exhibitionQuickCompareView:$('#exhibitionQuickCompareView'), exhibitionQuickExplainView:$('#exhibitionQuickExplainView'), exhibitionQuickMediaView:$('#exhibitionQuickMediaView'), exhibitionQuickMediaMode:$('#exhibitionQuickMediaMode'), exhibitionQuickCompare:$('.exhibition-quick-compare'), exhibitionQuickOriginal:$('#exhibitionQuickOriginal'), exhibitionQuickRestored:$('#exhibitionQuickRestored'), exhibitionQuickExplanation:$('#exhibitionQuickExplanation'), exhibitionQuickVideo:$('#exhibitionQuickVideo'), exhibitionQuickSlider:$('#exhibitionQuickSlider'), exhibitionQuickDetailBtn:$('#exhibitionQuickDetailBtn')
   };
 
   const MODES=[['exhibition','展示室'],['group','グループ比較'],['compare','比較'],['explain','解説'],['3d','3D・動画'],['slideshow','スライドショー']];
@@ -215,6 +215,7 @@
   }
 
   function openExhibitionDetail(nextMode){
+    el.exhibitionQuickVideo.pause();
     el.exhibitionCompareModal.classList.add('hidden');
     person=HACHISO[exhibitionIndex];
     mode=nextMode;
@@ -225,9 +226,16 @@
   function openExhibitionComparePanel(){
     const active=HACHISO[exhibitionIndex];
     el.exhibitionCompareTitle.textContent=`${active.role} ${active.name}`;
-    el.exhibitionQuickOriginal.src=`${active.original}?v=43`;
-    el.exhibitionQuickRestored.src=`${active.restored}?v=43`;
-    el.exhibitionQuickExplanation.src=`${active.explanation}?v=43`;
+    el.exhibitionQuickOriginal.src=`${active.original}?v=44`;
+    el.exhibitionQuickRestored.src=`${active.restored}?v=44`;
+    el.exhibitionQuickExplanation.src=`${active.explanation}?v=44`;
+    el.exhibitionQuickMediaMode.classList.toggle('hidden',!active.video);
+    if(active.video){
+      el.exhibitionQuickVideo.src=`${active.video}?v=44`;
+    } else {
+      el.exhibitionQuickVideo.removeAttribute('src');
+      el.exhibitionQuickVideo.load();
+    }
     el.exhibitionQuickSlider.value=50;
     el.exhibitionQuickCompare.style.setProperty('--quick-position','50%');
     updateExhibitionQuickView('compare');
@@ -238,10 +246,13 @@
   function updateExhibitionQuickView(nextView){
     exhibitionQuickView=nextView;
     const explain=nextView==='explain';
-    el.exhibitionQuickCompareView.classList.toggle('hidden',explain);
+    const media=nextView==='media';
+    el.exhibitionQuickCompareView.classList.toggle('hidden',explain || media);
     el.exhibitionQuickExplainView.classList.toggle('hidden',!explain);
+    el.exhibitionQuickMediaView.classList.toggle('hidden',!media);
+    if(!media)el.exhibitionQuickVideo.pause();
     $$('#exhibitionQuickModes button').forEach(button=>button.classList.toggle('active',button.dataset.quickView===nextView));
-    el.exhibitionQuickDetailBtn.textContent=explain?'解説画面で詳しく見る':'比較画面で詳しく見る';
+    el.exhibitionQuickDetailBtn.textContent=media?'3D・動画画面で詳しく見る':explain?'解説画面で詳しく見る':'比較画面で詳しく見る';
   }
 
   function updateGroupState(){
@@ -722,10 +733,16 @@
       el.exhibitionQuickCompare.style.setProperty('--quick-position',`${el.exhibitionQuickSlider.value}%`);
     };
     $$('#exhibitionQuickModes button').forEach(button=>button.onclick=()=>updateExhibitionQuickView(button.dataset.quickView));
-    $('#closeExhibitionCompare').onclick=()=>el.exhibitionCompareModal.classList.add('hidden');
-    el.exhibitionQuickDetailBtn.onclick=()=>openExhibitionDetail(exhibitionQuickView==='explain'?'explain':'compare');
+    $('#closeExhibitionCompare').onclick=()=>{
+      el.exhibitionQuickVideo.pause();
+      el.exhibitionCompareModal.classList.add('hidden');
+    };
+    el.exhibitionQuickDetailBtn.onclick=()=>openExhibitionDetail(exhibitionQuickView==='media'?'3d':exhibitionQuickView==='explain'?'explain':'compare');
     el.exhibitionCompareModal.onclick=e=>{
-      if(e.target===el.exhibitionCompareModal)el.exhibitionCompareModal.classList.add('hidden');
+      if(e.target===el.exhibitionCompareModal){
+        el.exhibitionQuickVideo.pause();
+        el.exhibitionCompareModal.classList.add('hidden');
+      }
     };
     el.exhibitionSpaceScene.addEventListener('pointerdown',e=>{
       if(e.pointerType==='mouse' && e.button!==0)return;
@@ -768,7 +785,10 @@
     });
     document.addEventListener('keydown',e=>{
       if(!el.exhibitionCompareModal.classList.contains('hidden')){
-        if(e.key==='Escape')el.exhibitionCompareModal.classList.add('hidden');
+        if(e.key==='Escape'){
+          el.exhibitionQuickVideo.pause();
+          el.exhibitionCompareModal.classList.add('hidden');
+        }
         return;
       }
       if(mode!=='exhibition' || exhibitionView!=='space')return;

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <title>法楽寺 真言宗密教の八祖 DIGITAL ARCHIVE - Ver.13</title>
-  <link rel="stylesheet" href="css/style.css?v=43">
+  <link rel="stylesheet" href="css/style.css?v=44">
 </head>
 <body>
 <div id="openingScreen" class="opening-screen" aria-label="オープニング">
@@ -238,6 +238,7 @@
     <div id="exhibitionQuickModes" class="exhibition-quick-modes" role="group" aria-label="簡易パネルの表示内容">
       <button data-quick-view="compare" class="active" type="button">比較</button>
       <button data-quick-view="explain" type="button">解説</button>
+      <button id="exhibitionQuickMediaMode" data-quick-view="media" class="hidden" type="button">3D・動画</button>
     </div>
     <div id="exhibitionQuickCompareView">
       <div class="exhibition-quick-compare">
@@ -253,6 +254,10 @@
     </div>
     <div id="exhibitionQuickExplainView" class="exhibition-quick-explanation hidden">
       <img id="exhibitionQuickExplanation" draggable="false" alt="解説画像">
+    </div>
+    <div id="exhibitionQuickMediaView" class="exhibition-quick-media hidden">
+      <video id="exhibitionQuickVideo" controls playsinline preload="metadata"></video>
+      <p>※現存する肖像画を基にAI等を用いて立体的に再構成した参考映像です。実際の容貌・衣装等を完全に再現したものではありません。</p>
     </div>
     <button id="exhibitionQuickDetailBtn" class="primary exhibition-quick-detail" type="button">比較画面で詳しく見る</button>
   </div>
@@ -280,6 +285,6 @@
 </div>
 
 <script src="js/data.js?v=13"></script>
-<script src="js/viewer.js?v=43"></script>
+<script src="js/viewer.js?v=44"></script>
 </body>
 </html>
