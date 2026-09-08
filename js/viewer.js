@@ -12,7 +12,7 @@
     compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), beforeAfterBtn:$('#beforeAfterBtn'), beforeAfterState:$('#beforeAfterState'),
     slideshowControls:$('#slideshowControls'), slideshowStage:$('#slideshowStage'), slideshowLayer:$('#slideshowLayer'), slideshowImageA:$('#slideshowImageA'), slideshowImageB:$('#slideshowImageB'), slideEffectModes:$('#slideEffectModes'), slidePersonLabel:$('#slidePersonLabel'), slideStateBadge:$('#slideStateBadge'), slideCounter:$('#slideCounter'), slidePlayBtn:$('#slidePlayBtn'),
     threeDStage:$('#threeDStage'), threeDImage:$('#threeDImage'), videoPlayer:$('#videoPlayer'), videoMissing:$('#videoMissing'), missingOverlay:$('#missingOverlay'), missingTitle:$('#missingTitle'), missingPath:$('#missingPath'),
-    zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal')
+    zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal'), exhibitionCompareModal:$('#exhibitionCompareModal'), exhibitionCompareTitle:$('#exhibitionCompareTitle'), exhibitionQuickCompare:$('.exhibition-quick-compare'), exhibitionQuickOriginal:$('#exhibitionQuickOriginal'), exhibitionQuickRestored:$('#exhibitionQuickRestored'), exhibitionQuickSlider:$('#exhibitionQuickSlider'), exhibitionQuickDetailBtn:$('#exhibitionQuickDetailBtn')
   };
 
   const MODES=[['exhibition','展示室'],['group','グループ比較'],['compare','比較'],['explain','解説'],['3d','3D・動画'],['slideshow','スライドショー']];
@@ -179,7 +179,7 @@
           updateExhibitionView();
           return;
         }
-        openExhibitionDetail('compare');
+        openExhibitionComparePanel();
       };
       el.exhibitionSpaceTrack.appendChild(spaceCard);
     });
@@ -215,10 +215,22 @@
   }
 
   function openExhibitionDetail(nextMode){
+    el.exhibitionCompareModal.classList.add('hidden');
     person=HACHISO[exhibitionIndex];
     mode=nextMode;
     resetView();
     sync();
+  }
+
+  function openExhibitionComparePanel(){
+    const active=HACHISO[exhibitionIndex];
+    el.exhibitionCompareTitle.textContent=`${active.role} ${active.name}`;
+    el.exhibitionQuickOriginal.src=`${active.original}?v=42`;
+    el.exhibitionQuickRestored.src=`${active.restored}?v=42`;
+    el.exhibitionQuickSlider.value=50;
+    el.exhibitionQuickCompare.style.setProperty('--quick-position','50%');
+    el.exhibitionCompareModal.classList.remove('hidden');
+    $('#closeExhibitionCompare').focus();
   }
 
   function updateGroupState(){
@@ -695,6 +707,14 @@
     el.exhibitionCompareBtn.onclick=()=>openExhibitionDetail('compare');
     el.exhibitionExplainBtn.onclick=()=>openExhibitionDetail('explain');
     el.exhibitionMediaBtn.onclick=()=>openExhibitionDetail('3d');
+    el.exhibitionQuickSlider.oninput=()=>{
+      el.exhibitionQuickCompare.style.setProperty('--quick-position',`${el.exhibitionQuickSlider.value}%`);
+    };
+    $('#closeExhibitionCompare').onclick=()=>el.exhibitionCompareModal.classList.add('hidden');
+    el.exhibitionQuickDetailBtn.onclick=()=>openExhibitionDetail('compare');
+    el.exhibitionCompareModal.onclick=e=>{
+      if(e.target===el.exhibitionCompareModal)el.exhibitionCompareModal.classList.add('hidden');
+    };
     el.exhibitionSpaceScene.addEventListener('pointerdown',e=>{
       if(e.pointerType==='mouse' && e.button!==0)return;
       exhibitionSwipeStartX=e.clientX;
@@ -731,10 +751,14 @@
         exhibitionIndex=index;
         updateExhibitionView();
       } else {
-        openExhibitionDetail('compare');
+        openExhibitionComparePanel();
       }
     });
     document.addEventListener('keydown',e=>{
+      if(!el.exhibitionCompareModal.classList.contains('hidden')){
+        if(e.key==='Escape')el.exhibitionCompareModal.classList.add('hidden');
+        return;
+      }
       if(mode!=='exhibition' || exhibitionView!=='space')return;
       if(e.key==='ArrowLeft'){
         e.preventDefault();

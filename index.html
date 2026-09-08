@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <title>法楽寺 真言宗密教の八祖 DIGITAL ARCHIVE - Ver.13</title>
-  <link rel="stylesheet" href="css/style.css?v=41">
+  <link rel="stylesheet" href="css/style.css?v=42">
 </head>
 <body>
 <div id="openingScreen" class="opening-screen" aria-label="オープニング">
@@ -231,6 +231,24 @@
   </main>
 </div>
 
+<div id="exhibitionCompareModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="exhibitionCompareTitle">
+  <div class="modal-box exhibition-compare-modal-box">
+    <button id="closeExhibitionCompare" class="modal-close" type="button" aria-label="比較パネルを閉じる">×</button>
+    <h2 id="exhibitionCompareTitle"></h2>
+    <div class="exhibition-quick-compare">
+      <img id="exhibitionQuickOriginal" draggable="false" alt="現存肖像">
+      <div id="exhibitionQuickReveal" class="exhibition-quick-reveal">
+        <img id="exhibitionQuickRestored" draggable="false" alt="修復済み肖像">
+      </div>
+      <span class="exhibition-quick-divider" aria-hidden="true"></span>
+    </div>
+    <label class="exhibition-quick-slider">比較位置
+      <input id="exhibitionQuickSlider" type="range" min="0" max="100" value="50">
+    </label>
+    <button id="exhibitionQuickDetailBtn" class="primary exhibition-quick-detail" type="button">比較画面で詳しく見る</button>
+  </div>
+</div>
+
 <div id="helpModal" class="modal hidden" role="dialog" aria-modal="true" aria-label="操作案内">
   <div class="modal-box">
     <button id="closeHelp" class="modal-close">×</button>
@@ -238,7 +256,7 @@
     <ul>
       <li>左側から八祖を選択します。</li>
       <li>「展示室」では額装された八祖の肖像を一覧し、人物を選ぶとその比較画面へ移動します。</li>
-      <li>展示室の「立体展示」では、前後ボタンで八祖を移動し、中央の肖像を選ぶと比較画面へ移動します。</li>
+      <li>展示室の「立体展示」では、左右の肖像を選ぶか、PCは左右ドラッグ、スマホは左右スワイプで祖師を移動します。中央の肖像を選ぶと簡易比較パネルが開きます。</li>
       <li>「グループ比較」では、PCは4人ずつ、スマホは2人ずつ、Before／Afterを一括切替または共通スライダーで比較します。</li>
       <li>「比較」の右側に「左右スライダー」「クロスフェード」「Before / After」が並びます。</li>
       <li>「Before / After」では、ボタン内の色付き表示で現在がBeforeかAfterか分かります。</li>
@@ -253,6 +271,6 @@
 </div>
 
 <script src="js/data.js?v=13"></script>
-<script src="js/viewer.js?v=41"></script>
+<script src="js/viewer.js?v=42"></script>
 </body>
 </html>
