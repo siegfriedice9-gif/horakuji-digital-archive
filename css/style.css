@@ -847,9 +847,9 @@ body.compare-view-active .toolbar-left{display:flex}
   body.exhibition-view-active .viewer-card{grid-column:1 / -1}
 }
 
-@media(max-width:720px){
+@media (max-width:720px), (orientation:landscape) and (max-height:500px) and (pointer:coarse){
   .topbar{display:none}
-  .layout{min-height:100vh}
+  .layout{display:block;min-height:100vh}
   body.group-view-active{overflow:hidden}
   body.group-view-active #app,
   body.group-view-active .layout{height:100vh;height:100dvh;min-height:100vh;min-height:100dvh}

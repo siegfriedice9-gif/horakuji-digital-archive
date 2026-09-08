@@ -28,6 +28,11 @@
   let groupStart=1, groupRestored=false, groupCompareMode='toggle', groupSliderValue=50;
   let slideIndex=0, slideTimer=null, slideshowPlaying=false, slideEffect='dissolve', activeSlideImg=0, slideTransitioning=false;
 
+  function usesSmartphoneLayout(){
+    return window.matchMedia('(max-width:720px)').matches
+      || window.matchMedia('(orientation:landscape) and (max-height:500px) and (pointer:coarse)').matches;
+  }
+
   function buildPeople(){
     el.peopleList.innerHTML='';
     HACHISO.forEach(p=>{
@@ -77,11 +82,12 @@
       return;
     }
     if(mode==='group'){
-      const groupEnd=groupStart+(window.matchMedia('(max-width:720px)').matches?1:3);
+      const mobileGroup=usesSmartphoneLayout();
+      const groupEnd=groupStart+(mobileGroup?1:3);
       el.personName.textContent=`第${groupStart}祖〜第${groupEnd}祖`;
       el.personReading.textContent='';
       el.lineageLabel.textContent='真言宗密教の八祖・グループ比較';
-      el.statusBadge.textContent='4人表示';
+      el.statusBadge.textContent=mobileGroup?'2人表示':'4人表示';
       return;
     }
     el.personName.textContent=person.name;
@@ -234,7 +240,7 @@
     setMissing(false);
     el.groupGrid.innerHTML='';
 
-    const groupSize=window.matchMedia('(max-width:720px)').matches?2:4;
+    const groupSize=usesSmartphoneLayout()?2:4;
     HACHISO.filter(p=>p.id>=groupStart && p.id<groupStart+groupSize).forEach(p=>{
       const card=document.createElement('button');
       card.className='group-card';
