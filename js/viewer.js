@@ -5,7 +5,7 @@
   const el = {
     peopleList:$('#peopleList'), personName:$('#personName'), personReading:$('#personReading'), lineageLabel:$('#lineageLabel'), statusBadge:$('#statusBadge'),
     modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), toolbarLeft:$('.toolbar-left'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
-    exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'), exhibitionViewModes:$('#exhibitionViewModes'), exhibitionSpace:$('#exhibitionSpace'), exhibitionSpaceScene:$('.exhibition-space-scene'), exhibitionSpaceTrack:$('#exhibitionSpaceTrack'), exhibitionSpaceLabel:$('#exhibitionSpaceLabel'), exhibitionCameraControls:$('#exhibitionCameraControls'), exhibitionCameraSlider:$('#exhibitionCameraSlider'), exhibitionCameraOutput:$('#exhibitionCameraOutput'), exhibitionCameraResetBtn:$('#exhibitionCameraResetBtn'), exhibitionPrevBtn:$('#exhibitionPrevBtn'), exhibitionNextBtn:$('#exhibitionNextBtn'), exhibitionCompareBtn:$('#exhibitionCompareBtn'), exhibitionExplainBtn:$('#exhibitionExplainBtn'), exhibitionMediaBtn:$('#exhibitionMediaBtn'),
+    exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'), exhibitionViewModes:$('#exhibitionViewModes'), exhibitionSpace:$('#exhibitionSpace'), exhibitionSpaceScene:$('.exhibition-space-scene'), exhibitionSpaceTrack:$('#exhibitionSpaceTrack'), exhibitionSpaceLabel:$('#exhibitionSpaceLabel'), exhibitionCameraControls:$('#exhibitionCameraControls'), exhibitionCameraSlider:$('#exhibitionCameraSlider'), exhibitionCameraOutput:$('#exhibitionCameraOutput'), exhibitionCameraResetBtn:$('#exhibitionCameraResetBtn'), exhibitionCompareBtn:$('#exhibitionCompareBtn'), exhibitionExplainBtn:$('#exhibitionExplainBtn'), exhibitionMediaBtn:$('#exhibitionMediaBtn'),
     groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupExitBtn:$('#groupExitBtn'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
     compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
@@ -212,8 +212,6 @@
     });
     const active=HACHISO[exhibitionIndex];
     el.exhibitionSpaceLabel.innerHTML=`<small>${active.role}</small><strong>${active.name}</strong>`;
-    el.exhibitionPrevBtn.disabled=exhibitionIndex===0;
-    el.exhibitionNextBtn.disabled=exhibitionIndex===HACHISO.length-1;
   }
 
   function openExhibitionDetail(nextMode){
@@ -694,21 +692,14 @@
       exhibitionCameraAngle=0;
       updateExhibitionView();
     };
-    el.exhibitionPrevBtn.onclick=()=>{
-      exhibitionIndex=Math.max(0,exhibitionIndex-1);
-      updateExhibitionView();
-    };
-    el.exhibitionNextBtn.onclick=()=>{
-      exhibitionIndex=Math.min(HACHISO.length-1,exhibitionIndex+1);
-      updateExhibitionView();
-    };
     el.exhibitionCompareBtn.onclick=()=>openExhibitionDetail('compare');
     el.exhibitionExplainBtn.onclick=()=>openExhibitionDetail('explain');
     el.exhibitionMediaBtn.onclick=()=>openExhibitionDetail('3d');
     el.exhibitionSpaceScene.addEventListener('pointerdown',e=>{
-      if(e.pointerType==='mouse')return;
+      if(e.pointerType==='mouse' && e.button!==0)return;
       exhibitionSwipeStartX=e.clientX;
       exhibitionSwipeMoved=false;
+      e.currentTarget.setPointerCapture?.(e.pointerId);
     });
     el.exhibitionSpaceScene.addEventListener('pointermove',e=>{
       if(exhibitionSwipeStartX===null)return;
@@ -727,6 +718,21 @@
     el.exhibitionSpaceScene.addEventListener('pointercancel',()=>{
       exhibitionSwipeStartX=null;
       exhibitionSwipeMoved=false;
+    });
+    el.exhibitionSpaceScene.addEventListener('click',e=>{
+      if(exhibitionSwipeMoved || e.target.closest('.exhibition-space-card'))return;
+      const card=$$('.exhibition-space-card')
+        .map(node=>({node,rect:node.getBoundingClientRect()}))
+        .filter(({rect})=>e.clientX>=rect.left && e.clientX<=rect.right && e.clientY>=rect.top && e.clientY<=rect.bottom)
+        .sort((a,b)=>Math.abs(e.clientX-(a.rect.left+a.rect.width/2))-Math.abs(e.clientX-(b.rect.left+b.rect.width/2)))[0]?.node;
+      if(!card)return;
+      const index=+card.dataset.exhibitionIndex;
+      if(index!==exhibitionIndex){
+        exhibitionIndex=index;
+        updateExhibitionView();
+      } else {
+        openExhibitionDetail('compare');
+      }
     });
     document.addEventListener('keydown',e=>{
       if(mode!=='exhibition' || exhibitionView!=='space')return;
