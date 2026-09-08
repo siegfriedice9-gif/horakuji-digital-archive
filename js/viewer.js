@@ -12,7 +12,7 @@
     compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), beforeAfterBtn:$('#beforeAfterBtn'), beforeAfterState:$('#beforeAfterState'),
     slideshowControls:$('#slideshowControls'), slideshowStage:$('#slideshowStage'), slideshowLayer:$('#slideshowLayer'), slideshowImageA:$('#slideshowImageA'), slideshowImageB:$('#slideshowImageB'), slideEffectModes:$('#slideEffectModes'), slidePersonLabel:$('#slidePersonLabel'), slideStateBadge:$('#slideStateBadge'), slideCounter:$('#slideCounter'), slidePlayBtn:$('#slidePlayBtn'),
     threeDStage:$('#threeDStage'), threeDImage:$('#threeDImage'), videoPlayer:$('#videoPlayer'), videoMissing:$('#videoMissing'), missingOverlay:$('#missingOverlay'), missingTitle:$('#missingTitle'), missingPath:$('#missingPath'),
-    zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal'), exhibitionCompareModal:$('#exhibitionCompareModal'), exhibitionCompareTitle:$('#exhibitionCompareTitle'), exhibitionQuickCompare:$('.exhibition-quick-compare'), exhibitionQuickOriginal:$('#exhibitionQuickOriginal'), exhibitionQuickRestored:$('#exhibitionQuickRestored'), exhibitionQuickSlider:$('#exhibitionQuickSlider'), exhibitionQuickDetailBtn:$('#exhibitionQuickDetailBtn')
+    zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal'), exhibitionCompareModal:$('#exhibitionCompareModal'), exhibitionCompareTitle:$('#exhibitionCompareTitle'), exhibitionQuickCompareView:$('#exhibitionQuickCompareView'), exhibitionQuickExplainView:$('#exhibitionQuickExplainView'), exhibitionQuickCompare:$('.exhibition-quick-compare'), exhibitionQuickOriginal:$('#exhibitionQuickOriginal'), exhibitionQuickRestored:$('#exhibitionQuickRestored'), exhibitionQuickExplanation:$('#exhibitionQuickExplanation'), exhibitionQuickSlider:$('#exhibitionQuickSlider'), exhibitionQuickDetailBtn:$('#exhibitionQuickDetailBtn')
   };
 
   const MODES=[['exhibition','展示室'],['group','グループ比較'],['compare','比較'],['explain','解説'],['3d','3D・動画'],['slideshow','スライドショー']];
@@ -23,7 +23,7 @@
 
   let person=HACHISO[7], mode='compare', compareMode='slider';
   let view={scale:1,x:0,y:0}, drag=null, toggleRestored=false;
-  let exhibitionView='grid', exhibitionIndex=0, exhibitionCameraAngle=0;
+  let exhibitionView='grid', exhibitionIndex=0, exhibitionCameraAngle=0, exhibitionQuickView='compare';
   let exhibitionSwipeStartX=null, exhibitionSwipeMoved=false;
   let groupStart=1, groupRestored=false, groupCompareMode='toggle', groupSliderValue=50;
   let slideIndex=0, slideTimer=null, slideshowPlaying=false, slideEffect='dissolve', activeSlideImg=0, slideTransitioning=false;
@@ -225,12 +225,23 @@
   function openExhibitionComparePanel(){
     const active=HACHISO[exhibitionIndex];
     el.exhibitionCompareTitle.textContent=`${active.role} ${active.name}`;
-    el.exhibitionQuickOriginal.src=`${active.original}?v=42`;
-    el.exhibitionQuickRestored.src=`${active.restored}?v=42`;
+    el.exhibitionQuickOriginal.src=`${active.original}?v=43`;
+    el.exhibitionQuickRestored.src=`${active.restored}?v=43`;
+    el.exhibitionQuickExplanation.src=`${active.explanation}?v=43`;
     el.exhibitionQuickSlider.value=50;
     el.exhibitionQuickCompare.style.setProperty('--quick-position','50%');
+    updateExhibitionQuickView('compare');
     el.exhibitionCompareModal.classList.remove('hidden');
     $('#closeExhibitionCompare').focus();
+  }
+
+  function updateExhibitionQuickView(nextView){
+    exhibitionQuickView=nextView;
+    const explain=nextView==='explain';
+    el.exhibitionQuickCompareView.classList.toggle('hidden',explain);
+    el.exhibitionQuickExplainView.classList.toggle('hidden',!explain);
+    $$('#exhibitionQuickModes button').forEach(button=>button.classList.toggle('active',button.dataset.quickView===nextView));
+    el.exhibitionQuickDetailBtn.textContent=explain?'解説画面で詳しく見る':'比較画面で詳しく見る';
   }
 
   function updateGroupState(){
@@ -710,8 +721,9 @@
     el.exhibitionQuickSlider.oninput=()=>{
       el.exhibitionQuickCompare.style.setProperty('--quick-position',`${el.exhibitionQuickSlider.value}%`);
     };
+    $$('#exhibitionQuickModes button').forEach(button=>button.onclick=()=>updateExhibitionQuickView(button.dataset.quickView));
     $('#closeExhibitionCompare').onclick=()=>el.exhibitionCompareModal.classList.add('hidden');
-    el.exhibitionQuickDetailBtn.onclick=()=>openExhibitionDetail('compare');
+    el.exhibitionQuickDetailBtn.onclick=()=>openExhibitionDetail(exhibitionQuickView==='explain'?'explain':'compare');
     el.exhibitionCompareModal.onclick=e=>{
       if(e.target===el.exhibitionCompareModal)el.exhibitionCompareModal.classList.add('hidden');
     };
