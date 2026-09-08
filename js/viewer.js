@@ -4,7 +4,7 @@
   const el = {
     peopleList:$('#peopleList'), personName:$('#personName'), personReading:$('#personReading'), lineageLabel:$('#lineageLabel'), statusBadge:$('#statusBadge'),
     modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), toolbarLeft:$('.toolbar-left'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
-    exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'), exhibitionViewModes:$('#exhibitionViewModes'), exhibitionSpace:$('#exhibitionSpace'), exhibitionSpaceTrack:$('#exhibitionSpaceTrack'), exhibitionSpaceLabel:$('#exhibitionSpaceLabel'), exhibitionPrevBtn:$('#exhibitionPrevBtn'), exhibitionNextBtn:$('#exhibitionNextBtn'),
+    exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'), exhibitionViewModes:$('#exhibitionViewModes'), exhibitionSpace:$('#exhibitionSpace'), exhibitionSpaceTrack:$('#exhibitionSpaceTrack'), exhibitionSpaceLabel:$('#exhibitionSpaceLabel'), exhibitionPrevBtn:$('#exhibitionPrevBtn'), exhibitionNextBtn:$('#exhibitionNextBtn'), exhibitionCompareBtn:$('#exhibitionCompareBtn'), exhibitionExplainBtn:$('#exhibitionExplainBtn'), exhibitionMediaBtn:$('#exhibitionMediaBtn'),
     groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupExitBtn:$('#groupExitBtn'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
     compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
@@ -124,12 +124,10 @@
       const card=document.createElement('button');
       card.className='exhibition-card';
       card.setAttribute('aria-label',`${p.role} ${p.name}の修復前後を比較する`);
-      card.innerHTML=`<span class="exhibition-frame"><img src="${p.restoredThumb}?v=23" alt="${p.name} 修復済み肖像" draggable="false"></span><span class="exhibition-plaque"><small>${p.role}</small><strong>${p.name}</strong><span>${p.reading}</span></span>`;
+      card.innerHTML=`<span class="exhibition-frame"><img src="${p.restoredThumb}?v=29" alt="${p.name} 修復済み肖像" draggable="false"></span><span class="exhibition-plaque"><small>${p.role}</small><strong>${p.name}</strong><span>${p.reading}</span></span>`;
       card.onclick=()=>{
-        person=p;
-        mode='compare';
-        resetView();
-        sync();
+        exhibitionIndex=index;
+        openExhibitionDetail('compare');
       };
       el.exhibitionGrid.appendChild(card);
 
@@ -144,10 +142,7 @@
           updateExhibitionView();
           return;
         }
-        person=p;
-        mode='compare';
-        resetView();
-        sync();
+        openExhibitionDetail('compare');
       };
       el.exhibitionSpaceTrack.appendChild(spaceCard);
     });
@@ -176,6 +171,13 @@
     el.exhibitionSpaceLabel.innerHTML=`<small>${active.role}</small><strong>${active.name}</strong>`;
     el.exhibitionPrevBtn.disabled=exhibitionIndex===0;
     el.exhibitionNextBtn.disabled=exhibitionIndex===HACHISO.length-1;
+  }
+
+  function openExhibitionDetail(nextMode){
+    person=HACHISO[exhibitionIndex];
+    mode=nextMode;
+    resetView();
+    sync();
   }
 
   function updateGroupState(){
@@ -636,6 +638,22 @@
       exhibitionIndex=Math.min(HACHISO.length-1,exhibitionIndex+1);
       updateExhibitionView();
     };
+    el.exhibitionCompareBtn.onclick=()=>openExhibitionDetail('compare');
+    el.exhibitionExplainBtn.onclick=()=>openExhibitionDetail('explain');
+    el.exhibitionMediaBtn.onclick=()=>openExhibitionDetail('3d');
+    document.addEventListener('keydown',e=>{
+      if(mode!=='exhibition' || exhibitionView!=='space')return;
+      if(e.key==='ArrowLeft'){
+        e.preventDefault();
+        exhibitionIndex=Math.max(0,exhibitionIndex-1);
+        updateExhibitionView();
+      }
+      if(e.key==='ArrowRight'){
+        e.preventDefault();
+        exhibitionIndex=Math.min(HACHISO.length-1,exhibitionIndex+1);
+        updateExhibitionView();
+      }
+    });
 
     $('#slidePrevBtn').onclick=()=>{stopSlideshow();stepSlide(-1)};
     $('#slideNextBtn').onclick=()=>{stopSlideshow();stepSlide(1)};

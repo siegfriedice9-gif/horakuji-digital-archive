@@ -761,6 +761,8 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 .exhibition-space-label small,.exhibition-space-label strong{display:block}
 .exhibition-space-label small{color:var(--gold);font-size:11px}
 .exhibition-space-label strong{margin-top:2px;font-family:serif;font-size:16px;font-weight:500}
+.exhibition-space-actions{display:flex;justify-content:center;gap:7px;margin-top:10px}
+.exhibition-space-actions button{padding:7px 12px;border-radius:999px;font-size:12px}
 .exhibition-space>p{margin:7px 0 0;color:var(--muted);font-size:11px}
 
 /* Zoom controls belong to the individual comparison view only. */
@@ -896,4 +898,6 @@ body.compare-view-active .toolbar-left{display:flex}
   .exhibition-space-controls{grid-template-columns:88px 1fr 88px;gap:6px}
   .exhibition-space-controls button{padding:7px 5px;font-size:11px}
   .exhibition-space-label strong{font-size:14px}
+  .exhibition-space-actions{gap:5px;margin-top:9px}
+  .exhibition-space-actions button{flex:1;padding:7px 5px;font-size:11px}
 }
