@@ -486,14 +486,19 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 
 /* Mobile portrait: fit the complete aligned comparison canvas in the viewer. */
 @media (max-width:720px) and (orientation:portrait){
+  html.compare-view-active,
+  body.compare-view-active{
+    overscroll-behavior:none;
+  }
   body.compare-view-active .viewer.compare-fixed{
     height:62vh;
     height:62svh;
+    height:var(--mobile-compare-viewer-height,62svh);
     touch-action:pan-y;
   }
   .viewer.compare-fixed .compare-img{
-    width:auto;
-    height:auto;
+    width:var(--mobile-compare-image-width,auto);
+    height:var(--mobile-compare-image-height,auto);
     max-width:calc(100% - 20px);
     max-height:calc(100% - 20px);
     object-fit:contain;

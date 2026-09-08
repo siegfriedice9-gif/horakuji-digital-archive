@@ -95,6 +95,7 @@
   }
 
   function setStage(which){
+    document.documentElement.classList.toggle('compare-view-active',which==='compare');
     document.body.classList.toggle('group-view-active',which==='group');
     document.body.classList.toggle('exhibition-view-active',which==='exhibition');
     document.body.classList.toggle('compare-view-active',which==='compare');
@@ -112,6 +113,30 @@
     el.compareModeInline.classList.toggle('hidden',!compareVisible);
     el.compareEffectRow.classList.toggle('hidden',!compareVisible);
     el.slideshowControls.classList.toggle('hidden',which!=='slideshow');
+  }
+
+  function clearMobileCompareGeometry(){
+    el.viewer.style.removeProperty('--mobile-compare-viewer-height');
+    el.viewer.style.removeProperty('--mobile-compare-image-width');
+    el.viewer.style.removeProperty('--mobile-compare-image-height');
+  }
+
+  function lockMobileCompareGeometry(){
+    if(mode!=='compare' || !window.matchMedia('(max-width:720px) and (orientation:portrait)').matches){
+      clearMobileCompareGeometry();
+      return;
+    }
+    const naturalWidth=el.compareOriginal.naturalWidth;
+    const naturalHeight=el.compareOriginal.naturalHeight;
+    if(!naturalWidth || !naturalHeight)return;
+    const viewerRect=el.viewer.getBoundingClientRect();
+    const viewerHeight=viewerRect.height;
+    const maxWidth=Math.max(1,viewerRect.width-20);
+    const maxHeight=Math.max(1,viewerHeight-20);
+    const scale=Math.min(maxWidth/naturalWidth,maxHeight/naturalHeight);
+    el.viewer.style.setProperty('--mobile-compare-viewer-height',`${viewerHeight}px`);
+    el.viewer.style.setProperty('--mobile-compare-image-width',`${naturalWidth*scale}px`);
+    el.viewer.style.setProperty('--mobile-compare-image-height',`${naturalHeight*scale}px`);
   }
 
   function showExhibition(){
@@ -295,9 +320,16 @@
     setStage('compare');
     el.viewer.classList.remove('explain-mode');
     el.viewer.classList.add('compare-fixed');
+    clearMobileCompareGeometry();
     setMissing(false);
     let ok=0, failed=[];
-    const done=()=>{ok++; if(ok===2)setMissing(false)};
+    const done=()=>{
+      ok++;
+      if(ok===2){
+        setMissing(false);
+        requestAnimationFrame(lockMobileCompareGeometry);
+      }
+    };
     const fail=p=>{failed.push(p);setMissing(true,failed.join(' / '),'比較画像未配置')};
     loadImg(el.compareOriginal,person.original,done,fail);
     loadImg(el.compareRestored,person.restored,done,fail);
@@ -544,6 +576,9 @@
     window.addEventListener('resize',()=>{
       if(mode==='explain'){fitExplanationToCompareFrame();applyView();}
       if(mode==='exhibition' && exhibitionView==='space')updateExhibitionView();
+    });
+    window.addEventListener('orientationchange',()=>{
+      if(mode==='compare')setTimeout(lockMobileCompareGeometry,150);
     });
 
     $('#zoomInBtn').onclick=()=>{view.scale=Math.min(5,view.scale*1.15);applyView()};
