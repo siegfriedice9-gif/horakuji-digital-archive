@@ -264,10 +264,10 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
   left:50%;top:50%;
   width:145vmax;height:145vmax;
   transform:translate(-50%,-50%);
-  background-image:url("../images/opening/opening_bg.webp"),url("../assets/opening_rotor.svg");
-  background-position:center,center;
-  background-size:cover,cover;
-  background-repeat:no-repeat,no-repeat;
+  background-image:url("../assets/opening_rotor.svg");
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
   opacity:.72;
   filter:contrast(1.04) saturate(.82);
   animation:openingRotate 70s linear infinite;
