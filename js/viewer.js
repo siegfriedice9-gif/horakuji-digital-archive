@@ -5,7 +5,7 @@
   const el = {
     peopleList:$('#peopleList'), personName:$('#personName'), personReading:$('#personReading'), lineageLabel:$('#lineageLabel'), statusBadge:$('#statusBadge'),
     modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), toolbarLeft:$('.toolbar-left'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
-    exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'), exhibitionViewModes:$('#exhibitionViewModes'), exhibitionSpace:$('#exhibitionSpace'), exhibitionSpaceScene:$('.exhibition-space-scene'), exhibitionSpaceTrack:$('#exhibitionSpaceTrack'), exhibitionSpaceLabel:$('#exhibitionSpaceLabel'), exhibitionCameraSlider:$('#exhibitionCameraSlider'), exhibitionCameraOutput:$('#exhibitionCameraOutput'), exhibitionCameraResetBtn:$('#exhibitionCameraResetBtn'), exhibitionPrevBtn:$('#exhibitionPrevBtn'), exhibitionNextBtn:$('#exhibitionNextBtn'), exhibitionCompareBtn:$('#exhibitionCompareBtn'), exhibitionExplainBtn:$('#exhibitionExplainBtn'), exhibitionMediaBtn:$('#exhibitionMediaBtn'),
+    exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'), exhibitionViewModes:$('#exhibitionViewModes'), exhibitionSpace:$('#exhibitionSpace'), exhibitionSpaceScene:$('.exhibition-space-scene'), exhibitionSpaceTrack:$('#exhibitionSpaceTrack'), exhibitionSpaceLabel:$('#exhibitionSpaceLabel'), exhibitionCameraControls:$('#exhibitionCameraControls'), exhibitionCameraSlider:$('#exhibitionCameraSlider'), exhibitionCameraOutput:$('#exhibitionCameraOutput'), exhibitionCameraResetBtn:$('#exhibitionCameraResetBtn'), exhibitionPrevBtn:$('#exhibitionPrevBtn'), exhibitionNextBtn:$('#exhibitionNextBtn'), exhibitionCompareBtn:$('#exhibitionCompareBtn'), exhibitionExplainBtn:$('#exhibitionExplainBtn'), exhibitionMediaBtn:$('#exhibitionMediaBtn'),
     groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupExitBtn:$('#groupExitBtn'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
     compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
@@ -105,6 +105,7 @@
     document.body.classList.toggle('group-view-active',which==='group');
     document.body.classList.toggle('exhibition-view-active',which==='exhibition');
     document.body.classList.toggle('compare-view-active',which==='compare');
+    el.exhibitionCameraControls.classList.toggle('hidden',which!=='exhibition' || exhibitionView!=='space');
     el.viewer.classList.toggle('exhibition-mode',which==='exhibition');
     el.viewer.classList.toggle('group-mode',which==='group');
     el.exhibitionStage.classList.toggle('hidden',which!=='exhibition');
@@ -189,6 +190,7 @@
     const spaceVisible=exhibitionView==='space';
     el.exhibitionGrid.classList.toggle('hidden',spaceVisible);
     el.exhibitionSpace.classList.toggle('hidden',!spaceVisible);
+    el.exhibitionCameraControls.classList.toggle('hidden',!spaceVisible);
     $$('#exhibitionViewModes button').forEach(b=>b.classList.toggle('active',b.dataset.exhibitionView===exhibitionView));
     if(!spaceVisible)return;
 

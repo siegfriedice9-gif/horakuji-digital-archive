@@ -797,7 +797,7 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 .exhibition-space-plaque strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .exhibition-space-plaque small{color:var(--gold);font-size:10px}
 .exhibition-space-plaque strong{margin-top:2px;font-family:serif;font-size:13px;font-weight:500}
-.exhibition-camera-controls{display:grid;grid-template-columns:auto minmax(140px,1fr) 42px auto;align-items:center;gap:10px;margin-top:12px;padding:8px 10px;border:1px solid #806a4166;border-radius:9px;background:#111113;color:var(--muted);font-size:12px}
+.exhibition-camera-controls{display:grid;grid-template-columns:auto minmax(140px,1fr) 42px auto;align-items:center;gap:10px;margin:0 0 10px;padding:8px 10px;border:1px solid #806a4166;border-radius:9px;background:#111113;color:var(--muted);font-size:12px}
 .exhibition-camera-controls input{margin:0;min-height:28px}
 .exhibition-camera-controls output{color:var(--accent);font-family:ui-monospace,monospace;text-align:right}
 .exhibition-camera-controls button{padding:6px 12px;border-radius:999px;font-size:11px}
@@ -854,6 +854,7 @@ body.compare-view-active .toolbar-left{display:flex}
     white-space:nowrap;
   }
   body.exhibition-view-active .compare-effect-row,
+  body.exhibition-view-active .exhibition-camera-controls,
   body.exhibition-view-active .slideshow-controls,
   body.exhibition-view-active .viewer-card{grid-column:1 / -1}
 }

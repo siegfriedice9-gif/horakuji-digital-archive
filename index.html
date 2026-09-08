@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <title>法楽寺 真言宗密教の八祖 DIGITAL ARCHIVE - Ver.13</title>
-  <link rel="stylesheet" href="css/style.css?v=39">
+  <link rel="stylesheet" href="css/style.css?v=40">
 </head>
 <body>
 <div id="openingScreen" class="opening-screen" aria-label="オープニング">
@@ -76,6 +76,13 @@
         </div>
       </div>
 
+      <div id="exhibitionCameraControls" class="exhibition-camera-controls hidden" aria-label="立体展示の視点操作">
+        <label for="exhibitionCameraSlider">視点回転</label>
+        <input id="exhibitionCameraSlider" type="range" min="-18" max="18" value="0" aria-label="立体展示の視点角度">
+        <output id="exhibitionCameraOutput" for="exhibitionCameraSlider">0°</output>
+        <button id="exhibitionCameraResetBtn" type="button">正面</button>
+      </div>
+
       <!-- Ver.13: 比較画面と同倍率。スライドショーには切替演出を追加 -->
       <div id="slideshowControls" class="slideshow-controls hidden" aria-label="スライドショー操作">
         <button id="slidePrevBtn">◀ 前へ</button>
@@ -118,12 +125,6 @@
               <div id="exhibitionSpace" class="exhibition-space hidden" aria-label="真言宗密教の八祖 立体展示">
                 <div class="exhibition-space-scene">
                   <div id="exhibitionSpaceTrack" class="exhibition-space-track"></div>
-                </div>
-                <div class="exhibition-camera-controls" aria-label="立体展示の視点操作">
-                  <label for="exhibitionCameraSlider">視点回転</label>
-                  <input id="exhibitionCameraSlider" type="range" min="-18" max="18" value="0" aria-label="立体展示の視点角度">
-                  <output id="exhibitionCameraOutput" for="exhibitionCameraSlider">0°</output>
-                  <button id="exhibitionCameraResetBtn" type="button">正面</button>
                 </div>
                 <div class="exhibition-space-controls">
                   <button id="exhibitionPrevBtn" type="button">‹ 前の祖師</button>
@@ -254,6 +255,6 @@
 </div>
 
 <script src="js/data.js?v=13"></script>
-<script src="js/viewer.js?v=39"></script>
+<script src="js/viewer.js?v=40"></script>
 </body>
 </html>
