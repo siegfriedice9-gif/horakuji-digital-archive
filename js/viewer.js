@@ -5,7 +5,7 @@
   const el = {
     peopleList:$('#peopleList'), personName:$('#personName'), personReading:$('#personReading'), lineageLabel:$('#lineageLabel'), statusBadge:$('#statusBadge'),
     modeTabs:$('#modeTabs'), compareModeInline:$('#compareModeInline'), compareEffectRow:$('#compareEffectRow'), toolbarLeft:$('.toolbar-left'), imageTypeLabel:$('#imageTypeLabel'), viewer:$('#viewer'),
-    exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'), exhibitionViewModes:$('#exhibitionViewModes'), exhibitionSpace:$('#exhibitionSpace'), exhibitionSpaceScene:$('.exhibition-space-scene'), exhibitionSpaceTrack:$('#exhibitionSpaceTrack'), exhibitionSpaceLabel:$('#exhibitionSpaceLabel'), exhibitionPrevBtn:$('#exhibitionPrevBtn'), exhibitionNextBtn:$('#exhibitionNextBtn'), exhibitionCompareBtn:$('#exhibitionCompareBtn'), exhibitionExplainBtn:$('#exhibitionExplainBtn'), exhibitionMediaBtn:$('#exhibitionMediaBtn'),
+    exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'), exhibitionViewModes:$('#exhibitionViewModes'), exhibitionSpace:$('#exhibitionSpace'), exhibitionSpaceScene:$('.exhibition-space-scene'), exhibitionSpaceTrack:$('#exhibitionSpaceTrack'), exhibitionSpaceLabel:$('#exhibitionSpaceLabel'), exhibitionCameraSlider:$('#exhibitionCameraSlider'), exhibitionCameraOutput:$('#exhibitionCameraOutput'), exhibitionCameraResetBtn:$('#exhibitionCameraResetBtn'), exhibitionPrevBtn:$('#exhibitionPrevBtn'), exhibitionNextBtn:$('#exhibitionNextBtn'), exhibitionCompareBtn:$('#exhibitionCompareBtn'), exhibitionExplainBtn:$('#exhibitionExplainBtn'), exhibitionMediaBtn:$('#exhibitionMediaBtn'),
     groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupExitBtn:$('#groupExitBtn'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
     compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
@@ -23,7 +23,7 @@
 
   let person=HACHISO[7], mode='compare', compareMode='slider';
   let view={scale:1,x:0,y:0}, drag=null, toggleRestored=false;
-  let exhibitionView='grid', exhibitionIndex=0;
+  let exhibitionView='grid', exhibitionIndex=0, exhibitionCameraAngle=0;
   let exhibitionSwipeStartX=null, exhibitionSwipeMoved=false;
   let groupStart=1, groupRestored=false, groupCompareMode='toggle', groupSliderValue=50;
   let slideIndex=0, slideTimer=null, slideshowPlaying=false, slideEffect='dissolve', activeSlideImg=0, slideTransitioning=false;
@@ -191,6 +191,11 @@
     el.exhibitionSpace.classList.toggle('hidden',!spaceVisible);
     $$('#exhibitionViewModes button').forEach(b=>b.classList.toggle('active',b.dataset.exhibitionView===exhibitionView));
     if(!spaceVisible)return;
+
+    el.exhibitionSpaceScene.style.setProperty('--exhibition-camera-angle',`${exhibitionCameraAngle}deg`);
+    el.exhibitionSpaceScene.style.setProperty('--exhibition-light-x',`${50+exhibitionCameraAngle*1.25}%`);
+    el.exhibitionCameraSlider.value=exhibitionCameraAngle;
+    el.exhibitionCameraOutput.textContent=`${exhibitionCameraAngle}°`;
 
     const spacing=window.matchMedia('(max-width:720px)').matches?118:205;
     $$('.exhibition-space-card').forEach((card,index)=>{
@@ -679,6 +684,14 @@
       exhibitionView=b.dataset.exhibitionView;
       updateExhibitionView();
     });
+    el.exhibitionCameraSlider.oninput=()=>{
+      exhibitionCameraAngle=+el.exhibitionCameraSlider.value;
+      updateExhibitionView();
+    };
+    el.exhibitionCameraResetBtn.onclick=()=>{
+      exhibitionCameraAngle=0;
+      updateExhibitionView();
+    };
     el.exhibitionPrevBtn.onclick=()=>{
       exhibitionIndex=Math.max(0,exhibitionIndex-1);
       updateExhibitionView();
