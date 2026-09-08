@@ -492,11 +492,12 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
     touch-action:pan-y;
   }
   .viewer.compare-fixed .compare-img{
-    width:calc(100% - 20px);
-    height:calc(100% - 20px);
-    max-width:100%;
-    max-height:100%;
+    width:auto;
+    height:auto;
+    max-width:calc(100% - 20px);
+    max-height:calc(100% - 20px);
     object-fit:contain;
+    filter:none;
   }
 }
 
