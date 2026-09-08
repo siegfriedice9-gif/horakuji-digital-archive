@@ -486,6 +486,11 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 
 /* Mobile portrait: fit the complete aligned comparison canvas in the viewer. */
 @media (max-width:720px) and (orientation:portrait){
+  body.compare-view-active .viewer.compare-fixed{
+    height:62vh;
+    height:62svh;
+    touch-action:pan-y;
+  }
   .viewer.compare-fixed .compare-img{
     width:calc(100% - 20px);
     height:calc(100% - 20px);

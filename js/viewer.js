@@ -567,8 +567,11 @@
       // 比較は位置合わせが前提なので画像自体をドラッグさせない
       if(mode==='compare'){
         drag=null;
-        e.preventDefault();
-        e.stopPropagation();
+        // スマホの縦スワイプはページスクロールへ渡し、画像の揺れを防ぐ
+        if(e.pointerType==='mouse'){
+          e.preventDefault();
+          e.stopPropagation();
+        }
         return;
       }
       if(mode==='exhibition' || mode==='group'){
