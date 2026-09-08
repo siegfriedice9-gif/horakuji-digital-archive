@@ -506,6 +506,29 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
   }
 }
 
+/* Android phone landscape: keep the comparison card within the short viewport. */
+@media (orientation:landscape) and (max-height:500px) and (pointer:coarse){
+  html.compare-view-active,
+  body.compare-view-active{
+    overscroll-behavior:none;
+  }
+  body.compare-view-active .viewer.compare-fixed{
+    height:calc(100vh - 60px);
+    height:calc(100svh - 60px);
+    height:var(--mobile-compare-viewer-height,calc(100svh - 60px));
+    min-height:0;
+    touch-action:pan-y;
+  }
+  .viewer.compare-fixed .compare-img{
+    width:var(--mobile-compare-image-width,auto);
+    height:var(--mobile-compare-image-height,auto);
+    max-width:calc(100% - 20px);
+    max-height:calc(100% - 20px);
+    object-fit:contain;
+    filter:none;
+  }
+}
+
 /* Ver.18: four-person comparison for the first and second groups. */
 .group-stage{
   display:block;

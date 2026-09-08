@@ -122,7 +122,9 @@
   }
 
   function lockMobileCompareGeometry(){
-    if(mode!=='compare' || !window.matchMedia('(max-width:720px) and (orientation:portrait)').matches){
+    const mobilePortrait=window.matchMedia('(max-width:720px) and (orientation:portrait)').matches;
+    const mobileLandscape=window.matchMedia('(orientation:landscape) and (max-height:500px) and (pointer:coarse)').matches;
+    if(mode!=='compare' || (!mobilePortrait && !mobileLandscape)){
       clearMobileCompareGeometry();
       return;
     }
