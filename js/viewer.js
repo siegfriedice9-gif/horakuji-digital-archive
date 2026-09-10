@@ -11,7 +11,7 @@
     compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
     compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), beforeAfterBtn:$('#beforeAfterBtn'), beforeAfterState:$('#beforeAfterState'),
     slideshowControls:$('#slideshowControls'), slideshowStage:$('#slideshowStage'), slideshowLayer:$('#slideshowLayer'), slideshowImageA:$('#slideshowImageA'), slideshowImageB:$('#slideshowImageB'), slideEffectModes:$('#slideEffectModes'), slidePersonLabel:$('#slidePersonLabel'), slideStateBadge:$('#slideStateBadge'), slideCounter:$('#slideCounter'), slidePlayBtn:$('#slidePlayBtn'),
-    threeDStage:$('#threeDStage'), threeDImage:$('#threeDImage'), videoPlayer:$('#videoPlayer'), videoMissing:$('#videoMissing'), missingOverlay:$('#missingOverlay'), missingTitle:$('#missingTitle'), missingPath:$('#missingPath'),
+    threeDStage:$('#threeDStage'), mediaComingSoonPerson:$('#mediaComingSoonPerson'), missingOverlay:$('#missingOverlay'), missingTitle:$('#missingTitle'), missingPath:$('#missingPath'),
     zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal'), exhibitionCompareModal:$('#exhibitionCompareModal'), exhibitionCompareTitle:$('#exhibitionCompareTitle'), exhibitionQuickCompareView:$('#exhibitionQuickCompareView'), exhibitionQuickExplainView:$('#exhibitionQuickExplainView'), exhibitionQuickMediaView:$('#exhibitionQuickMediaView'), exhibitionQuickMediaMode:$('#exhibitionQuickMediaMode'), exhibitionQuickCompare:$('.exhibition-quick-compare'), exhibitionQuickOriginal:$('#exhibitionQuickOriginal'), exhibitionQuickRestored:$('#exhibitionQuickRestored'), exhibitionQuickExplanation:$('#exhibitionQuickExplanation'), exhibitionQuickVideo:$('#exhibitionQuickVideo'), exhibitionQuickSlider:$('#exhibitionQuickSlider'), exhibitionQuickDetailBtn:$('#exhibitionQuickDetailBtn')
   };
 
@@ -388,22 +388,9 @@
     setStage('3d');
     el.viewer.classList.remove('explain-mode','compare-fixed');
     el.imageTypeLabel.textContent='3D・動画';
+    el.statusBadge.textContent='公開準備中';
+    el.mediaComingSoonPerson.textContent=`${person.role} ${person.name}`;
     setMissing(false);
-    if(person.threeD){
-      loadImg(el.threeDImage,person.threeD,()=>{},()=>{el.threeDImage.removeAttribute('src');});
-    } else {
-      el.threeDImage.removeAttribute('src');
-    }
-    if(person.video){
-      el.videoPlayer.src=person.video;
-      el.videoPlayer.classList.remove('hidden');
-      el.videoMissing.classList.add('hidden');
-      el.videoPlayer.onerror=()=>{el.videoPlayer.classList.add('hidden');el.videoMissing.classList.remove('hidden')};
-      el.videoPlayer.onloadedmetadata=()=>{el.videoPlayer.classList.remove('hidden');el.videoMissing.classList.add('hidden')};
-    } else {
-      el.videoPlayer.classList.add('hidden');
-      el.videoMissing.classList.remove('hidden');
-    }
   }
 
   function showSlideshow(){

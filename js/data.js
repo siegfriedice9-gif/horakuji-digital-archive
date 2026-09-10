@@ -27,6 +27,7 @@ const HACHISO = [
   restored:`images/restored/${p.id}_最終_web.webp`,
   restoredThumb:`images/restored/${p.id}_最終_thumb.webp`,
   explanation:`images/explanation/${p.id}_解説_web.webp`,
-  threeD:p.id===8?"3d/8_弘法大師_3d.jpg":"",
-  video:p.id===8?"video/8_弘法大師.mp4":""
+  // 3D・映像は八祖全員を再制作中。公開準備が整うまで読み込まない。
+  threeD:"",
+  video:""
 }));
