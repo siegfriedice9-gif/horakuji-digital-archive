@@ -1,5 +1,5 @@
 /*
-  法楽寺 真言宗密教の八祖 DIGITAL ARCHIVE Ver.13
+  法楽寺 真言宗密教の八祖 DIGITAL ARCHIVE
 
   比較・スライドショー画像:
     images/original/1_元_web.webp ～ 8_元_web.webp

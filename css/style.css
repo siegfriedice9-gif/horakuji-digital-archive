@@ -3,6 +3,7 @@
   --gold:#c7a95d;--gold2:#8f7335;--accent:#efe1b0;--danger:#a96262;--sidebar:260px;
 }
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:"Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif}body{min-height:100vh}
+img{-webkit-user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#222226;border:1px solid #3a3a3f;border-radius:8px;padding:8px 12px}button:hover{border-color:var(--gold2);background:#29291f}.ghost{background:transparent}.primary{background:var(--gold2);border-color:var(--gold);color:#fff}.small{padding:6px 9px;font-size:12px}
 .topbar{height:88px;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#111113,#0c0c0e);position:sticky;top:0;z-index:30}.brand{display:flex;align-items:center;gap:14px}.crest{width:48px;height:48px;border:1px solid var(--gold2);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-size:24px}.temple{font-size:18px;letter-spacing:.25em}.archive-title{font-size:16px;letter-spacing:.08em}.archive-sub{font-size:11px;color:var(--muted);margin-top:4px}.badge{display:inline-block;color:#1b1609;background:var(--gold);font-size:10px;border-radius:999px;padding:3px 7px;margin-left:8px;vertical-align:2px}.top-actions{display:flex;gap:8px}
 .layout{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);min-height:calc(100vh - 88px)}.sidebar{border-right:1px solid var(--line);background:#101012;padding:18px 14px;position:sticky;top:88px;height:calc(100vh - 88px);overflow:auto}.side-head{display:flex;justify-content:space-between;align-items:end;padding:4px 6px 12px;border-bottom:1px solid var(--line);color:var(--accent)}.side-head small{font-size:10px;color:var(--muted)}.people-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}.person-btn{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;width:100%;text-align:left;background:transparent;border:1px solid transparent;padding:9px}.person-btn:hover{background:#18181b}.person-btn.active{background:#232118;border-color:var(--gold2)}.person-no{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:1px solid #4a463a;color:var(--gold)}.person-btn strong{display:block;font-size:13px}.person-btn small{font-size:10px;color:var(--muted)}.side-note{font-size:10px;line-height:1.7;color:#8b8881;padding:16px 6px}
@@ -355,8 +356,8 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 }
 
 
-/* Ver.13 ------------------------------------------------------------
-   解説画像はサイズをVer.12のまま維持し、上端だけ比較画像と揃える。
+/* 解説画像の表示調整 -----------------------------------------------
+   解説画像は既存サイズを維持し、上端だけ比較画像と揃える。
    比較画像は高さ92%・中央配置なので上端はビューア高の4%。
 ------------------------------------------------------------------- */
 .viewer.explain-mode #singleLayer{

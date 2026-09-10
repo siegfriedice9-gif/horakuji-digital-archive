@@ -599,6 +599,15 @@
 
   function bind(){
     const opening=$('#openingScreen'), openingEnter=$('#openingEnterBtn');
+    document.querySelectorAll('img').forEach(image=>{image.draggable=false});
+    document.addEventListener('contextmenu',event=>{
+      if(event.target instanceof Element && event.target.closest('img, .viewer, .exhibition-space-scene, .exhibition-quick-stage')){
+        event.preventDefault();
+      }
+    });
+    document.addEventListener('dragstart',event=>{
+      if(event.target instanceof HTMLImageElement)event.preventDefault();
+    });
     const closeOpening=()=>{
       if(!opening || opening.classList.contains('is-closing'))return;
       opening.classList.add('is-closing');
