@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <title>法楽寺 真言宗密教の八祖 DIGITAL ARCHIVE</title>
-  <link rel="stylesheet" href="css/style.css?v=49">
+  <link rel="stylesheet" href="css/style.css?v=50">
 </head>
 <body>
 <div id="openingScreen" class="opening-screen" aria-label="オープニング">
@@ -70,17 +70,13 @@
       </div>
 
       <div id="compareEffectRow" class="compare-effect-row">
-        <div id="comparePairButtons" class="compare-pair-buttons" role="group" aria-label="比較する肖像の組み合わせ">
-          <span>比較対象</span>
-          <button data-pair="before-after" class="active">Before ↔ After</button>
-          <button data-pair="after-realistic">After ↔ Realistic</button>
-          <button data-pair="before-realistic">Before ↔ Realistic</button>
-        </div>
         <div id="sliderControl" class="effect-control compact-effect">
-          <label>比較位置 <input id="compareSlider" type="range" min="0" max="100" value="50"></label>
+          <label>比較位置 <input id="compareSlider" type="range" min="0" max="100" value="0"></label>
+          <div class="compare-scale-labels" aria-hidden="true"><span>Before</span><span>After</span><span>Realistic</span></div>
         </div>
         <div id="fadeControl" class="effect-control compact-effect hidden">
-          <label>比較画像の表示率 <input id="fadeSlider" type="range" min="0" max="100" value="50"></label>
+          <label>比較画像の表示率 <input id="fadeSlider" type="range" min="0" max="100" value="0"></label>
+          <div class="compare-scale-labels" aria-hidden="true"><span>Before</span><span>After</span><span>Realistic</span></div>
         </div>
       </div>
 
@@ -287,12 +283,12 @@
       <li>それ以外の画像はドラッグで移動、ホイールまたは＋／−で拡大縮小できます。</li>
       <li>「解説」では専用の解説画像を表示します。</li>
       <li>「比較」のBefore／After／Realisticで、現存肖像・修復済み肖像・写実肖像を切り替えます。</li>
-      <li>比較対象を選ぶと、Realisticを含む組み合わせでも左右スライダーとクロスフェードを利用できます。</li>
+      <li>左右スライダーとクロスフェードは、左端がBefore、中央がAfter、右端がRealisticです。</li>
     </ul>
   </div>
 </div>
 
 <script src="js/data.js?v=18"></script>
-<script src="js/viewer.js?v=50"></script>
+<script src="js/viewer.js?v=51"></script>
 </body>
 </html>

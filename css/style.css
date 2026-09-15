@@ -93,10 +93,6 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
 .compare-state-buttons button[data-state="before"].active{background:#29455f;border-color:#4d7598;color:#e9f4ff}
 .compare-state-buttons button[data-state="after"].active{background:#8f7335;border-color:#c7a95d;color:#fff8df}
 .compare-state-buttons button[data-state="realistic"].active{background:#5e3f67;border-color:#a97eba;color:#fff0ff}
-.compare-pair-buttons{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:6px;color:var(--muted);font-size:11px}
-.compare-pair-buttons span{margin-right:3px}
-.compare-pair-buttons button{padding:5px 9px;border-radius:999px;background:#171719;font-size:10px}
-.compare-pair-buttons button.active{background:var(--gold2);border-color:var(--gold);color:#fff8df}
 .compare-effect-row{
   margin:-2px 0 10px;
 }
@@ -118,6 +114,8 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
   font-size:11px;
   color:var(--muted);
 }
+.compare-scale-labels{display:flex;justify-content:space-between;margin:4px 0 0 130px;color:var(--muted);font-size:10px;line-height:1}
+.compare-scale-labels span:nth-child(2){color:var(--accent)}
 /* =========================
    Ver.7 slideshow
    ========================= */
@@ -226,8 +224,7 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
   .slide-sequence-note{width:100%;margin-left:0}.slide-effect-label{margin-left:0}.slide-effect-modes{width:100%}
   .slideshow-overlay{align-items:flex-end;flex-direction:column-reverse;left:10px;right:10px}
   .slide-person-label,.slide-state-badge{font-size:10px}
-  .compare-pair-buttons{align-items:flex-start}
-  .compare-pair-buttons span{width:100%}
+  .compare-scale-labels{margin-left:0}
 }
 
 

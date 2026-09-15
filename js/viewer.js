@@ -9,7 +9,7 @@
     groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupExitBtn:$('#groupExitBtn'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
     compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareRealistic:$('#compareRealistic'), compareReveal:$('#compareReveal'), compareRealisticReveal:$('#compareRealisticReveal'), compareDivider:$('#compareDivider'),
-    compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), compareStateButtons:$('#compareStateButtons'), comparePairButtons:$('#comparePairButtons'),
+    compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), compareStateButtons:$('#compareStateButtons'),
     slideshowControls:$('#slideshowControls'), slideshowStage:$('#slideshowStage'), slideshowLayer:$('#slideshowLayer'), slideshowImageA:$('#slideshowImageA'), slideshowImageB:$('#slideshowImageB'), slideEffectModes:$('#slideEffectModes'), slidePersonLabel:$('#slidePersonLabel'), slideStateBadge:$('#slideStateBadge'), slideCounter:$('#slideCounter'), slidePlayBtn:$('#slidePlayBtn'),
     threeDStage:$('#threeDStage'), mediaComingSoonPerson:$('#mediaComingSoonPerson'), missingOverlay:$('#missingOverlay'), missingTitle:$('#missingTitle'), missingPath:$('#missingPath'),
     zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal'), exhibitionCompareModal:$('#exhibitionCompareModal'), exhibitionCompareTitle:$('#exhibitionCompareTitle'), exhibitionQuickCompareView:$('#exhibitionQuickCompareView'), exhibitionQuickExplainView:$('#exhibitionQuickExplainView'), exhibitionQuickMediaView:$('#exhibitionQuickMediaView'), exhibitionQuickMediaMode:$('#exhibitionQuickMediaMode'), exhibitionQuickCompare:$('.exhibition-quick-compare'), exhibitionQuickOriginal:$('#exhibitionQuickOriginal'), exhibitionQuickRestored:$('#exhibitionQuickRestored'), exhibitionQuickExplanation:$('#exhibitionQuickExplanation'), exhibitionQuickVideo:$('#exhibitionQuickVideo'), exhibitionQuickSlider:$('#exhibitionQuickSlider'), exhibitionQuickDetailBtn:$('#exhibitionQuickDetailBtn')
@@ -22,7 +22,7 @@
   ]);
 
   let person=HACHISO[7], mode='compare', compareMode='slider';
-  let view={scale:1,x:0,y:0}, drag=null, compareState='before', comparePair='before-after';
+  let view={scale:1,x:0,y:0}, drag=null, compareState='before';
   let exhibitionView='grid', exhibitionIndex=0, exhibitionCameraAngle=0, exhibitionQuickView='compare';
   let exhibitionSwipeStartX=null, exhibitionSwipeMoved=false;
   let groupStart=1, groupRestored=false, groupCompareMode='toggle', groupSliderValue=50;
@@ -584,9 +584,9 @@
   }
 
   function comparisonNeedsRealistic(){
-    return compareMode==='toggle'
-      ? compareState==='realistic'
-      : comparePair.includes('realistic');
+    if(compareMode==='toggle')return compareState==='realistic';
+    const value=compareMode==='slider'?+el.compareSlider.value:+el.fadeSlider.value;
+    return value>50;
   }
 
   function showCompareBase(base){
@@ -599,6 +599,23 @@
     const layer=overlay==='after'?el.compareReveal:el.compareRealisticReveal;
     layer.style.opacity=opacity;
     layer.style.clipPath=clipPath;
+  }
+
+  function getThreeStageTransition(value){
+    if(value<=50){
+      return {
+        base:'before',
+        overlay:'after',
+        progress:value*2,
+        label:value===0?'Before（現存肖像）':value===50?'After（修復済み）':'Before / After'
+      };
+    }
+    return {
+      base:'after',
+      overlay:'realistic',
+      progress:(value-50)*2,
+      label:value===100?'Realistic（写実肖像）':'After / Realistic'
+    };
   }
 
   function updateCompareEffect(){
@@ -621,31 +638,21 @@
     el.compareReveal.style.clipPath='inset(0)';
     el.compareRealisticReveal.style.clipPath='inset(0)';
     updateCompareStateButtons();
-    $$('#comparePairButtons button').forEach(button=>{
-      const active=button.dataset.pair===comparePair;
-      button.classList.toggle('active',active);
-      button.setAttribute('aria-pressed',String(active));
-    });
-
-    const pairs={
-      'before-after':{base:'before',overlay:'after',label:'Before / After'},
-      'after-realistic':{base:'after',overlay:'realistic',label:'After / Realistic'},
-      'before-realistic':{base:'before',overlay:'realistic',label:'Before / Realistic'}
-    };
-    const pair=pairs[comparePair];
-
     if(compareMode==='slider'){
       setMissing(comparisonNeedsRealistic() && !person.realistic,'','写実肖像は準備中です');
       const v=+el.compareSlider.value;
-      showCompareBase(pair.base);
-      showCompareOverlay(pair.overlay,1,`inset(0 0 0 ${v}%)`);
-      el.compareDivider.style.left=v+'%';
-      el.imageTypeLabel.textContent=`${pair.label} 比較`;
+      const transition=getThreeStageTransition(v);
+      showCompareBase(transition.base);
+      showCompareOverlay(transition.overlay,1,`inset(0 ${100-transition.progress}% 0 0)`);
+      el.compareDivider.style.left=transition.progress+'%';
+      el.compareDivider.classList.toggle('hidden',transition.progress===0 || transition.progress===100);
+      el.imageTypeLabel.textContent=transition.label.includes(' / ')?`${transition.label} 比較`:transition.label;
     } else if(compareMode==='fade'){
       setMissing(comparisonNeedsRealistic() && !person.realistic,'','写実肖像は準備中です');
-      showCompareBase(pair.base);
-      showCompareOverlay(pair.overlay,(+el.fadeSlider.value/100),'inset(0)');
-      el.imageTypeLabel.textContent=`${pair.label} クロスフェード`;
+      const transition=getThreeStageTransition(+el.fadeSlider.value);
+      showCompareBase(transition.base);
+      showCompareOverlay(transition.overlay,transition.progress/100,'inset(0)');
+      el.imageTypeLabel.textContent=transition.label.includes(' / ')?`${transition.label} クロスフェード`:transition.label;
     } else {
       showCompareBase(compareState);
       if(compareState==='realistic'){
@@ -745,11 +752,6 @@
       compareState=b.dataset.state;
       updateCompareEffect();
     });
-    $$('#comparePairButtons button').forEach(b=>b.onclick=()=>{
-      comparePair=b.dataset.pair;
-      updateCompareEffect();
-    });
-
     el.compareSlider.oninput=updateCompareEffect;
     el.fadeSlider.oninput=updateCompareEffect;
 
