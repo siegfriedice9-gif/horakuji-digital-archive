@@ -25,7 +25,7 @@
   let view={scale:1,x:0,y:0}, drag=null, compareState='before';
   let exhibitionView='grid', exhibitionIndex=0, exhibitionCameraAngle=0, exhibitionQuickView='compare';
   let exhibitionSwipeStartX=null, exhibitionSwipeMoved=false;
-  let groupStart=1, groupRestored=false, groupCompareMode='toggle', groupSliderValue=50;
+  let groupStart=1, groupState='before', groupCompareMode='toggle', groupSliderValue=0;
   let slideIndex=0, slideTimer=null, slideshowPlaying=false, slideEffect='dissolve', activeSlideImg=0, slideTransitioning=false;
 
   function usesSmartphoneLayout(){
@@ -267,19 +267,24 @@
 
   function updateGroupState(){
     const sliderMode=groupCompareMode==='slider';
-    el.groupStage.classList.toggle('show-after',groupRestored);
+    const transition=getThreeStageTransition(groupSliderValue);
+    el.groupStage.classList.toggle('show-after',!sliderMode && groupState==='after');
+    el.groupStage.classList.toggle('show-realistic',!sliderMode && groupState==='realistic');
     el.groupStage.classList.toggle('slider-mode',sliderMode);
-    el.groupStage.style.setProperty('--group-compare-position',`${groupSliderValue}%`);
+    el.groupStage.classList.toggle('slider-after-realistic',sliderMode && groupSliderValue>50);
+    el.groupStage.classList.toggle('hide-group-divider',transition.progress===0 || transition.progress===100);
+    el.groupStage.style.setProperty('--group-compare-position',`${transition.progress}%`);
+    el.groupStage.style.setProperty('--group-overlay-hidden',`${100-transition.progress}%`);
     $$('#groupRangeButtons button').forEach(b=>b.classList.toggle('active',+b.dataset.groupStart===groupStart));
     $$('#groupCompareModes button').forEach(b=>b.classList.toggle('active',b.dataset.groupMode===groupCompareMode));
-    $$('#groupStateButtons button').forEach(b=>b.classList.toggle('active',(b.dataset.groupState==='after')===groupRestored));
+    $$('#groupStateButtons button').forEach(b=>b.classList.toggle('active',b.dataset.groupState===groupState));
     el.groupStateButtons.classList.toggle('hidden',sliderMode);
     el.groupSliderControl.classList.toggle('hidden',!sliderMode);
     el.groupCompareSlider.value=groupSliderValue;
     el.groupSliderOutput.textContent=`${groupSliderValue}%`;
     el.imageTypeLabel.textContent=sliderMode
-      ?`グループ比較　一括スライダー ${groupSliderValue}%`
-      :(groupRestored?'グループ比較　After（修復済み）':'グループ比較　Before（現存肖像）');
+      ?`グループ比較　${transition.label}`
+      :`グループ比較　${groupState==='realistic'?'Realistic（写実肖像）':groupState==='after'?'After（修復済み）':'Before（現存肖像）'}`;
   }
 
   function showGroupCompare(){
@@ -310,6 +315,12 @@
       restored.alt=`${p.name} 修復済み肖像`;
       restored.draggable=false;
 
+      const realistic=document.createElement('img');
+      realistic.className='group-image group-realistic';
+      realistic.src=(p.realistic || p.restoredThumb)+'?v=18';
+      realistic.alt=p.realistic?`${p.name} 写実肖像`:`${p.name} 写実肖像準備中`;
+      realistic.draggable=false;
+
       const divider=document.createElement('span');
       divider.className='group-divider';
       divider.setAttribute('aria-hidden','true');
@@ -318,7 +329,7 @@
       caption.className='group-caption';
       caption.innerHTML=`<span class="group-role">${p.id}</span><span><strong>${p.name}</strong><small>${p.reading}</small></span>`;
 
-      media.append(original,restored,divider);
+      media.append(original,restored,realistic,divider);
       card.append(media,caption);
       card.onclick=()=>{
         person=p;
@@ -769,7 +780,7 @@
       updateGroupState();
     });
     $$('#groupStateButtons button').forEach(b=>b.onclick=()=>{
-      groupRestored=b.dataset.groupState==='after';
+      groupState=b.dataset.groupState;
       updateGroupState();
     });
     el.groupCompareSlider.oninput=()=>{

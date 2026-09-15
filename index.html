@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <title>法楽寺 真言宗密教の八祖 DIGITAL ARCHIVE</title>
-  <link rel="stylesheet" href="css/style.css?v=50">
+  <link rel="stylesheet" href="css/style.css?v=51">
 </head>
 <body>
 <div id="openingScreen" class="opening-screen" aria-label="オープニング">
@@ -162,13 +162,15 @@
                       <button data-group-mode="slider">一括スライダー</button>
                     </div>
                     <div class="group-effect-row">
-                      <div id="groupStateButtons" class="group-button-set" role="group" aria-label="修復前後の表示">
-                        <button data-group-state="before" class="active">Before（現存肖像）</button>
-                        <button data-group-state="after">After（修復済み）</button>
+                      <div id="groupStateButtons" class="group-button-set" role="group" aria-label="肖像の3段階切替">
+                        <button data-group-state="before" class="active">Before</button>
+                        <button data-group-state="after">After</button>
+                        <button data-group-state="realistic">Realistic</button>
                       </div>
                       <div id="groupSliderControl" class="group-slider-control hidden">
-                        <label for="groupCompareSlider">比較位置 <output id="groupSliderOutput">50%</output></label>
-                        <input id="groupCompareSlider" type="range" min="0" max="100" value="50" aria-label="表示中の肖像に共通の比較位置">
+                        <label for="groupCompareSlider">比較位置 <output id="groupSliderOutput">0%</output></label>
+                        <input id="groupCompareSlider" type="range" min="0" max="100" value="0" aria-label="表示中の肖像に共通の3段階比較位置">
+                        <div class="group-scale-labels" aria-hidden="true"><span>Before</span><span>After</span><span>Realistic</span></div>
                       </div>
                     </div>
                   </div>
@@ -273,7 +275,7 @@
       <li>左側から八祖を選択します。</li>
       <li>「展示室」では額装された八祖の肖像を一覧し、人物を選ぶとその比較画面へ移動します。</li>
       <li>展示室の「立体展示」では、左右の肖像を選ぶか、PCは左右ドラッグ、スマホは左右スワイプで祖師を移動します。中央の肖像を選ぶと比較・解説の簡易パネルが開きます。</li>
-      <li>「グループ比較」では、PCは4人ずつ、スマホは2人ずつ、Before／Afterを一括切替または共通スライダーで比較します。</li>
+      <li>「グループ比較」では、PCは4人ずつ、スマホは2人ずつ、Before／After／Realisticを一括切替または共通スライダーで比較します。</li>
       <li>「比較」の右側に「左右スライダー」「クロスフェード」「Before / After」が並びます。</li>
       <li>「Before / After」では、ボタン内の色付き表示で現在がBeforeかAfterか分かります。</li>
       <li>「スライドショー」は、1～8を「Before→After」の順で全16コマを一巡し、8 Afterで自動終了します。表示倍率は比較画面と同じです。</li>
@@ -289,6 +291,6 @@
 </div>
 
 <script src="js/data.js?v=18"></script>
-<script src="js/viewer.js?v=51"></script>
+<script src="js/viewer.js?v=52"></script>
 </body>
 </html>
