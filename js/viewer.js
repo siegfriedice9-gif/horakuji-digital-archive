@@ -8,21 +8,21 @@
     exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'), exhibitionViewModes:$('#exhibitionViewModes'), exhibitionSpace:$('#exhibitionSpace'), exhibitionSpaceScene:$('.exhibition-space-scene'), exhibitionSpaceTrack:$('#exhibitionSpaceTrack'), exhibitionSpaceLabel:$('#exhibitionSpaceLabel'), exhibitionCameraControls:$('#exhibitionCameraControls'), exhibitionCameraSlider:$('#exhibitionCameraSlider'), exhibitionCameraOutput:$('#exhibitionCameraOutput'), exhibitionCameraResetBtn:$('#exhibitionCameraResetBtn'), exhibitionCompareBtn:$('#exhibitionCompareBtn'), exhibitionExplainBtn:$('#exhibitionExplainBtn'), exhibitionMediaBtn:$('#exhibitionMediaBtn'),
     groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupExitBtn:$('#groupExitBtn'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
-    compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
-    compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), beforeAfterBtn:$('#beforeAfterBtn'), beforeAfterState:$('#beforeAfterState'),
+    compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareRealistic:$('#compareRealistic'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
+    compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), compareStateButtons:$('#compareStateButtons'),
     slideshowControls:$('#slideshowControls'), slideshowStage:$('#slideshowStage'), slideshowLayer:$('#slideshowLayer'), slideshowImageA:$('#slideshowImageA'), slideshowImageB:$('#slideshowImageB'), slideEffectModes:$('#slideEffectModes'), slidePersonLabel:$('#slidePersonLabel'), slideStateBadge:$('#slideStateBadge'), slideCounter:$('#slideCounter'), slidePlayBtn:$('#slidePlayBtn'),
     threeDStage:$('#threeDStage'), mediaComingSoonPerson:$('#mediaComingSoonPerson'), missingOverlay:$('#missingOverlay'), missingTitle:$('#missingTitle'), missingPath:$('#missingPath'),
     zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal'), exhibitionCompareModal:$('#exhibitionCompareModal'), exhibitionCompareTitle:$('#exhibitionCompareTitle'), exhibitionQuickCompareView:$('#exhibitionQuickCompareView'), exhibitionQuickExplainView:$('#exhibitionQuickExplainView'), exhibitionQuickMediaView:$('#exhibitionQuickMediaView'), exhibitionQuickMediaMode:$('#exhibitionQuickMediaMode'), exhibitionQuickCompare:$('.exhibition-quick-compare'), exhibitionQuickOriginal:$('#exhibitionQuickOriginal'), exhibitionQuickRestored:$('#exhibitionQuickRestored'), exhibitionQuickExplanation:$('#exhibitionQuickExplanation'), exhibitionQuickVideo:$('#exhibitionQuickVideo'), exhibitionQuickSlider:$('#exhibitionQuickSlider'), exhibitionQuickDetailBtn:$('#exhibitionQuickDetailBtn')
   };
 
-  const MODES=[['exhibition','展示室'],['group','グループ比較'],['compare','比較'],['explain','解説'],['realistic','リアル肖像'],['3d','3D・動画'],['slideshow','スライドショー']];
+  const MODES=[['exhibition','展示室'],['group','グループ比較'],['compare','比較'],['explain','解説'],['3d','3D・動画'],['slideshow','スライドショー']];
   const SLIDES=HACHISO.flatMap(p=>[
     {person:p,state:'before',label:'Before（現存肖像）',path:p.original},
     {person:p,state:'after',label:'After（修復済み）',path:p.restored}
   ]);
 
   let person=HACHISO[7], mode='compare', compareMode='slider';
-  let view={scale:1,x:0,y:0}, drag=null, toggleRestored=false;
+  let view={scale:1,x:0,y:0}, drag=null, compareState='before';
   let exhibitionView='grid', exhibitionIndex=0, exhibitionCameraAngle=0, exhibitionQuickView='compare';
   let exhibitionSwipeStartX=null, exhibitionSwipeMoved=false;
   let groupStart=1, groupRestored=false, groupCompareMode='toggle', groupSliderValue=50;
@@ -150,7 +150,7 @@
 
   function showExhibition(){
     setStage('exhibition');
-    el.viewer.classList.remove('explain-mode','realistic-mode','compare-fixed');
+    el.viewer.classList.remove('explain-mode','compare-fixed');
     el.imageTypeLabel.textContent='真言宗密教の八祖 展示室';
     setMissing(false);
     el.exhibitionGrid.innerHTML='';
@@ -274,7 +274,7 @@
 
   function showGroupCompare(){
     setStage('group');
-    el.viewer.classList.remove('explain-mode','realistic-mode','compare-fixed');
+    el.viewer.classList.remove('explain-mode','compare-fixed');
     syncHeader();
     setMissing(false);
     el.groupGrid.innerHTML='';
@@ -352,7 +352,7 @@
   function showExplanation(){
     setStage('single');
     el.viewer.classList.add('explain-mode');
-    el.viewer.classList.remove('realistic-mode','compare-fixed');
+    el.viewer.classList.remove('compare-fixed');
     // 解説へ入るたびに必ず初期倍率・中央位置へ戻す
     view={scale:1,x:0,y:0};
     fitExplanationToCompareFrame();
@@ -364,29 +364,9 @@
     applyView();
   }
 
-  function showRealistic(){
-    setStage('single');
-    el.viewer.classList.add('realistic-mode');
-    el.viewer.classList.remove('explain-mode','compare-fixed');
-    view={scale:1,x:0,y:0};
-    el.imageTypeLabel.textContent='リアル肖像';
-    el.singleImage.alt=`${person.name} リアル肖像`;
-    setMissing(false);
-    if(!person.realistic){
-      el.singleImage.removeAttribute('src');
-      el.singleImage.style.visibility='hidden';
-      setMissing(true,'','リアル肖像は準備中です');
-      applyView();
-      return;
-    }
-    el.singleImage.style.visibility='';
-    loadImg(el.singleImage,person.realistic,()=>setMissing(false),p=>setMissing(true,p,'リアル肖像未配置'));
-    applyView();
-  }
-
   function showCompare(){
     setStage('compare');
-    el.viewer.classList.remove('explain-mode','realistic-mode');
+    el.viewer.classList.remove('explain-mode');
     el.viewer.classList.add('compare-fixed');
     clearMobileCompareGeometry();
     setMissing(false);
@@ -394,20 +374,30 @@
     const done=()=>{
       ok++;
       if(ok===2){
-        setMissing(false);
+        if(!(compareMode==='toggle' && compareState==='realistic' && !person.realistic))setMissing(false);
         requestAnimationFrame(lockMobileCompareGeometry);
       }
     };
     const fail=p=>{failed.push(p);setMissing(true,failed.join(' / '),'比較画像未配置')};
     loadImg(el.compareOriginal,person.original,done,fail);
     loadImg(el.compareRestored,person.restored,done,fail);
+    if(person.realistic){
+      loadImg(
+        el.compareRealistic,
+        person.realistic,
+        ()=>{if(compareMode==='toggle' && compareState==='realistic')setMissing(false)},
+        p=>{if(compareMode==='toggle' && compareState==='realistic')setMissing(true,p,'写実肖像未配置')}
+      );
+    } else {
+      el.compareRealistic.removeAttribute('src');
+    }
     updateCompareEffect();
     applyView();
   }
 
   function show3d(){
     setStage('3d');
-    el.viewer.classList.remove('explain-mode','realistic-mode','compare-fixed');
+    el.viewer.classList.remove('explain-mode','compare-fixed');
     el.imageTypeLabel.textContent='3D・動画';
     el.statusBadge.textContent='公開準備中';
     el.mediaComingSoonPerson.textContent=`${person.role} ${person.name}`;
@@ -416,7 +406,7 @@
 
   function showSlideshow(){
     setStage('slideshow');
-    el.viewer.classList.remove('explain-mode','realistic-mode','compare-fixed');
+    el.viewer.classList.remove('explain-mode','compare-fixed');
     renderSlide(true);
     applyView();
   }
@@ -554,7 +544,6 @@
     if(mode==='group')showGroupCompare();
     if(mode==='compare')showCompare();
     if(mode==='explain')showExplanation();
-    if(mode==='realistic')showRealistic();
     if(mode==='3d')show3d();
     if(mode==='slideshow')showSlideshow();
   }
@@ -573,20 +562,19 @@
     el.zoomLabel.textContent=Math.round(view.scale*100)+'%';
     el.compareOriginal.style.transform='translate(-50%,-50%)';
     el.compareRestored.style.transform='translate(-50%,-50%)';
+    el.compareRealistic.style.transform='translate(-50%,-50%)';
   }
 
-  function updateBeforeAfterState(){
-    const state=toggleRestored?'after':'before';
-    el.beforeAfterState.textContent=toggleRestored?'After':'Before';
-    el.beforeAfterState.classList.toggle('before',state==='before');
-    el.beforeAfterState.classList.toggle('after',state==='after');
-    el.beforeAfterBtn.classList.toggle('state-before',state==='before');
-    el.beforeAfterBtn.classList.toggle('state-after',state==='after');
-    el.beforeAfterBtn.setAttribute('aria-label',`Before / After。現在は${toggleRestored?'After 修復済み':'Before 現存肖像'}`);
+  function updateCompareStateButtons(){
+    $$('#compareStateButtons button').forEach(button=>{
+      const active=compareMode==='toggle' && button.dataset.state===compareState;
+      button.classList.toggle('active',active);
+      button.setAttribute('aria-pressed',String(active));
+    });
   }
 
   function updateCompareEffect(){
-    $$('.compare-modes button').forEach(b=>b.classList.toggle('active',b.dataset.compare===compareMode));
+    $$('#compareModeInline > button[data-compare]').forEach(b=>b.classList.toggle('active',b.dataset.compare===compareMode));
     // 左右スライダーでは比較画像そのものを固定（クリック／ドラッグで動かさない）
     const sliderLocked=(mode==='compare' && compareMode==='slider');
     el.viewer.classList.toggle('slider-locked',sliderLocked);
@@ -600,22 +588,32 @@
     el.compareEffectRow.classList.toggle('no-effect',compareMode==='toggle');
     el.compareDivider.classList.toggle('hidden',compareMode!=='slider');
     el.compareOriginal.style.opacity=1;
-    updateBeforeAfterState();
+    el.compareRealistic.style.opacity=0;
+    updateCompareStateButtons();
 
     if(compareMode==='slider'){
+      setMissing(false);
       const v=+el.compareSlider.value;
       el.compareReveal.style.clipPath=`inset(0 0 0 ${v}%)`;
       el.compareReveal.style.opacity=1;
       el.compareDivider.style.left=v+'%';
       el.imageTypeLabel.textContent='Before / After 比較';
     } else if(compareMode==='fade'){
+      setMissing(false);
       el.compareReveal.style.clipPath='inset(0)';
       el.compareReveal.style.opacity=(+el.fadeSlider.value/100);
       el.imageTypeLabel.textContent='Before / After クロスフェード';
     } else {
       el.compareReveal.style.clipPath='inset(0)';
-      el.compareReveal.style.opacity=toggleRestored?1:0;
-      el.imageTypeLabel.textContent=toggleRestored?'After（修復済み）':'Before（現存肖像）';
+      el.compareReveal.style.opacity=compareState==='after'?1:0;
+      el.compareRealistic.style.opacity=compareState==='realistic'?1:0;
+      if(compareState==='realistic'){
+        el.imageTypeLabel.textContent='Realistic（写実肖像）';
+        setMissing(!person.realistic,'','写実肖像は準備中です');
+      } else {
+        setMissing(false);
+        el.imageTypeLabel.textContent=compareState==='after'?'After（修復済み）':'Before（現存肖像）';
+      }
     }
   }
 
@@ -696,14 +694,13 @@
     el.viewer.addEventListener('pointerup',()=>drag=null);
     el.viewer.addEventListener('pointercancel',()=>drag=null);
 
-    $$('.compare-modes button').forEach(b=>b.onclick=()=>{
-      const requested=b.dataset.compare;
-      if(requested==='toggle' && compareMode==='toggle'){
-        toggleRestored=!toggleRestored;
-      } else {
-        compareMode=requested;
-        if(compareMode==='toggle') toggleRestored=false;
-      }
+    $$('#compareModeInline > button[data-compare]').forEach(b=>b.onclick=()=>{
+      compareMode=b.dataset.compare;
+      updateCompareEffect();
+    });
+    $$('#compareStateButtons button').forEach(b=>b.onclick=()=>{
+      compareMode='toggle';
+      compareState=b.dataset.state;
       updateCompareEffect();
     });
 

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <title>法楽寺 真言宗密教の八祖 DIGITAL ARCHIVE</title>
-  <link rel="stylesheet" href="css/style.css?v=47">
+  <link rel="stylesheet" href="css/style.css?v=48">
 </head>
 <body>
 <div id="openingScreen" class="opening-screen" aria-label="オープニング">
@@ -55,15 +55,17 @@
         <div id="statusBadge" class="status"></div>
       </div>
 
-      <!-- 比較タブと3つの比較方式を同じ行に配置 -->
+      <!-- 比較タブ・比較方式・3段階切替を同じ行に配置 -->
       <div class="mode-row">
         <nav id="modeTabs" class="tabs" aria-label="表示モード"></nav>
         <div id="compareModeInline" class="compare-modes inline-compare" role="group" aria-label="比較方法">
           <button data-compare="slider" class="active">左右スライダー</button>
           <button data-compare="fade">クロスフェード</button>
-          <button id="beforeAfterBtn" data-compare="toggle" class="before-after-button">
-            <span>Before / After</span><span id="beforeAfterState" class="ba-state before">Before</span>
-          </button>
+          <div id="compareStateButtons" class="compare-state-buttons" role="group" aria-label="肖像の3段階切替">
+            <button data-state="before">Before</button>
+            <button data-state="after">After</button>
+            <button data-state="realistic">Realistic</button>
+          </div>
         </div>
       </div>
 
@@ -188,6 +190,7 @@
               <div id="compareReveal" class="reveal-wrap">
                 <img id="compareRestored" class="compare-img restored" draggable="false" alt="修復済み">
               </div>
+              <img id="compareRealistic" class="compare-img realistic" draggable="false" alt="写実肖像">
               <div id="compareDivider" class="compare-divider"><span></span></div>
             </div>
           </div>
@@ -275,12 +278,12 @@
       <li>「左右スライダー」表示中は比較画像を固定しています。画像上を左ドラッグしても移動しません。</li>
       <li>それ以外の画像はドラッグで移動、ホイールまたは＋／−で拡大縮小できます。</li>
       <li>「解説」では専用の解説画像を表示します。</li>
-      <li>「リアル肖像」では、原画をもとに制作した写実表現の肖像を表示します。</li>
+      <li>「比較」のBefore／After／Realisticで、現存肖像・修復済み肖像・写実肖像を切り替えます。</li>
     </ul>
   </div>
 </div>
 
-<script src="js/data.js?v=16"></script>
-<script src="js/viewer.js?v=47"></script>
+<script src="js/data.js?v=17"></script>
+<script src="js/viewer.js?v=48"></script>
 </body>
 </html>
