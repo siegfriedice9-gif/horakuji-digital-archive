@@ -340,7 +340,7 @@
   function loadImg(img,path,onOk,onFail){
     img.onload=()=>{onOk&&onOk()};
     img.onerror=()=>{onFail&&onFail(path)};
-    img.src=path+'?v=16';
+    img.src=path+'?v=17';
   }
 
   function fitExplanationToCompareFrame(){
