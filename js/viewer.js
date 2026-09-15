@@ -8,8 +8,8 @@
     exhibitionStage:$('#exhibitionStage'), exhibitionGrid:$('#exhibitionGrid'), exhibitionViewModes:$('#exhibitionViewModes'), exhibitionSpace:$('#exhibitionSpace'), exhibitionSpaceScene:$('.exhibition-space-scene'), exhibitionSpaceTrack:$('#exhibitionSpaceTrack'), exhibitionSpaceLabel:$('#exhibitionSpaceLabel'), exhibitionCameraControls:$('#exhibitionCameraControls'), exhibitionCameraSlider:$('#exhibitionCameraSlider'), exhibitionCameraOutput:$('#exhibitionCameraOutput'), exhibitionCameraResetBtn:$('#exhibitionCameraResetBtn'), exhibitionCompareBtn:$('#exhibitionCompareBtn'), exhibitionExplainBtn:$('#exhibitionExplainBtn'), exhibitionMediaBtn:$('#exhibitionMediaBtn'),
     groupStage:$('#groupStage'), groupGrid:$('#groupGrid'), groupRangeButtons:$('#groupRangeButtons'), groupExitBtn:$('#groupExitBtn'), groupCompareModes:$('#groupCompareModes'), groupStateButtons:$('#groupStateButtons'), groupSliderControl:$('#groupSliderControl'), groupCompareSlider:$('#groupCompareSlider'), groupSliderOutput:$('#groupSliderOutput'),
     singleStage:$('#singleStage'), singleLayer:$('#singleLayer'), singleImage:$('#singleImage'),
-    compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareRealistic:$('#compareRealistic'), compareReveal:$('#compareReveal'), compareDivider:$('#compareDivider'),
-    compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), compareStateButtons:$('#compareStateButtons'),
+    compareStage:$('#compareStage'), compareLayer:$('#compareLayer'), compareOriginal:$('#compareOriginal'), compareRestored:$('#compareRestored'), compareRealistic:$('#compareRealistic'), compareReveal:$('#compareReveal'), compareRealisticReveal:$('#compareRealisticReveal'), compareDivider:$('#compareDivider'),
+    compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), compareStateButtons:$('#compareStateButtons'), comparePairButtons:$('#comparePairButtons'),
     slideshowControls:$('#slideshowControls'), slideshowStage:$('#slideshowStage'), slideshowLayer:$('#slideshowLayer'), slideshowImageA:$('#slideshowImageA'), slideshowImageB:$('#slideshowImageB'), slideEffectModes:$('#slideEffectModes'), slidePersonLabel:$('#slidePersonLabel'), slideStateBadge:$('#slideStateBadge'), slideCounter:$('#slideCounter'), slidePlayBtn:$('#slidePlayBtn'),
     threeDStage:$('#threeDStage'), mediaComingSoonPerson:$('#mediaComingSoonPerson'), missingOverlay:$('#missingOverlay'), missingTitle:$('#missingTitle'), missingPath:$('#missingPath'),
     zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal'), exhibitionCompareModal:$('#exhibitionCompareModal'), exhibitionCompareTitle:$('#exhibitionCompareTitle'), exhibitionQuickCompareView:$('#exhibitionQuickCompareView'), exhibitionQuickExplainView:$('#exhibitionQuickExplainView'), exhibitionQuickMediaView:$('#exhibitionQuickMediaView'), exhibitionQuickMediaMode:$('#exhibitionQuickMediaMode'), exhibitionQuickCompare:$('.exhibition-quick-compare'), exhibitionQuickOriginal:$('#exhibitionQuickOriginal'), exhibitionQuickRestored:$('#exhibitionQuickRestored'), exhibitionQuickExplanation:$('#exhibitionQuickExplanation'), exhibitionQuickVideo:$('#exhibitionQuickVideo'), exhibitionQuickSlider:$('#exhibitionQuickSlider'), exhibitionQuickDetailBtn:$('#exhibitionQuickDetailBtn')
@@ -22,7 +22,7 @@
   ]);
 
   let person=HACHISO[7], mode='compare', compareMode='slider';
-  let view={scale:1,x:0,y:0}, drag=null, compareState='before';
+  let view={scale:1,x:0,y:0}, drag=null, compareState='before', comparePair='before-after';
   let exhibitionView='grid', exhibitionIndex=0, exhibitionCameraAngle=0, exhibitionQuickView='compare';
   let exhibitionSwipeStartX=null, exhibitionSwipeMoved=false;
   let groupStart=1, groupRestored=false, groupCompareMode='toggle', groupSliderValue=50;
@@ -128,10 +128,10 @@
     el.viewer.style.removeProperty('--mobile-compare-image-height');
   }
 
-  function lockMobileCompareGeometry(){
+  function lockCompareGeometry(){
     const mobilePortrait=window.matchMedia('(max-width:720px) and (orientation:portrait)').matches;
     const mobileLandscape=window.matchMedia('(orientation:landscape) and (max-height:500px) and (pointer:coarse)').matches;
-    if(mode!=='compare' || (!mobilePortrait && !mobileLandscape)){
+    if(mode!=='compare'){
       clearMobileCompareGeometry();
       return;
     }
@@ -141,11 +141,21 @@
     const viewerRect=el.viewer.getBoundingClientRect();
     const viewerHeight=viewerRect.height;
     const maxWidth=Math.max(1,viewerRect.width-20);
-    const maxHeight=Math.max(1,viewerHeight-20);
+    const maxHeight=Math.max(1,viewerHeight*(mobilePortrait || mobileLandscape ? 1 : .92));
     const scale=Math.min(maxWidth/naturalWidth,maxHeight/naturalHeight);
-    el.viewer.style.setProperty('--mobile-compare-viewer-height',`${viewerHeight}px`);
-    el.viewer.style.setProperty('--mobile-compare-image-width',`${naturalWidth*scale}px`);
-    el.viewer.style.setProperty('--mobile-compare-image-height',`${naturalHeight*scale}px`);
+    const width=naturalWidth*scale;
+    const height=naturalHeight*scale;
+    [el.compareOriginal,el.compareRestored,el.compareRealistic].forEach(image=>{
+      image.style.width=`${width}px`;
+      image.style.height=`${height}px`;
+    });
+    if(mobilePortrait || mobileLandscape){
+      el.viewer.style.setProperty('--mobile-compare-viewer-height',`${viewerHeight}px`);
+      el.viewer.style.setProperty('--mobile-compare-image-width',`${width}px`);
+      el.viewer.style.setProperty('--mobile-compare-image-height',`${height}px`);
+    } else {
+      clearMobileCompareGeometry();
+    }
   }
 
   function showExhibition(){
@@ -374,8 +384,8 @@
     const done=()=>{
       ok++;
       if(ok===2){
-        if(!(compareMode==='toggle' && compareState==='realistic' && !person.realistic))setMissing(false);
-        requestAnimationFrame(lockMobileCompareGeometry);
+        if(!comparisonNeedsRealistic())setMissing(false);
+        requestAnimationFrame(lockCompareGeometry);
       }
     };
     const fail=p=>{failed.push(p);setMissing(true,failed.join(' / '),'比較画像未配置')};
@@ -385,8 +395,8 @@
       loadImg(
         el.compareRealistic,
         person.realistic,
-        ()=>{if(compareMode==='toggle' && compareState==='realistic')setMissing(false)},
-        p=>{if(compareMode==='toggle' && compareState==='realistic')setMissing(true,p,'写実肖像未配置')}
+        ()=>{if(comparisonNeedsRealistic())setMissing(false)},
+        p=>{if(comparisonNeedsRealistic())setMissing(true,p,'写実肖像未配置')}
       );
     } else {
       el.compareRealistic.removeAttribute('src');
@@ -573,6 +583,24 @@
     });
   }
 
+  function comparisonNeedsRealistic(){
+    return compareMode==='toggle'
+      ? compareState==='realistic'
+      : comparePair.includes('realistic');
+  }
+
+  function showCompareBase(base){
+    el.compareOriginal.style.opacity=base==='before'?1:0;
+    el.compareReveal.style.opacity=base==='after'?1:0;
+    el.compareRealisticReveal.style.opacity=base==='realistic'?1:0;
+  }
+
+  function showCompareOverlay(overlay,opacity,clipPath){
+    const layer=overlay==='after'?el.compareReveal:el.compareRealisticReveal;
+    layer.style.opacity=opacity;
+    layer.style.clipPath=clipPath;
+  }
+
   function updateCompareEffect(){
     $$('#compareModeInline > button[data-compare]').forEach(b=>b.classList.toggle('active',b.dataset.compare===compareMode));
     // 左右スライダーでは比較画像そのものを固定（クリック／ドラッグで動かさない）
@@ -587,26 +615,39 @@
     el.fadeControl.classList.toggle('hidden',compareMode!=='fade');
     el.compareEffectRow.classList.toggle('no-effect',compareMode==='toggle');
     el.compareDivider.classList.toggle('hidden',compareMode!=='slider');
-    el.compareOriginal.style.opacity=1;
-    el.compareRealistic.style.opacity=0;
+    el.compareOriginal.style.opacity=0;
+    el.compareReveal.style.opacity=0;
+    el.compareRealisticReveal.style.opacity=0;
+    el.compareReveal.style.clipPath='inset(0)';
+    el.compareRealisticReveal.style.clipPath='inset(0)';
     updateCompareStateButtons();
+    $$('#comparePairButtons button').forEach(button=>{
+      const active=button.dataset.pair===comparePair;
+      button.classList.toggle('active',active);
+      button.setAttribute('aria-pressed',String(active));
+    });
+
+    const pairs={
+      'before-after':{base:'before',overlay:'after',label:'Before / After'},
+      'after-realistic':{base:'after',overlay:'realistic',label:'After / Realistic'},
+      'before-realistic':{base:'before',overlay:'realistic',label:'Before / Realistic'}
+    };
+    const pair=pairs[comparePair];
 
     if(compareMode==='slider'){
-      setMissing(false);
+      setMissing(comparisonNeedsRealistic() && !person.realistic,'','写実肖像は準備中です');
       const v=+el.compareSlider.value;
-      el.compareReveal.style.clipPath=`inset(0 0 0 ${v}%)`;
-      el.compareReveal.style.opacity=1;
+      showCompareBase(pair.base);
+      showCompareOverlay(pair.overlay,1,`inset(0 0 0 ${v}%)`);
       el.compareDivider.style.left=v+'%';
-      el.imageTypeLabel.textContent='Before / After 比較';
+      el.imageTypeLabel.textContent=`${pair.label} 比較`;
     } else if(compareMode==='fade'){
-      setMissing(false);
-      el.compareReveal.style.clipPath='inset(0)';
-      el.compareReveal.style.opacity=(+el.fadeSlider.value/100);
-      el.imageTypeLabel.textContent='Before / After クロスフェード';
+      setMissing(comparisonNeedsRealistic() && !person.realistic,'','写実肖像は準備中です');
+      showCompareBase(pair.base);
+      showCompareOverlay(pair.overlay,(+el.fadeSlider.value/100),'inset(0)');
+      el.imageTypeLabel.textContent=`${pair.label} クロスフェード`;
     } else {
-      el.compareReveal.style.clipPath='inset(0)';
-      el.compareReveal.style.opacity=compareState==='after'?1:0;
-      el.compareRealistic.style.opacity=compareState==='realistic'?1:0;
+      showCompareBase(compareState);
       if(compareState==='realistic'){
         el.imageTypeLabel.textContent='Realistic（写実肖像）';
         setMissing(!person.realistic,'','写実肖像は準備中です');
@@ -638,10 +679,11 @@
 
     window.addEventListener('resize',()=>{
       if(mode==='explain'){fitExplanationToCompareFrame();applyView();}
+      if(mode==='compare')lockCompareGeometry();
       if(mode==='exhibition' && exhibitionView==='space')updateExhibitionView();
     });
     window.addEventListener('orientationchange',()=>{
-      if(mode==='compare')setTimeout(lockMobileCompareGeometry,150);
+      if(mode==='compare')setTimeout(lockCompareGeometry,150);
     });
 
     $('#zoomInBtn').onclick=()=>{view.scale=Math.min(5,view.scale*1.15);applyView()};
@@ -701,6 +743,10 @@
     $$('#compareStateButtons button').forEach(b=>b.onclick=()=>{
       compareMode='toggle';
       compareState=b.dataset.state;
+      updateCompareEffect();
+    });
+    $$('#comparePairButtons button').forEach(b=>b.onclick=()=>{
+      comparePair=b.dataset.pair;
       updateCompareEffect();
     });
 
