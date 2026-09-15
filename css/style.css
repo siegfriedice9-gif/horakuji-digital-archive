@@ -374,6 +374,45 @@ button,input{font:inherit}button{cursor:pointer;color:var(--text);background:#22
   max-width:58% !important;
   object-fit:contain !important;
 }
+
+/* リアル肖像は比較画像と同じ中央基準で全体を表示する。 */
+.viewer.realistic-mode #singleStage,
+.viewer.realistic-mode #singleLayer{
+  position:absolute !important;
+  inset:0 !important;
+}
+.viewer.realistic-mode #singleLayer{
+  display:grid !important;
+  place-items:center !important;
+}
+.viewer.realistic-mode .explanation-frame{
+  width:auto !important;
+  height:calc(100% - 20px) !important;
+  max-width:calc(100% - 20px) !important;
+  aspect-ratio:941 / 1672;
+  display:grid !important;
+  place-items:center !important;
+  overflow:hidden !important;
+}
+.viewer.realistic-mode #singleStage #singleImage.single-image{
+  position:static !important;
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  object-fit:contain !important;
+  transform:none !important;
+  filter:drop-shadow(0 14px 24px #000a);
+}
+@media(max-width:720px){
+  .viewer.realistic-mode #singleStage #singleImage.single-image{
+    width:100% !important;
+    height:100% !important;
+    max-width:100% !important;
+    max-height:100% !important;
+  }
+}
 @media(max-width:720px){
   .viewer.explain-mode #singleStage #singleImage.single-image{
     top:4% !important;

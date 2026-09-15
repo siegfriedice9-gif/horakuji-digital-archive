@@ -15,7 +15,7 @@
     zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal'), exhibitionCompareModal:$('#exhibitionCompareModal'), exhibitionCompareTitle:$('#exhibitionCompareTitle'), exhibitionQuickCompareView:$('#exhibitionQuickCompareView'), exhibitionQuickExplainView:$('#exhibitionQuickExplainView'), exhibitionQuickMediaView:$('#exhibitionQuickMediaView'), exhibitionQuickMediaMode:$('#exhibitionQuickMediaMode'), exhibitionQuickCompare:$('.exhibition-quick-compare'), exhibitionQuickOriginal:$('#exhibitionQuickOriginal'), exhibitionQuickRestored:$('#exhibitionQuickRestored'), exhibitionQuickExplanation:$('#exhibitionQuickExplanation'), exhibitionQuickVideo:$('#exhibitionQuickVideo'), exhibitionQuickSlider:$('#exhibitionQuickSlider'), exhibitionQuickDetailBtn:$('#exhibitionQuickDetailBtn')
   };
 
-  const MODES=[['exhibition','展示室'],['group','グループ比較'],['compare','比較'],['explain','解説'],['3d','3D・動画'],['slideshow','スライドショー']];
+  const MODES=[['exhibition','展示室'],['group','グループ比較'],['compare','比較'],['explain','解説'],['realistic','リアル肖像'],['3d','3D・動画'],['slideshow','スライドショー']];
   const SLIDES=HACHISO.flatMap(p=>[
     {person:p,state:'before',label:'Before（現存肖像）',path:p.original},
     {person:p,state:'after',label:'After（修復済み）',path:p.restored}
@@ -150,7 +150,7 @@
 
   function showExhibition(){
     setStage('exhibition');
-    el.viewer.classList.remove('explain-mode','compare-fixed');
+    el.viewer.classList.remove('explain-mode','realistic-mode','compare-fixed');
     el.imageTypeLabel.textContent='真言宗密教の八祖 展示室';
     setMissing(false);
     el.exhibitionGrid.innerHTML='';
@@ -274,7 +274,7 @@
 
   function showGroupCompare(){
     setStage('group');
-    el.viewer.classList.remove('explain-mode','compare-fixed');
+    el.viewer.classList.remove('explain-mode','realistic-mode','compare-fixed');
     syncHeader();
     setMissing(false);
     el.groupGrid.innerHTML='';
@@ -352,20 +352,41 @@
   function showExplanation(){
     setStage('single');
     el.viewer.classList.add('explain-mode');
-    el.viewer.classList.remove('compare-fixed');
+    el.viewer.classList.remove('realistic-mode','compare-fixed');
     // 解説へ入るたびに必ず初期倍率・中央位置へ戻す
     view={scale:1,x:0,y:0};
     fitExplanationToCompareFrame();
     el.imageTypeLabel.textContent='解説';
     el.singleImage.alt=`${person.name} 解説`;
+    el.singleImage.style.visibility='';
     setMissing(false);
     loadImg(el.singleImage,person.explanation,()=>{fitExplanationToCompareFrame();setMissing(false)},p=>setMissing(true,p,'解説画像未配置'));
     applyView();
   }
 
+  function showRealistic(){
+    setStage('single');
+    el.viewer.classList.add('realistic-mode');
+    el.viewer.classList.remove('explain-mode','compare-fixed');
+    view={scale:1,x:0,y:0};
+    el.imageTypeLabel.textContent='リアル肖像';
+    el.singleImage.alt=`${person.name} リアル肖像`;
+    setMissing(false);
+    if(!person.realistic){
+      el.singleImage.removeAttribute('src');
+      el.singleImage.style.visibility='hidden';
+      setMissing(true,'','リアル肖像は準備中です');
+      applyView();
+      return;
+    }
+    el.singleImage.style.visibility='';
+    loadImg(el.singleImage,person.realistic,()=>setMissing(false),p=>setMissing(true,p,'リアル肖像未配置'));
+    applyView();
+  }
+
   function showCompare(){
     setStage('compare');
-    el.viewer.classList.remove('explain-mode');
+    el.viewer.classList.remove('explain-mode','realistic-mode');
     el.viewer.classList.add('compare-fixed');
     clearMobileCompareGeometry();
     setMissing(false);
@@ -386,7 +407,7 @@
 
   function show3d(){
     setStage('3d');
-    el.viewer.classList.remove('explain-mode','compare-fixed');
+    el.viewer.classList.remove('explain-mode','realistic-mode','compare-fixed');
     el.imageTypeLabel.textContent='3D・動画';
     el.statusBadge.textContent='公開準備中';
     el.mediaComingSoonPerson.textContent=`${person.role} ${person.name}`;
@@ -395,7 +416,7 @@
 
   function showSlideshow(){
     setStage('slideshow');
-    el.viewer.classList.remove('explain-mode','compare-fixed');
+    el.viewer.classList.remove('explain-mode','realistic-mode','compare-fixed');
     renderSlide(true);
     applyView();
   }
@@ -533,6 +554,7 @@
     if(mode==='group')showGroupCompare();
     if(mode==='compare')showCompare();
     if(mode==='explain')showExplanation();
+    if(mode==='realistic')showRealistic();
     if(mode==='3d')show3d();
     if(mode==='slideshow')showSlideshow();
   }
