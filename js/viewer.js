@@ -12,7 +12,7 @@
     compareSlider:$('#compareSlider'), fadeSlider:$('#fadeSlider'), sliderControl:$('#sliderControl'), fadeControl:$('#fadeControl'), compareStateButtons:$('#compareStateButtons'),
     slideshowControls:$('#slideshowControls'), slideshowStage:$('#slideshowStage'), slideshowLayer:$('#slideshowLayer'), slideshowImageA:$('#slideshowImageA'), slideshowImageB:$('#slideshowImageB'), slideEffectModes:$('#slideEffectModes'), slidePersonLabel:$('#slidePersonLabel'), slideStateBadge:$('#slideStateBadge'), slideCounter:$('#slideCounter'), slidePlayBtn:$('#slidePlayBtn'),
     threeDStage:$('#threeDStage'), mediaComingSoonPerson:$('#mediaComingSoonPerson'), missingOverlay:$('#missingOverlay'), missingTitle:$('#missingTitle'), missingPath:$('#missingPath'),
-    zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal'), exhibitionCompareModal:$('#exhibitionCompareModal'), exhibitionCompareTitle:$('#exhibitionCompareTitle'), exhibitionQuickCompareView:$('#exhibitionQuickCompareView'), exhibitionQuickExplainView:$('#exhibitionQuickExplainView'), exhibitionQuickMediaView:$('#exhibitionQuickMediaView'), exhibitionQuickMediaMode:$('#exhibitionQuickMediaMode'), exhibitionQuickCompare:$('.exhibition-quick-compare'), exhibitionQuickOriginal:$('#exhibitionQuickOriginal'), exhibitionQuickRestored:$('#exhibitionQuickRestored'), exhibitionQuickExplanation:$('#exhibitionQuickExplanation'), exhibitionQuickVideo:$('#exhibitionQuickVideo'), exhibitionQuickSlider:$('#exhibitionQuickSlider'), exhibitionQuickDetailBtn:$('#exhibitionQuickDetailBtn')
+    zoomLabel:$('#zoomLabel'), helpModal:$('#helpModal'), exhibitionCompareModal:$('#exhibitionCompareModal'), exhibitionCompareTitle:$('#exhibitionCompareTitle'), exhibitionQuickCompareView:$('#exhibitionQuickCompareView'), exhibitionQuickExplainView:$('#exhibitionQuickExplainView'), exhibitionQuickMediaView:$('#exhibitionQuickMediaView'), exhibitionQuickMediaMode:$('#exhibitionQuickMediaMode'), exhibitionQuickCompare:$('.exhibition-quick-compare'), exhibitionQuickOriginal:$('#exhibitionQuickOriginal'), exhibitionQuickRestored:$('#exhibitionQuickRestored'), exhibitionQuickDivider:$('#exhibitionQuickDivider'), exhibitionQuickExplanation:$('#exhibitionQuickExplanation'), exhibitionQuickVideo:$('#exhibitionQuickVideo'), exhibitionQuickSlider:$('#exhibitionQuickSlider'), exhibitionQuickDetailBtn:$('#exhibitionQuickDetailBtn')
   };
 
   const MODES=[['exhibition','展示室'],['group','グループ比較'],['compare','比較'],['explain','解説'],['3d','3D・動画'],['slideshow','スライドショー']];
@@ -22,7 +22,7 @@
   ]);
 
   let person=HACHISO[7], mode='compare', compareMode='slider';
-  let view={scale:1,x:0,y:0}, drag=null, compareDividerDrag=null, compareState='before';
+  let view={scale:1,x:0,y:0}, drag=null, compareDividerDrag=null, groupDividerDrag=null, quickDividerDrag=null, compareState='before';
   let exhibitionView='grid', exhibitionIndex=0, exhibitionCameraAngle=0, exhibitionQuickView='compare';
   let exhibitionSwipeStartX=null, exhibitionSwipeMoved=false;
   let groupStart=1, groupState='before', groupCompareMode='toggle', groupSliderValue=0;
@@ -248,6 +248,8 @@
     }
     el.exhibitionQuickSlider.value=50;
     el.exhibitionQuickCompare.style.setProperty('--quick-position','50%');
+    el.exhibitionQuickDivider.setAttribute('aria-valuenow','50');
+    el.exhibitionQuickDivider.classList.remove('at-start','at-end');
     updateExhibitionQuickView('compare');
     el.exhibitionCompareModal.classList.remove('hidden');
     $('#closeExhibitionCompare').focus();
@@ -272,16 +274,24 @@
     el.groupStage.classList.toggle('show-realistic',!sliderMode && groupState==='realistic');
     el.groupStage.classList.toggle('slider-mode',sliderMode);
     el.groupStage.classList.toggle('slider-after-realistic',sliderMode && groupSliderValue>50);
-    el.groupStage.classList.toggle('hide-group-divider',transition.progress===0 || transition.progress===100);
+    el.groupStage.classList.toggle('group-at-start',transition.progress===0);
+    el.groupStage.classList.toggle('group-at-end',transition.progress===100);
     el.groupStage.style.setProperty('--group-compare-position',`${transition.progress}%`);
     el.groupStage.style.setProperty('--group-overlay-hidden',`${100-transition.progress}%`);
     $$('#groupRangeButtons button').forEach(b=>b.classList.toggle('active',+b.dataset.groupStart===groupStart));
     $$('#groupCompareModes button').forEach(b=>b.classList.toggle('active',b.dataset.groupMode===groupCompareMode));
-    $$('#groupStateButtons button').forEach(b=>b.classList.toggle('active',b.dataset.groupState===groupState));
-    el.groupStateButtons.classList.toggle('hidden',sliderMode);
+    $$('#groupStateButtons button').forEach(b=>{
+      const stageValue={before:0,after:50,realistic:100}[b.dataset.groupState];
+      b.classList.toggle('active',sliderMode?Math.abs(groupSliderValue-stageValue)<.01:b.dataset.groupState===groupState);
+    });
+    el.groupStateButtons.classList.remove('hidden');
     el.groupSliderControl.classList.toggle('hidden',!sliderMode);
     el.groupCompareSlider.value=groupSliderValue;
     el.groupSliderOutput.textContent=`${groupSliderValue}%`;
+    $$('.group-divider').forEach(divider=>{
+      divider.setAttribute('aria-valuenow',String(groupSliderValue));
+      divider.setAttribute('aria-valuetext',transition.label);
+    });
     el.imageTypeLabel.textContent=sliderMode
       ?`グループ比較　${transition.label}`
       :`グループ比較　${groupState==='realistic'?'Realistic（写実肖像）':groupState==='after'?'After（修復済み）':'Before（現存肖像）'}`;
@@ -323,7 +333,13 @@
 
       const divider=document.createElement('span');
       divider.className='group-divider';
-      divider.setAttribute('aria-hidden','true');
+      divider.setAttribute('role','slider');
+      divider.setAttribute('tabindex','0');
+      divider.setAttribute('aria-label',`${p.name}の一括比較位置`);
+      divider.setAttribute('aria-valuemin','0');
+      divider.setAttribute('aria-valuemax','100');
+      divider.innerHTML='<span class="group-divider-handle" aria-hidden="true">⇔</span>';
+      divider.onclick=event=>{event.preventDefault();event.stopPropagation()};
 
       const caption=document.createElement('span');
       caption.className='group-caption';
@@ -589,8 +605,9 @@
   function updateCompareStateButtons(){
     $$('#compareStateButtons button').forEach(button=>{
       const stageValue={before:0,after:50,realistic:100}[button.dataset.state];
+      const directValue=compareMode==='fade'?+el.fadeSlider.value:+el.compareSlider.value;
       const active=(compareMode==='toggle' && button.dataset.state===compareState)
-        || (compareMode==='slider' && Math.abs(+el.compareSlider.value-stageValue)<.01);
+        || ((compareMode==='slider' || compareMode==='fade') && Math.abs(directValue-stageValue)<.01);
       button.classList.toggle('active',active);
       button.setAttribute('aria-pressed',String(active));
     });
@@ -634,7 +651,7 @@
   function updateCompareEffect(){
     $$('#compareModeInline > button[data-compare]').forEach(b=>b.classList.toggle('active',b.dataset.compare===compareMode));
     // 左右スライダーでは比較画像そのものを固定（クリック／ドラッグで動かさない）
-    const sliderLocked=(mode==='compare' && compareMode==='slider');
+    const sliderLocked=(mode==='compare' && (compareMode==='slider' || compareMode==='fade'));
     el.viewer.classList.toggle('slider-locked',sliderLocked);
     if(sliderLocked){
       drag=null;
@@ -644,7 +661,7 @@
     el.sliderControl.classList.toggle('hidden',compareMode!=='slider');
     el.fadeControl.classList.toggle('hidden',compareMode!=='fade');
     el.compareEffectRow.classList.toggle('no-effect',compareMode==='toggle');
-    el.compareDivider.classList.toggle('hidden',compareMode!=='slider');
+    el.compareDivider.classList.toggle('hidden',compareMode!=='slider' && compareMode!=='fade');
     el.compareOriginal.style.opacity=0;
     el.compareReveal.style.opacity=0;
     el.compareRealisticReveal.style.opacity=0;
@@ -668,6 +685,11 @@
       const transition=getThreeStageTransition(+el.fadeSlider.value);
       showCompareBase(transition.base);
       showCompareOverlay(transition.overlay,transition.progress/100,'inset(0)');
+      el.compareDivider.style.left=transition.progress+'%';
+      el.compareDivider.classList.toggle('at-start',transition.progress===0);
+      el.compareDivider.classList.toggle('at-end',transition.progress===100);
+      el.compareDivider.setAttribute('aria-valuenow',String(+el.fadeSlider.value));
+      el.compareDivider.setAttribute('aria-valuetext',transition.label);
       el.imageTypeLabel.textContent=transition.label.includes(' / ')?`${transition.label} クロスフェード`:transition.label;
     } else {
       showCompareBase(compareState);
@@ -716,7 +738,7 @@
     el.viewer.addEventListener('wheel',e=>{
       if(mode==='3d')return;
       if(mode==='exhibition' || mode==='group')return;
-      if(mode==='compare' && compareMode==='slider'){
+      if(mode==='compare' && (compareMode==='slider' || compareMode==='fade')){
         e.preventDefault();
         return;
       }
@@ -765,14 +787,16 @@
       const position=Math.max(0,Math.min(100,((e.clientX-rect.left)/rect.width)*100));
       const stage=compareDividerDrag?.stage || 0;
       const value=(stage*50)+(position/2);
-      el.compareSlider.value=value.toFixed(1);
+      const input=compareDividerDrag?.mode==='fade'?el.fadeSlider:el.compareSlider;
+      input.value=value.toFixed(1);
       updateCompareEffect();
     };
     el.compareDivider.addEventListener('pointerdown',e=>{
-      if(mode!=='compare' || compareMode!=='slider')return;
+      if(mode!=='compare' || (compareMode!=='slider' && compareMode!=='fade'))return;
       e.preventDefault();
       e.stopPropagation();
-      compareDividerDrag={pointerId:e.pointerId,stage:+el.compareSlider.value>50?1:0};
+      const input=compareMode==='fade'?el.fadeSlider:el.compareSlider;
+      compareDividerDrag={pointerId:e.pointerId,stage:+input.value>50?1:0,mode:compareMode};
       el.compareDivider.classList.add('is-dragging');
       el.compareDivider.setPointerCapture(e.pointerId);
       setCompareSliderFromPointer(e);
@@ -791,16 +815,17 @@
     el.compareDivider.addEventListener('pointerup',finishCompareDividerDrag);
     el.compareDivider.addEventListener('pointercancel',finishCompareDividerDrag);
     el.compareDivider.addEventListener('keydown',e=>{
-      if(mode!=='compare' || compareMode!=='slider')return;
+      if(mode!=='compare' || (compareMode!=='slider' && compareMode!=='fade'))return;
       const step=e.shiftKey?5:1;
-      let next=+el.compareSlider.value;
+      const input=compareMode==='fade'?el.fadeSlider:el.compareSlider;
+      let next=+input.value;
       if(e.key==='ArrowLeft')next-=step;
       else if(e.key==='ArrowRight')next+=step;
       else if(e.key==='Home')next=0;
       else if(e.key==='End')next=100;
       else return;
       e.preventDefault();
-      el.compareSlider.value=String(Math.max(0,Math.min(100,next)));
+      input.value=String(Math.max(0,Math.min(100,next)));
       updateCompareEffect();
     });
 
@@ -810,8 +835,9 @@
     });
     $$('#compareStateButtons button').forEach(b=>b.onclick=()=>{
       compareState=b.dataset.state;
-      if(compareMode==='slider'){
-        el.compareSlider.value=String({before:0,after:50,realistic:100}[compareState]);
+      if(compareMode==='slider' || compareMode==='fade'){
+        const input=compareMode==='fade'?el.fadeSlider:el.compareSlider;
+        input.value=String({before:0,after:50,realistic:100}[compareState]);
         updateCompareEffect();
         return;
       }
@@ -836,12 +862,60 @@
     });
     $$('#groupStateButtons button').forEach(b=>b.onclick=()=>{
       groupState=b.dataset.groupState;
+      if(groupCompareMode==='slider'){
+        groupSliderValue={before:0,after:50,realistic:100}[groupState];
+      }
       updateGroupState();
     });
     el.groupCompareSlider.oninput=()=>{
       groupSliderValue=+el.groupCompareSlider.value;
       updateGroupState();
     };
+    const setGroupSliderFromPointer=e=>{
+      const rect=groupDividerDrag?.media?.getBoundingClientRect();
+      if(!rect?.width)return;
+      const position=Math.max(0,Math.min(100,((e.clientX-rect.left)/rect.width)*100));
+      groupSliderValue=(groupDividerDrag.stage*50)+(position/2);
+      updateGroupState();
+    };
+    el.groupGrid.addEventListener('pointerdown',e=>{
+      const divider=e.target.closest('.group-divider');
+      if(!divider || groupCompareMode!=='slider')return;
+      e.preventDefault();
+      e.stopPropagation();
+      groupDividerDrag={pointerId:e.pointerId,stage:groupSliderValue>50?1:0,divider,media:divider.closest('.group-media')};
+      divider.classList.add('is-dragging');
+      divider.setPointerCapture(e.pointerId);
+      setGroupSliderFromPointer(e);
+    });
+    el.groupGrid.addEventListener('pointermove',e=>{
+      if(groupDividerDrag?.pointerId!==e.pointerId)return;
+      e.preventDefault();
+      setGroupSliderFromPointer(e);
+    });
+    const finishGroupDividerDrag=e=>{
+      if(groupDividerDrag?.pointerId!==e.pointerId)return;
+      const {divider}=groupDividerDrag;
+      groupDividerDrag=null;
+      divider.classList.remove('is-dragging');
+      if(divider.hasPointerCapture(e.pointerId))divider.releasePointerCapture(e.pointerId);
+    };
+    el.groupGrid.addEventListener('pointerup',finishGroupDividerDrag);
+    el.groupGrid.addEventListener('pointercancel',finishGroupDividerDrag);
+    el.groupGrid.addEventListener('keydown',e=>{
+      if(!e.target.closest('.group-divider') || groupCompareMode!=='slider')return;
+      const step=e.shiftKey?5:1;
+      let next=groupSliderValue;
+      if(e.key==='ArrowLeft')next-=step;
+      else if(e.key==='ArrowRight')next+=step;
+      else if(e.key==='Home')next=0;
+      else if(e.key==='End')next=100;
+      else return;
+      e.preventDefault();
+      e.stopPropagation();
+      groupSliderValue=Math.max(0,Math.min(100,next));
+      updateGroupState();
+    });
 
     $$('#exhibitionViewModes button').forEach(b=>b.onclick=()=>{
       exhibitionView=b.dataset.exhibitionView;
@@ -858,9 +932,53 @@
     el.exhibitionCompareBtn.onclick=()=>openExhibitionDetail('compare');
     el.exhibitionExplainBtn.onclick=()=>openExhibitionDetail('explain');
     el.exhibitionMediaBtn.onclick=()=>openExhibitionDetail('3d');
-    el.exhibitionQuickSlider.oninput=()=>{
-      el.exhibitionQuickCompare.style.setProperty('--quick-position',`${el.exhibitionQuickSlider.value}%`);
+    const updateQuickDivider=()=>{
+      const value=+el.exhibitionQuickSlider.value;
+      el.exhibitionQuickCompare.style.setProperty('--quick-position',`${value}%`);
+      el.exhibitionQuickDivider.setAttribute('aria-valuenow',String(value));
+      el.exhibitionQuickDivider.classList.toggle('at-start',value===0);
+      el.exhibitionQuickDivider.classList.toggle('at-end',value===100);
     };
+    const setQuickSliderFromPointer=e=>{
+      const rect=el.exhibitionQuickCompare.getBoundingClientRect();
+      if(!rect.width)return;
+      const value=Math.max(0,Math.min(100,((e.clientX-rect.left)/rect.width)*100));
+      el.exhibitionQuickSlider.value=value.toFixed(1);
+      updateQuickDivider();
+    };
+    el.exhibitionQuickDivider.addEventListener('pointerdown',e=>{
+      e.preventDefault();
+      e.stopPropagation();
+      quickDividerDrag=e.pointerId;
+      el.exhibitionQuickDivider.classList.add('is-dragging');
+      el.exhibitionQuickDivider.setPointerCapture(e.pointerId);
+      setQuickSliderFromPointer(e);
+    });
+    el.exhibitionQuickDivider.addEventListener('pointermove',e=>{
+      if(quickDividerDrag!==e.pointerId)return;
+      e.preventDefault();
+      setQuickSliderFromPointer(e);
+    });
+    const finishQuickDividerDrag=e=>{
+      if(quickDividerDrag!==e.pointerId)return;
+      quickDividerDrag=null;
+      el.exhibitionQuickDivider.classList.remove('is-dragging');
+      if(el.exhibitionQuickDivider.hasPointerCapture(e.pointerId))el.exhibitionQuickDivider.releasePointerCapture(e.pointerId);
+    };
+    el.exhibitionQuickDivider.addEventListener('pointerup',finishQuickDividerDrag);
+    el.exhibitionQuickDivider.addEventListener('pointercancel',finishQuickDividerDrag);
+    el.exhibitionQuickDivider.addEventListener('keydown',e=>{
+      const step=e.shiftKey?5:1;
+      let next=+el.exhibitionQuickSlider.value;
+      if(e.key==='ArrowLeft')next-=step;
+      else if(e.key==='ArrowRight')next+=step;
+      else if(e.key==='Home')next=0;
+      else if(e.key==='End')next=100;
+      else return;
+      e.preventDefault();
+      el.exhibitionQuickSlider.value=String(Math.max(0,Math.min(100,next)));
+      updateQuickDivider();
+    });
     $$('#exhibitionQuickModes button').forEach(button=>button.onclick=()=>updateExhibitionQuickView(button.dataset.quickView));
     $('#closeExhibitionCompare').onclick=()=>{
       el.exhibitionQuickVideo.pause();

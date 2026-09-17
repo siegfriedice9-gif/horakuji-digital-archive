@@ -74,9 +74,9 @@
           <span aria-hidden="true">⇔</span> 縦線を直接ドラッグ（3段階は上のボタンで切替）
           <input id="compareSlider" class="visually-hidden" type="range" min="0" max="100" step="0.1" value="0" tabindex="-1" aria-hidden="true">
         </div>
-        <div id="fadeControl" class="effect-control compact-effect hidden">
-          <label>比較画像の表示率 <input id="fadeSlider" type="range" min="0" max="100" value="0"></label>
-          <div class="compare-scale-labels" aria-hidden="true"><span>Before</span><span>After</span><span>Realistic</span></div>
+        <div id="fadeControl" class="direct-slider-instruction hidden">
+          <span aria-hidden="true">⇔</span> 縦線を直接ドラッグして透明度を調整
+          <input id="fadeSlider" class="visually-hidden" type="range" min="0" max="100" step="0.1" value="0" tabindex="-1" aria-hidden="true">
         </div>
       </div>
 
@@ -167,10 +167,10 @@
                         <button data-group-state="after">After</button>
                         <button data-group-state="realistic">Realistic</button>
                       </div>
-                      <div id="groupSliderControl" class="group-slider-control hidden">
-                        <label for="groupCompareSlider">比較位置 <output id="groupSliderOutput">0%</output></label>
-                        <input id="groupCompareSlider" type="range" min="0" max="100" value="0" aria-label="表示中の肖像に共通の3段階比較位置">
-                        <div class="group-scale-labels" aria-hidden="true"><span>Before</span><span>After</span><span>Realistic</span></div>
+                      <div id="groupSliderControl" class="direct-slider-instruction group-direct-instruction hidden">
+                        <span aria-hidden="true">⇔</span> いずれかの肖像の縦線を動かすと、全肖像へ一括反映
+                        <output id="groupSliderOutput" class="visually-hidden">0%</output>
+                        <input id="groupCompareSlider" class="visually-hidden" type="range" min="0" max="100" step="0.1" value="0" tabindex="-1" aria-hidden="true">
                       </div>
                     </div>
                   </div>
@@ -256,11 +256,10 @@
         <div id="exhibitionQuickReveal" class="exhibition-quick-reveal">
           <img id="exhibitionQuickRestored" draggable="false" alt="修復済み肖像">
         </div>
-        <span class="exhibition-quick-divider" aria-hidden="true"></span>
+        <span id="exhibitionQuickDivider" class="exhibition-quick-divider" role="slider" tabindex="0" aria-label="簡易比較位置" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span aria-hidden="true">⇔</span></span>
       </div>
-      <label class="exhibition-quick-slider">比較位置
-        <input id="exhibitionQuickSlider" type="range" min="0" max="100" value="50">
-      </label>
+      <div class="direct-slider-instruction exhibition-quick-instruction"><span aria-hidden="true">⇔</span> 画像上の縦線を直接ドラッグ</div>
+      <input id="exhibitionQuickSlider" class="visually-hidden" type="range" min="0" max="100" step="0.1" value="50" tabindex="-1" aria-hidden="true">
     </div>
     <div id="exhibitionQuickExplainView" class="exhibition-quick-explanation hidden">
       <img id="exhibitionQuickExplanation" draggable="false" alt="解説画像">
