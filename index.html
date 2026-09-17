@@ -70,9 +70,9 @@
       </div>
 
       <div id="compareEffectRow" class="compare-effect-row">
-        <div id="sliderControl" class="effect-control compact-effect">
-          <label>比較位置 <input id="compareSlider" type="range" min="0" max="100" value="0"></label>
-          <div class="compare-scale-labels" aria-hidden="true"><span>Before</span><span>After</span><span>Realistic</span></div>
+        <div id="sliderControl" class="direct-slider-instruction">
+          <span aria-hidden="true">⇔</span> 縦線を直接ドラッグ（3段階は上のボタンで切替）
+          <input id="compareSlider" class="visually-hidden" type="range" min="0" max="100" step="0.1" value="0" tabindex="-1" aria-hidden="true">
         </div>
         <div id="fadeControl" class="effect-control compact-effect hidden">
           <label>比較画像の表示率 <input id="fadeSlider" type="range" min="0" max="100" value="0"></label>
@@ -197,7 +197,9 @@
               <div id="compareRealisticReveal" class="reveal-wrap realistic-reveal">
                 <img id="compareRealistic" class="compare-img realistic" draggable="false" alt="写実肖像">
               </div>
-              <div id="compareDivider" class="compare-divider"><span></span></div>
+              <div id="compareDivider" class="compare-divider" role="slider" tabindex="0" aria-label="比較位置" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <span class="compare-divider-handle" aria-hidden="true">⇔</span>
+              </div>
             </div>
           </div>
 

@@ -22,7 +22,7 @@
   ]);
 
   let person=HACHISO[7], mode='compare', compareMode='slider';
-  let view={scale:1,x:0,y:0}, drag=null, compareState='before';
+  let view={scale:1,x:0,y:0}, drag=null, compareDividerDrag=null, compareState='before';
   let exhibitionView='grid', exhibitionIndex=0, exhibitionCameraAngle=0, exhibitionQuickView='compare';
   let exhibitionSwipeStartX=null, exhibitionSwipeMoved=false;
   let groupStart=1, groupState='before', groupCompareMode='toggle', groupSliderValue=0;
@@ -588,7 +588,9 @@
 
   function updateCompareStateButtons(){
     $$('#compareStateButtons button').forEach(button=>{
-      const active=compareMode==='toggle' && button.dataset.state===compareState;
+      const stageValue={before:0,after:50,realistic:100}[button.dataset.state];
+      const active=(compareMode==='toggle' && button.dataset.state===compareState)
+        || (compareMode==='slider' && Math.abs(+el.compareSlider.value-stageValue)<.01);
       button.classList.toggle('active',active);
       button.setAttribute('aria-pressed',String(active));
     });
@@ -656,7 +658,10 @@
       showCompareBase(transition.base);
       showCompareOverlay(transition.overlay,1,`inset(0 ${100-transition.progress}% 0 0)`);
       el.compareDivider.style.left=transition.progress+'%';
-      el.compareDivider.classList.toggle('hidden',transition.progress===0 || transition.progress===100);
+      el.compareDivider.classList.toggle('at-start',transition.progress===0);
+      el.compareDivider.classList.toggle('at-end',transition.progress===100);
+      el.compareDivider.setAttribute('aria-valuenow',String(v));
+      el.compareDivider.setAttribute('aria-valuetext',transition.label);
       el.imageTypeLabel.textContent=transition.label.includes(' / ')?`${transition.label} 比較`:transition.label;
     } else if(compareMode==='fade'){
       setMissing(comparisonNeedsRealistic() && !person.realistic,'','写実肖像は準備中です');
@@ -754,13 +759,63 @@
     el.viewer.addEventListener('pointerup',()=>drag=null);
     el.viewer.addEventListener('pointercancel',()=>drag=null);
 
+    const setCompareSliderFromPointer=e=>{
+      const rect=el.compareLayer.getBoundingClientRect();
+      if(!rect.width)return;
+      const position=Math.max(0,Math.min(100,((e.clientX-rect.left)/rect.width)*100));
+      const stage=compareDividerDrag?.stage || 0;
+      const value=(stage*50)+(position/2);
+      el.compareSlider.value=value.toFixed(1);
+      updateCompareEffect();
+    };
+    el.compareDivider.addEventListener('pointerdown',e=>{
+      if(mode!=='compare' || compareMode!=='slider')return;
+      e.preventDefault();
+      e.stopPropagation();
+      compareDividerDrag={pointerId:e.pointerId,stage:+el.compareSlider.value>50?1:0};
+      el.compareDivider.classList.add('is-dragging');
+      el.compareDivider.setPointerCapture(e.pointerId);
+      setCompareSliderFromPointer(e);
+    });
+    el.compareDivider.addEventListener('pointermove',e=>{
+      if(compareDividerDrag?.pointerId!==e.pointerId)return;
+      e.preventDefault();
+      setCompareSliderFromPointer(e);
+    });
+    const finishCompareDividerDrag=e=>{
+      if(compareDividerDrag?.pointerId!==e.pointerId)return;
+      compareDividerDrag=null;
+      el.compareDivider.classList.remove('is-dragging');
+      if(el.compareDivider.hasPointerCapture(e.pointerId))el.compareDivider.releasePointerCapture(e.pointerId);
+    };
+    el.compareDivider.addEventListener('pointerup',finishCompareDividerDrag);
+    el.compareDivider.addEventListener('pointercancel',finishCompareDividerDrag);
+    el.compareDivider.addEventListener('keydown',e=>{
+      if(mode!=='compare' || compareMode!=='slider')return;
+      const step=e.shiftKey?5:1;
+      let next=+el.compareSlider.value;
+      if(e.key==='ArrowLeft')next-=step;
+      else if(e.key==='ArrowRight')next+=step;
+      else if(e.key==='Home')next=0;
+      else if(e.key==='End')next=100;
+      else return;
+      e.preventDefault();
+      el.compareSlider.value=String(Math.max(0,Math.min(100,next)));
+      updateCompareEffect();
+    });
+
     $$('#compareModeInline > button[data-compare]').forEach(b=>b.onclick=()=>{
       compareMode=b.dataset.compare;
       updateCompareEffect();
     });
     $$('#compareStateButtons button').forEach(b=>b.onclick=()=>{
-      compareMode='toggle';
       compareState=b.dataset.state;
+      if(compareMode==='slider'){
+        el.compareSlider.value=String({before:0,after:50,realistic:100}[compareState]);
+        updateCompareEffect();
+        return;
+      }
+      compareMode='toggle';
       updateCompareEffect();
     });
     el.compareSlider.oninput=updateCompareEffect;
