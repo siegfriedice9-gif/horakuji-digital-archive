@@ -1,0 +1,850 @@
+{
+  "schemaVersion": 1,
+  "generated": "2026-09-17",
+  "owner": "© 2026 大和高山 法楽寺",
+  "rightsUsageTerms": "掲載している文章・写真・肖像画像の無断転載、複製、改変および再配布を禁じます。",
+  "watermark": "keyed repeated 8x8 DCT-QIM; detector key retained offline",
+  "sourceVault": "Local ignored .rights-masters directory; not published",
+  "assets": [
+    {
+      "path": "images/original/1_元.jpg",
+      "assetId": "01O-MASTER-PUBLIC",
+      "portraitNo": 1,
+      "category": "ORIGINAL",
+      "dimensions": [
+        2384,
+        3370
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "c5f4306b7c187dc3e5f0969eb50a4f699d9dce908331c5260866e02b82d7c359",
+      "publishedSha256": "4dffce261910241baa77d1b7d7f9207c41da880f12b30ef6cbd72afb62c31434",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/1_元_thumb.webp",
+      "assetId": "01O-THUMB",
+      "portraitNo": 1,
+      "category": "ORIGINAL",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "d731eb83732f25586dd3c8ad1fa6a66ea721f818fddd618619254c1c0845c52a",
+      "publishedSha256": "1197f420cd38e0db7e841673bcbf6d5d0b2160ed90c21c7594fd6ecd6a9c882c",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/1_元_web.webp",
+      "assetId": "01O-WEB",
+      "portraitNo": 1,
+      "category": "ORIGINAL",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 0.998,
+      "sourceSha256": "273e439300fdc7a68afaa2f92ef53ab34151667421bbef1d993509c59508ddfb",
+      "publishedSha256": "d258f73e945e9039b6c349ba09c7cff9f0786f009d7ef17a5e88a3adc3036a11",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/2_元.jpg",
+      "assetId": "02O-MASTER-PUBLIC",
+      "portraitNo": 2,
+      "category": "ORIGINAL",
+      "dimensions": [
+        2384,
+        3370
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "ef663cca40abd685410c97c3c6d11432202bed3b6b40b8afe4fb93a02db61fd9",
+      "publishedSha256": "925fea2459568692027cbda80d7b4d3e48bbf464f32090157c8e40916a20f003",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/2_元_thumb.webp",
+      "assetId": "02O-THUMB",
+      "portraitNo": 2,
+      "category": "ORIGINAL",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "284574bc5c1063c03287872f300f17a9d2151e4f3e1427a09ac858109f0cad2d",
+      "publishedSha256": "1d2c2ac5946f5d2ffda93a8cd7dcaf66770fb9c45f3a2fbb171f87035d5f324b",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/2_元_web.webp",
+      "assetId": "02O-WEB",
+      "portraitNo": 2,
+      "category": "ORIGINAL",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "e6dd22db59ac4702ee47ad00eaec6a276d2b8c8ac1d08363113dd9ca52622ee3",
+      "publishedSha256": "9b32d2ac9e59a988cbb84e3f8e09ad41bce06e5f9b34d983c776e236b2106cbc",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/3_元.jpg",
+      "assetId": "03O-MASTER-PUBLIC",
+      "portraitNo": 3,
+      "category": "ORIGINAL",
+      "dimensions": [
+        2384,
+        3370
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "90191b3e90889f0957c020c6805a2998baad14d3413bc24eec2d5ee25d9a138e",
+      "publishedSha256": "d1cb05fa45caeda2f315e6933e5fa4c6f1cc44d232854f1f85c67e79715b4ded",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/3_元_thumb.webp",
+      "assetId": "03O-THUMB",
+      "portraitNo": 3,
+      "category": "ORIGINAL",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 0.9895,
+      "sourceSha256": "08244bddf4bf1803ad0fc0752836542b92d743639aa80520d230bcb6f1a78915",
+      "publishedSha256": "7169dfcebe13d410a4483aea4446de311f827d0c6b3c5bca2e109ea5e41b8005",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/3_元_web.webp",
+      "assetId": "03O-WEB",
+      "portraitNo": 3,
+      "category": "ORIGINAL",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 0.98,
+      "sourceSha256": "bff544a7ce6dcfaff48547d42874a2b638105e156632112278f66dddc9f227ae",
+      "publishedSha256": "c2362fff67c4b054cd9b59bffa24c46355c96b896e5b478e50d87d067f2fc507",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/4_元.jpg",
+      "assetId": "04O-MASTER-PUBLIC",
+      "portraitNo": 4,
+      "category": "ORIGINAL",
+      "dimensions": [
+        2384,
+        3370
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "381cab502878b21776d53096a5fb9c407bc7244ab03b1c05982fa393c173c25a",
+      "publishedSha256": "85d927d19fe2922b369b72700f777026a77f67ff565cb198f8ab06aae4b428a3",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/4_元_thumb.webp",
+      "assetId": "04O-THUMB",
+      "portraitNo": 4,
+      "category": "ORIGINAL",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 0.989,
+      "sourceSha256": "ba890f4cc8a225af43ccf8f128c4e555e3d670de484e1cc037dfe84b93bc0a2d",
+      "publishedSha256": "f5bf656b9901859faa2da7108b47b69ba0255ef3583189d836016275c506231a",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/4_元_web.webp",
+      "assetId": "04O-WEB",
+      "portraitNo": 4,
+      "category": "ORIGINAL",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 0.9881,
+      "sourceSha256": "5a413811d8a36d361205ed62c8ee3b140888f9012779bf54336a395f05cf5cfd",
+      "publishedSha256": "0c4fa2247fe05f94303e84d1a28d8224e5bf3c5f66fb343ab226bf31dbda8af8",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/5_元.jpg",
+      "assetId": "05O-MASTER-PUBLIC",
+      "portraitNo": 5,
+      "category": "ORIGINAL",
+      "dimensions": [
+        2384,
+        3370
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "a2421540ff6a02dd68654f0033bcb0ec39002627f597e1e401259c7e4ee22293",
+      "publishedSha256": "68803d46a1b3745fd1f595a442a319df768c1694d919355db952e7e5be3515a8",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/5_元_thumb.webp",
+      "assetId": "05O-THUMB",
+      "portraitNo": 5,
+      "category": "ORIGINAL",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "70da7102f499f6e0815b4c77f1a3d2b8c5c9277029641f8b9966b7ef48a099cf",
+      "publishedSha256": "8276e7901a2efecd5d2221cd3116eff82e77b5bb3bbdc86f820649df1b9d6711",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/5_元_web.webp",
+      "assetId": "05O-WEB",
+      "portraitNo": 5,
+      "category": "ORIGINAL",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "bd97ccdac8d8df3b171f99e8325182b87d79309ad15c2b306eb52893438168e3",
+      "publishedSha256": "4b30730a2ce191ccf41c112fbb756fa72dac5f139dc26dcdf9aa5fe12eaa8364",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/6_元.jpg",
+      "assetId": "06O-MASTER-PUBLIC",
+      "portraitNo": 6,
+      "category": "ORIGINAL",
+      "dimensions": [
+        2384,
+        3370
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "4aa29ce0f33b9edc60e5110d460c0b13e444a489d27434072dfbf8fe77698e4c",
+      "publishedSha256": "4466e866486d95c31f6b51a0bcde62f346d2e5f7abd954bcfecf0e6e7f173a36",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/6_元_thumb.webp",
+      "assetId": "06O-THUMB",
+      "portraitNo": 6,
+      "category": "ORIGINAL",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 0.9908,
+      "sourceSha256": "3dc96cad0ecdfaf25ec81a2a9c7df3484397f839af4a02eefe898b71530c3638",
+      "publishedSha256": "b5579065bfe917c70ab4d51323587bfe48fed735745f5feaa7103ceb9f6eab03",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/6_元_web.webp",
+      "assetId": "06O-WEB",
+      "portraitNo": 6,
+      "category": "ORIGINAL",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 0.9842,
+      "sourceSha256": "f25c8b008f5ed3ef0abcabcc21c2948a0279d94547a7aa20b80fe3b49d9e6c43",
+      "publishedSha256": "575fb9a5a48dd23d0f2b629600cdd1ac75d1c8c5986bdce7153231663723bee8",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/7_元.jpg",
+      "assetId": "07O-MASTER-PUBLIC",
+      "portraitNo": 7,
+      "category": "ORIGINAL",
+      "dimensions": [
+        2384,
+        3370
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 0.9998,
+      "sourceSha256": "9acc958f7a28d5f392aa291f48440469e053f400cde5f9c07831df6461db56c0",
+      "publishedSha256": "e7e3f457a368aa83a20dc17dbce3de1fae25d8e98e0d58645b4ac71957a89a90",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/7_元_thumb.webp",
+      "assetId": "07O-THUMB",
+      "portraitNo": 7,
+      "category": "ORIGINAL",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "8a0aa7e93371b12d79d5006e27f558ddd47d64bebebfef8bb7c151fe7ed9f9e6",
+      "publishedSha256": "6fe208299f6f8de392135abf3e86b18db9be96745a8b533377e498155bc2e285",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/7_元_web.webp",
+      "assetId": "07O-WEB",
+      "portraitNo": 7,
+      "category": "ORIGINAL",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 0.9961,
+      "sourceSha256": "1cdfe18fef21f5c121a381b1d3a4657861169693f6d06349902d4759a0a8e1ea",
+      "publishedSha256": "39352b0ecdf8f69b5b4345adda0229a1367564e7771ef75478b9f610d7ff215a",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/8_元.jpg",
+      "assetId": "08O-MASTER-PUBLIC",
+      "portraitNo": 8,
+      "category": "ORIGINAL",
+      "dimensions": [
+        2384,
+        3370
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "13d9d0c86a0fdf1377310e72ef51c6fcd31a441aff6d4915dd86df92229b4787",
+      "publishedSha256": "849ecbd16b93397b89006c03a409a5228a43fbdd6a5b41e21daf47aae7a979c5",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/8_元_thumb.webp",
+      "assetId": "08O-THUMB",
+      "portraitNo": 8,
+      "category": "ORIGINAL",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "f64b8cd69172cf5bf5aa67bcd7e5d7c36024511ba74e089eabdecc5e429825a5",
+      "publishedSha256": "0005dc930da3e4edaeedad33933c0550194e849636bba7463c746505a5d03723",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/original/8_元_web.webp",
+      "assetId": "08O-WEB",
+      "portraitNo": 8,
+      "category": "ORIGINAL",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 0.9998,
+      "sourceSha256": "b01fc8aa171d59178a0d4bf9b33d52d9710ae71261c49a4608b948324f33039d",
+      "publishedSha256": "1a5d9d65293af3806ee1127b73c6c698758737f21e85d2a32a20cf486871bcda",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/1_最終.jpg",
+      "assetId": "01R-MASTER-PUBLIC",
+      "portraitNo": 1,
+      "category": "RESTORED",
+      "dimensions": [
+        2384,
+        3370
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "8b56ff6c1dba2c3af5dc8732e4def0601de6054b17b0bb2c010a4e4dc274db26",
+      "publishedSha256": "0faf8dc986dbff826345a9949e877cb8422d418d10da5d5affd0fc9df2e503e7",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/1_最終_thumb.webp",
+      "assetId": "01R-THUMB",
+      "portraitNo": 1,
+      "category": "RESTORED",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "fb22058e5408897ddd9d6e42bbbf84010e83667214eb089f3080dba71da9429b",
+      "publishedSha256": "ae70ec5b2a7313085f51356ce7b44b06f4ec920a9143c41376b630a9c91b8bfa",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/1_最終_web.webp",
+      "assetId": "01R-WEB",
+      "portraitNo": 1,
+      "category": "RESTORED",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "ade095db1c72f232ac97a60ab09c4a54f7f903ecdf6198261c24a315c61812e3",
+      "publishedSha256": "2c001453e85ca1a34d0eb41645ef060234b2174db153e1e1470704a2290410fa",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/2_最終.jpg",
+      "assetId": "02R-MASTER-PUBLIC",
+      "portraitNo": 2,
+      "category": "RESTORED",
+      "dimensions": [
+        2384,
+        3370
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "904872088943b22ae28ec8a0019321f38ea3a36417044ffb9176e3764f2b98ff",
+      "publishedSha256": "8a742d61d633f635613e77ea62ad5bd7ec59a6fe3dc378431cbb38f9fe1c8d7b",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/2_最終_thumb.webp",
+      "assetId": "02R-THUMB",
+      "portraitNo": 2,
+      "category": "RESTORED",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "c967114b3b6358f4b8bea4afed6434e6dfd725a168380ff4125956e277f1d561",
+      "publishedSha256": "b927b6f59e4b3d1ff19d1cb2ccfd3fed008a15841ecbb16a28b083a66307e9dc",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/2_最終_web.webp",
+      "assetId": "02R-WEB",
+      "portraitNo": 2,
+      "category": "RESTORED",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "07edcd3c2bc8e6d6141aa4265669bcf1e4dc4829f1114d5ddc8b5cd79e1b44b7",
+      "publishedSha256": "7a21d296742a55de979bb9e27b28f13c5512987073f89395601552083f104f81",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/3_最終.jpg",
+      "assetId": "03R-MASTER-PUBLIC",
+      "portraitNo": 3,
+      "category": "RESTORED",
+      "dimensions": [
+        2384,
+        3370
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "b604b4e0f0aca6076ca1c2d0681a0a261d8d4552974a930b779056159dffb73b",
+      "publishedSha256": "0804547258fe4b0e275272e31e2e17084218a7dccf743bce9f5700f6c988c86b",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/3_最終_thumb.webp",
+      "assetId": "03R-THUMB",
+      "portraitNo": 3,
+      "category": "RESTORED",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "4f1a55b2e71472a2b6d9dd230bd65dc1c8940505d1d119ecab0c453ec0da948d",
+      "publishedSha256": "8c437e0d723920c1d16a75f7078595a59850eb993bd6e2e0b378a1b1bc644d51",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/3_最終_web.webp",
+      "assetId": "03R-WEB",
+      "portraitNo": 3,
+      "category": "RESTORED",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "77d2fe4e0cb72dec21b6e77da13cdfe2cc5a491bf4f31451f9130f4d79e44570",
+      "publishedSha256": "3e252a9294853e7747dcb46e1e8298f90fcc67eb44cf2bc724661a85f728cf49",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/4_最終.jpg",
+      "assetId": "04R-MASTER-PUBLIC",
+      "portraitNo": 4,
+      "category": "RESTORED",
+      "dimensions": [
+        2384,
+        3370
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "b3984482cd6396419d746636730681d24f0bd096ab122c88f1410487e39fde0d",
+      "publishedSha256": "426305b881e60ff20c56cb32e9f210e1e140358bb3cc5e83c3f346ea0b5de5bf",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/4_最終_thumb.webp",
+      "assetId": "04R-THUMB",
+      "portraitNo": 4,
+      "category": "RESTORED",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "aa42d37b0e2dd0c39e28e940b738701d0fa598f0e4f1cb2399ec83a9b37c5ae1",
+      "publishedSha256": "8ca60f9510bbac8dfe7a23e311d4a9c39314b7c802e759f32edc6b7ac01c1ad0",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/4_最終_web.webp",
+      "assetId": "04R-WEB",
+      "portraitNo": 4,
+      "category": "RESTORED",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "e49e3d6f7db2ce723ef62494c8b78960b6f969d46f90f24cee5094281582c5ae",
+      "publishedSha256": "2115876ebcf2f344a001b09f8f1656df340da3825433ceed2f367d409afa7c6b",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/5_最終.jpg",
+      "assetId": "05R-MASTER-PUBLIC",
+      "portraitNo": 5,
+      "category": "RESTORED",
+      "dimensions": [
+        2384,
+        3370
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "29172dc0e948a01fb4f6c2de142849699982cce9b56a3fd39656bb40b5bcd09b",
+      "publishedSha256": "86cdc5514bcc001f8a8f08307e38174be4371186e49382bab47e645d312b3052",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/5_最終_thumb.webp",
+      "assetId": "05R-THUMB",
+      "portraitNo": 5,
+      "category": "RESTORED",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "53731c9c8441803f92d6deb2c11578aba3fc3b0b5ae21e374ddba7852d42cee4",
+      "publishedSha256": "747f121c56bafb62651f42f717f40b62e06843c585d90487e0ae33e2c075adfc",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/5_最終_web.webp",
+      "assetId": "05R-WEB",
+      "portraitNo": 5,
+      "category": "RESTORED",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "fa36d7321af2b24cad4de10b38fe112d3e373326d8669d1db00005acc4416702",
+      "publishedSha256": "71f33985707783be7212328d276568aac1da229b6e373284600ef43fc530ba7f",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/6_最終.jpg",
+      "assetId": "06R-MASTER-PUBLIC",
+      "portraitNo": 6,
+      "category": "RESTORED",
+      "dimensions": [
+        2183,
+        3086
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "43f8a1e02f8d3986c5b0cb937da07a66a1101e187164c1969164148747352052",
+      "publishedSha256": "128fdf6ba0b9194c4a49f6a5bc9d36b1330d6f5d996070523347d80a1a844e5e",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/6_最終_thumb.webp",
+      "assetId": "06R-THUMB",
+      "portraitNo": 6,
+      "category": "RESTORED",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "22f1e4ee2fe1b0adae5323794bc231d1090196b7e67d99b7c23688ba5f2338cc",
+      "publishedSha256": "da267d0130e562bdcddd00ad1292a8949e9dffd4cb163a2d54279232c37e362b",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/6_最終_web.webp",
+      "assetId": "06R-WEB",
+      "portraitNo": 6,
+      "category": "RESTORED",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "df88bf18b995ec000df015647ed9496c58431833db1cb4e0947ce988045a5a89",
+      "publishedSha256": "896e056fb145af85904bf1cacc0d1dd7b90080c4cc2135eff134d85b41106569",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/7_最終.jpg",
+      "assetId": "07R-MASTER-PUBLIC",
+      "portraitNo": 7,
+      "category": "RESTORED",
+      "dimensions": [
+        2183,
+        3086
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "5c4af0a9a804f95cf908afd1872d25aaeba6a09af80c2acd363c7a6542fe5774",
+      "publishedSha256": "50ed504f80745ca330b0ae8b2a66407192500867f49bcaf6bbff9e693a465603",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/7_最終_thumb.webp",
+      "assetId": "07R-THUMB",
+      "portraitNo": 7,
+      "category": "RESTORED",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "fbfc2a0efa4f450ba5fb0c25ff5e5adbb5d2196ff0e831fc7807cff5a4bb71e7",
+      "publishedSha256": "c4c0ee47e4d5e5e406a3abe439320dfe1d3b1fb47ef6a8ff924a823a0411edc0",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/7_最終_web.webp",
+      "assetId": "07R-WEB",
+      "portraitNo": 7,
+      "category": "RESTORED",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 0.9992,
+      "sourceSha256": "dcd257862e50fca2feff74ace65b11ce22527a762047e17139b5ec54a52a69ed",
+      "publishedSha256": "e6b8f691fa3197e43211e73760f3e336df56a710d61673fc13693aaa25a94c20",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/8_最終.jpg",
+      "assetId": "08R-MASTER-PUBLIC",
+      "portraitNo": 8,
+      "category": "RESTORED",
+      "dimensions": [
+        2384,
+        3370
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "faa76d616382ad026cd949773664f36657a9d811c9260e6a88ba78a4e1d48e0d",
+      "publishedSha256": "aa16c0f2fb83e0a0ee684b9beb53e284bff84c31d85126f7939f72b7908755ae",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/8_最終_thumb.webp",
+      "assetId": "08R-THUMB",
+      "portraitNo": 8,
+      "category": "RESTORED",
+      "dimensions": [
+        320,
+        452
+      ],
+      "dctRepeat": 21,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "26cffaac2ac7c231cd1053ed7b4c5dba4164ea75b53402f2eb305dd84160b087",
+      "publishedSha256": "d08357345e595e9ae2fe313d5650718b6d581f6d3998f0ac4cf83fddc7869e47",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/restored/8_最終_web.webp",
+      "assetId": "08R-WEB",
+      "portraitNo": 8,
+      "category": "RESTORED",
+      "dimensions": [
+        1600,
+        2262
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 0.9997,
+      "sourceSha256": "27ba20ef58e9c473ff4141e0079ee4ab681b1c07f63fe9a79af0ec4191e82114",
+      "publishedSha256": "f37be9b0a9671b77019d02ec0cc7b0f2affb76b4e169357d36cbe9ce21a87385",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/realistic/1_リアル.png",
+      "assetId": "01A-MASTER-PUBLIC",
+      "portraitNo": 1,
+      "category": "REALISTIC-AI",
+      "dimensions": [
+        1055,
+        1491
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "5c2a3c55aa1fa372c97a31664aab3e1cdc5ec88445742556a78c7cb6cc71c2ac",
+      "publishedSha256": "a8e74efd1a730618d16c538680b2240f984015f0ebb572c0b46c518479a7c317",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/realistic/2_リアル.png",
+      "assetId": "02A-MASTER-PUBLIC",
+      "portraitNo": 2,
+      "category": "REALISTIC-AI",
+      "dimensions": [
+        1055,
+        1491
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "d82c752693791e9e80c63dab701431212e4bbd9ee36b327446e4f64a5319e458",
+      "publishedSha256": "3181a0f0bb1587f0d12a7a179746a29e433d23de655595ab15e6ad4475cb94f8",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/realistic/3_リアル.png",
+      "assetId": "03A-MASTER-PUBLIC",
+      "portraitNo": 3,
+      "category": "REALISTIC-AI",
+      "dimensions": [
+        1055,
+        1491
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "85d30f807fad2873144fda4eee639005e7ddf1b78b1b81c4df5da6aba033077e",
+      "publishedSha256": "0f63bc936eb890b39de0c3d6a7f1613b97f9049c0f804c9f0bbccde10e9a2ed9",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/realistic/4_リアル.png",
+      "assetId": "04A-MASTER-PUBLIC",
+      "portraitNo": 4,
+      "category": "REALISTIC-AI",
+      "dimensions": [
+        1055,
+        1491
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "3d65acd5f9d89f9a77f9a099d2f3917e4aa1906f49dbd5a7b1cfdea3c5d3152e",
+      "publishedSha256": "c6ff6e8e7d6299ae4196f7ff7cb5ab4462032bb9104760af93980bf37ad472e9",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/realistic/5_リアル.png",
+      "assetId": "05A-MASTER-PUBLIC",
+      "portraitNo": 5,
+      "category": "REALISTIC-AI",
+      "dimensions": [
+        1055,
+        1491
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "86c81b6d4cff56efd28fc7fd0d5d18bd3e85e6265df390c64dcc4cf4548bf2a6",
+      "publishedSha256": "e8a7b9fa15ad96ef8fab0fbe9978b4abb556ad7f533ddc5fca9bfea1c9594f4a",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/realistic/6_リアル.png",
+      "assetId": "06A-MASTER-PUBLIC",
+      "portraitNo": 6,
+      "category": "REALISTIC-AI",
+      "dimensions": [
+        1055,
+        1491
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "dfbd613d71696aad0cd03f063032ea513b56b201024ff08de3f727ab7385ad77",
+      "publishedSha256": "6fa88ef37b060df250f2da1a74c79bbc7608d1be075645617807cdeecd5f1459",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/realistic/7_リアル.png",
+      "assetId": "07A-MASTER-PUBLIC",
+      "portraitNo": 7,
+      "category": "REALISTIC-AI",
+      "dimensions": [
+        1055,
+        1491
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "b7bceca70c3397a44226440b9d7183e878c2050852ebb25b66a0a1ffcc9fc880",
+      "publishedSha256": "aa0e44d399fc466db590704b7d73ea26650d51633b721d32309622aafb8a89b5",
+      "copyright": "© 2026 大和高山 法楽寺"
+    },
+    {
+      "path": "images/realistic/8_リアル.png",
+      "assetId": "08A-MASTER-PUBLIC",
+      "portraitNo": 8,
+      "category": "REALISTIC-AI",
+      "dimensions": [
+        1055,
+        1491
+      ],
+      "dctRepeat": 64,
+      "detectionConfidence": 1.0,
+      "sourceSha256": "d77fe7046a9ef6c0a73417cd327073414b587ca4781ae9278c6bac282198eb3b",
+      "publishedSha256": "3bc1a74eabf18eaefffe9410d6bf61abd1da27e9767e17f608f02bf4b1f04ecc",
+      "copyright": "© 2026 大和高山 法楽寺"
+    }
+  ]
+}
