@@ -24,8 +24,8 @@
   let person=HACHISO[7], mode='compare', compareMode='slider';
   let view={scale:1,x:0,y:0}, drag=null, compareDividerDrag=null, groupDividerDrag=null, quickDividerDrag=null, compareState='before';
   let exhibitionView='grid', exhibitionIndex=0, exhibitionCameraAngle=0, exhibitionQuickView='compare';
-  let exhibitionSwipeStartX=null, exhibitionSwipeMoved=false;
-  let groupStart=1, groupState='before', groupCompareMode='toggle', groupSliderValue=0;
+  let exhibitionSwipeStartX=null, exhibitionSwipeStartAngle=0, exhibitionRotationDrag=false, exhibitionSwipeMoved=false;
+  let groupStart=1, groupState='before', groupCompareMode='toggle', groupSliderValue=25;
   let slideIndex=0, slideTimer=null, slideshowPlaying=false, slideEffect='dissolve', activeSlideImg=0, slideTransitioning=false;
 
   function usesSmartphoneLayout(){
@@ -207,7 +207,7 @@
     el.exhibitionSpaceScene.style.setProperty('--exhibition-camera-angle',`${exhibitionCameraAngle}deg`);
     el.exhibitionSpaceScene.style.setProperty('--exhibition-light-x',`${50+exhibitionCameraAngle*1.25}%`);
     el.exhibitionCameraSlider.value=exhibitionCameraAngle;
-    el.exhibitionCameraOutput.textContent=`${exhibitionCameraAngle}°`;
+    el.exhibitionCameraOutput.textContent=`${Math.round(exhibitionCameraAngle)}°`;
 
     const spacing=window.matchMedia('(max-width:720px)').matches?118:205;
     $$('.exhibition-space-card').forEach((card,index)=>{
@@ -994,25 +994,34 @@
     el.exhibitionSpaceScene.addEventListener('pointerdown',e=>{
       if(e.pointerType==='mouse' && e.button!==0)return;
       exhibitionSwipeStartX=e.clientX;
+      exhibitionSwipeStartAngle=exhibitionCameraAngle;
+      exhibitionRotationDrag=!!e.target.closest('.exhibition-space-card.is-active');
       exhibitionSwipeMoved=false;
       e.currentTarget.setPointerCapture?.(e.pointerId);
     });
     el.exhibitionSpaceScene.addEventListener('pointermove',e=>{
       if(exhibitionSwipeStartX===null)return;
-      if(Math.abs(e.clientX-exhibitionSwipeStartX)>10)exhibitionSwipeMoved=true;
+      const distance=e.clientX-exhibitionSwipeStartX;
+      if(Math.abs(distance)>10)exhibitionSwipeMoved=true;
+      if(exhibitionRotationDrag){
+        exhibitionCameraAngle=Math.max(-18,Math.min(18,exhibitionSwipeStartAngle+distance/12));
+        updateExhibitionView();
+      }
     });
     el.exhibitionSpaceScene.addEventListener('pointerup',e=>{
       if(exhibitionSwipeStartX===null)return;
       const distance=e.clientX-exhibitionSwipeStartX;
-      if(Math.abs(distance)>45){
+      if(!exhibitionRotationDrag && Math.abs(distance)>45){
         exhibitionIndex=Math.max(0,Math.min(HACHISO.length-1,exhibitionIndex+(distance<0?1:-1)));
         updateExhibitionView();
       }
       exhibitionSwipeStartX=null;
+      exhibitionRotationDrag=false;
       setTimeout(()=>{exhibitionSwipeMoved=false},0);
     });
     el.exhibitionSpaceScene.addEventListener('pointercancel',()=>{
       exhibitionSwipeStartX=null;
+      exhibitionRotationDrag=false;
       exhibitionSwipeMoved=false;
     });
     el.exhibitionSpaceScene.addEventListener('click',e=>{
